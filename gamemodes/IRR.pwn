@@ -8,12 +8,13 @@
 #include <streamer>
 #include <zones>
 #include <a_mysql>
+#include <functions>
 
 
 main()
 {
 	print("\n----------------------------------");
-	print(" Ideal Roleplay\n\t\t\t-The Ressurection");
+	print(" Ideal Roleplay\n\t\t\t-The Resurrection");
 	print("----------------------------------\n");
 }
 
