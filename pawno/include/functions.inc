@@ -10,6 +10,9 @@
 	native setpintdata(playerid, table, field, data);
 	native setpfltdata(playerid, table, field, Float:data);
 	native setpstrdata(playerid, table, field, data[]);
+	native getintdata(playerid, table, field);
+	native getfltdata(playerid, table, field);
+	native getstrdata(playerid, table, field);
 */
 	
 	
@@ -66,3 +69,39 @@ stock setpstrdata(playerid, table[], field[], data[])
 	mysql_query(String);
 	return 1;
 }		
+
+stock getintdata(playerid, table[], field[])
+{
+	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",table,field,getname(playerid));
+	mysql_query(String);
+	mysql_store_result();
+	mysql_fetch_row_format(String, "|");
+	new v;
+	sscanf(String,"p<|>i",v);
+	mysql_free_result();
+	return v;
+}
+
+stock getfltdata(playerid, table[], field[])
+{
+	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",table,field,getname(playerid));
+	mysql_query(String);
+	mysql_store_result();
+	mysql_fetch_row_format(String, "|");
+	new Float:v;
+	sscanf(String,"p<|>f",v);
+	mysql_free_result();
+	return v;
+}
+
+stock getstrdata(playerid, table[], field[])
+{
+	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",table,field,getname(playerid));
+	mysql_query(String);
+	mysql_store_result();
+	mysql_fetch_row_format(String, "|");
+	new v[128];
+	sscanf(String,"p<|>s[128]",v);
+	mysql_free_result();
+	return v;
+}
