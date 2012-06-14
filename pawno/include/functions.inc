@@ -28,6 +28,19 @@
 	native SavePlayer();
 	native CreateDynamicArea(Float:maxx,Float:minx,Float:maxy,Float:miny);
 	native AreaCheck(playerid);
+	native createtextdraws(playerid);
+	native showtextdraws(playerid);
+	native hidetextdraws(playerid);
+	native setspdtdbars(playeris);
+	native Speedo(playerid);
+	native IsBike(modelid);
+	native IsMotorBike(modelid);
+	native IsBoat(modelid);
+	native IsTrain(modelid);
+	native IsHeli(modelid);
+	native IsPlane(modelid);
+	native IsCar(modelid);
+	native IsRC(modeilid);
 */
 	
 	
@@ -210,7 +223,6 @@ stock spawn_camera(playerid)
 
 stock LoginPlayer(playerid, pass[])
 {
-	mysql_debug(1);
 	format(String,128,"SELECT uID FROM users WHERE Name='%s' AND Password=md5('%s')",getname(playerid),pass);
 	mysql_query(String);
 	mysql_store_result();
@@ -224,13 +236,13 @@ stock LoginPlayer(playerid, pass[])
 			{A9C4E4}Username: {FFFFFF}%s\n\
 			{A9C4E4}IF this is your account {FFFFFF}please enter your password below {A9C4E4}to login.",getintdata(playerid,"users","uID"),getname(playerid));
 		ShowPlayerDialog(playerid,1,DIALOG_STYLE_PASSWORD,"Login",lstr,"Login","Quit");
+		return 1;
 	}
 	pSkin[playerid]=getintdata(playerid,"users","skin");
 	pX[playerid]=getfltdata(playerid,"users", "x");
 	pY[playerid]=getfltdata(playerid,"users", "y");
 	pZ[playerid]=getfltdata(playerid,"users", "z");
 	pAngle[playerid]=getfltdata(playerid,"users", "angle");
-	mysql_debug(0);
 	Logged[playerid] = 1;
 	if(GetPVarInt(playerid,"justreg") == 1) return 1,SetPVarInt(playerid,"justreg",0);
 	scm(playerid,COLOR_GREEN,"Welcome back! You have successfully logged in.");
@@ -290,5 +302,235 @@ stock AreaCheck(playerid)
 	{
    		SetPVarInt(playerid,"Area",SFarea);
 	}
+	new z[32];
+	GetPlayer2DZone(playerid,z,32);
+	PlayerTextDrawSetString(playerid, loctd ,z);
 	return 1;
+}
+
+stock createtextdraws(playerid)
+{
+	//location textdraws
+	loctd = CreatePlayerTextDraw(playerid, 40.000000, 320.000000, "Rock Quarry");
+	PlayerTextDrawBackgroundColor(playerid, loctd, 255);
+	PlayerTextDrawFont(playerid, loctd, 3);
+	PlayerTextDrawLetterSize(playerid, loctd, 0.340000, 1.000000);
+	PlayerTextDrawColor(playerid, loctd, -1);
+	PlayerTextDrawSetOutline(playerid, loctd, 1);
+	PlayerTextDrawSetProportional(playerid, loctd, 1);
+	
+	//mph texdraws
+	mphtd = CreatePlayerTextDraw(playerid, 506.000000, 361.000000, "MPH: 88");
+	PlayerTextDrawBackgroundColor(playerid, mphtd, 255);
+	PlayerTextDrawFont(playerid, mphtd, 1);
+	PlayerTextDrawLetterSize(playerid, mphtd, 0.380000, 1.800000);
+	PlayerTextDrawColor(playerid, mphtd, -1);
+	PlayerTextDrawSetOutline(playerid, mphtd, 0);
+	PlayerTextDrawSetProportional(playerid, mphtd, 1);
+	PlayerTextDrawSetShadow(playerid, mphtd, 1);
+	PlayerTextDrawUseBox(playerid, mphtd, 1);
+	PlayerTextDrawBoxColor(playerid, mphtd, 153);
+	PlayerTextDrawTextSize(playerid, mphtd, 599.000000, 0.000000);
+
+	fueltd = CreatePlayerTextDraw(playerid, 506.000000, 380.000000, "Fuel: 100");
+	PlayerTextDrawBackgroundColor(playerid, fueltd, 255);
+	PlayerTextDrawFont(playerid, fueltd, 1);
+	PlayerTextDrawLetterSize(playerid, fueltd, 0.380000, 1.800000);
+	PlayerTextDrawColor(playerid, fueltd, -1);
+	PlayerTextDrawSetOutline(playerid, fueltd, 0);
+	PlayerTextDrawSetProportional(playerid, fueltd, 1);
+	PlayerTextDrawSetShadow(playerid, fueltd, 1);
+	PlayerTextDrawUseBox(playerid, fueltd, 1);
+	PlayerTextDrawBoxColor(playerid, fueltd, 153);
+	PlayerTextDrawTextSize(playerid, fueltd, 599.000000, 0.000000);
+
+	sl1 = CreatePlayerTextDraw(playerid, 568.000000, 390.000000, "l");
+	PlayerTextDrawBackgroundColor(playerid, sl1, 255);
+	PlayerTextDrawFont(playerid, sl1, 1);
+	PlayerTextDrawLetterSize(playerid, sl1, 0.500000, 0.599999);
+	PlayerTextDrawColor(playerid, sl1, -1431655681);
+	PlayerTextDrawSetOutline(playerid, sl1, 1);
+	PlayerTextDrawSetProportional(playerid, sl1, 1);
+
+	sl2 = CreatePlayerTextDraw(playerid, 574.000000, 387.000000, "l");
+	PlayerTextDrawBackgroundColor(playerid, sl2, 255);
+	PlayerTextDrawFont(playerid, sl2, 1);
+	PlayerTextDrawLetterSize(playerid, sl2, 0.500000, 1.000000);
+	PlayerTextDrawColor(playerid, sl2, -1431655681);
+	PlayerTextDrawSetOutline(playerid, sl2, 1);
+	PlayerTextDrawSetProportional(playerid, sl2, 1);
+
+	sl3 = CreatePlayerTextDraw(playerid, 580.000000, 385.000000, "l");
+	PlayerTextDrawBackgroundColor(playerid, sl3, 255);
+	PlayerTextDrawFont(playerid, sl3, 1);
+	PlayerTextDrawLetterSize(playerid, sl3, 0.500000, 1.200000);
+	PlayerTextDrawColor(playerid, sl3, -1431655681);
+	PlayerTextDrawSetOutline(playerid, sl3, 1);
+	PlayerTextDrawSetProportional(playerid, sl3, 1);
+
+	sl4 = CreatePlayerTextDraw(playerid, 586.000000, 382.000000, "l");
+	PlayerTextDrawBackgroundColor(playerid, sl4, 255);
+	PlayerTextDrawFont(playerid, sl4, 1);
+	PlayerTextDrawLetterSize(playerid, sl4, 0.500000, 1.600000);
+	PlayerTextDrawColor(playerid, sl4, -1431655681);
+	PlayerTextDrawSetOutline(playerid, sl4, 1);
+	PlayerTextDrawSetProportional(playerid, sl4, 1);
+
+	sl5 = CreatePlayerTextDraw(playerid, 592.000000, 379.000000, "l");
+	PlayerTextDrawBackgroundColor(playerid, sl5, 255);
+	PlayerTextDrawFont(playerid, sl5, 1);
+	PlayerTextDrawLetterSize(playerid, sl5, 0.500000, 2.000000);
+	PlayerTextDrawColor(playerid, sl5, -1431655681);
+	PlayerTextDrawSetOutline(playerid, sl5, 1);
+	PlayerTextDrawSetProportional(playerid, sl5, 1);
+	return 1;
+}
+
+stock showtextdraws(playerid)
+{
+	PlayerTextDrawShow(playerid, loctd);
+	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+	{
+		PlayerTextDrawShow(playerid, mphtd);
+		PlayerTextDrawShow(playerid, fueltd);
+	}
+	if(GetPlayerState(playerid) == PLAYER_STATE_NONE && GetPlayerState(playerid) == PLAYER_STATE_WASTED) return hidetextdraws(playerid);
+	return 1;
+}
+
+stock hidetextdraws(playerid)
+{
+	PlayerTextDrawHide(playerid, loctd);
+	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+	{
+		PlayerTextDrawHide(playerid, mphtd);
+		PlayerTextDrawHide(playerid, fueltd);
+	}
+	return 1;
+}
+
+stock Speedo(playerid)
+{
+	new Float:p[3],mph;
+    GetVehicleVelocity(GetPlayerVehicleID(playerid), p[0], p[1], p[2]);
+    mph = floatround((floatsqroot(((p[0]*p[0])+(p[1]*p[1]))))*100,floatround_round);
+	new s[128];
+	format(s,128,"MPH: %d",mph);
+	PlayerTextDrawSetString(playerid, mphtd,s);
+	setspdtdbars(playerid, mph);
+	return 1;
+}
+
+stock setspdtdbars(playerid, mph)
+{
+	if(mph < 5)
+	{
+		PlayerTextDrawShow(playerid, sl1);
+		PlayerTextDrawHide(playerid, sl2);
+		PlayerTextDrawHide(playerid, sl3);
+		PlayerTextDrawHide(playerid, sl4);
+		PlayerTextDrawHide(playerid, sl5);
+	}
+	if(mph < 25)
+	{
+		PlayerTextDrawShow(playerid, sl1);
+		PlayerTextDrawShow(playerid, sl2);
+		PlayerTextDrawHide(playerid, sl3);
+		PlayerTextDrawHide(playerid, sl4);
+		PlayerTextDrawHide(playerid, sl5);
+	}
+	if(mph < 50)
+	{
+		PlayerTextDrawShow(playerid, sl1);
+		PlayerTextDrawShow(playerid, sl2);
+		PlayerTextDrawShow(playerid, sl3);
+		PlayerTextDrawHide(playerid, sl4);
+		PlayerTextDrawHide(playerid, sl5);
+	}
+	if(mph < 75)
+	{
+		PlayerTextDrawShow(playerid, sl1);
+		PlayerTextDrawShow(playerid, sl2);
+		PlayerTextDrawShow(playerid, sl3);
+		PlayerTextDrawHide(playerid, sl4);
+		PlayerTextDrawHide(playerid, sl5);
+	}
+	if(mph < 100)
+	{
+		PlayerTextDrawShow(playerid, sl1);
+		PlayerTextDrawShow(playerid, sl2);
+		PlayerTextDrawShow(playerid, sl3);
+		PlayerTextDrawShow(playerid, sl4);
+		PlayerTextDrawShow(playerid, sl5);
+	}
+	return 1;
+}
+
+stock IsBike(vehicleid)
+{
+    switch(vehicleid)
+    {
+        case 509, 481, 510: return 1;
+    }
+    return 0;
+}
+
+stock IsMotorBike(vehicleid)
+{
+    switch(vehicleid)
+    {
+        case 581, 462, 521, 463, 522, 523, 461, 448, 471, 468, 586: return 1;
+    }
+    return 0;
+}
+
+stock IsBoat(vehicleid)
+{
+    switch(vehicleid)
+    {
+        case 472, 473, 493, 495, 484, 430, 454, 453, 452, 446: return 1;
+    }
+    return 0;
+}
+
+stock IsTrain(vehicleid)
+{
+    switch(vehicleid)
+    {
+        case 590, 569, 537, 538, 570, 449: return 1;
+    }
+    return 0;
+}
+
+stock IsRC(vehicleid)
+{
+    switch(vehicleid)
+    {
+        case 441, 464, 465, 501, 564, 594: return 1;
+    }
+    return 0;
+}
+
+stock IsHeli(vehicleid)
+{
+    switch(vehicleid)
+    {
+        case 417, 425, 447, 469, 487, 488, 497, 548, 563: return 1;
+    }
+    return 0;
+}
+
+stock IsPlane(vehicleid)
+{
+    switch(vehicleid)
+    {
+        case 460, 476, 511, 512, 513, 519, 520, 553, 577, 592, 593: return 1;
+    }
+    return 0;
+}
+
+stock IsCar(modelid)
+{
+	if(!IsPlane(modelid) && !IsHeli(modelid) && !IsBoat(modelid) && !IsMotorBike(modelid) && !IsRC(modelid) && IsBike(modelid) && !IsTrain(modelid)) return 1;
+	return 0;
 }

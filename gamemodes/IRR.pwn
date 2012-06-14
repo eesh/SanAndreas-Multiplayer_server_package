@@ -18,8 +18,14 @@ new hspawn[MAX_PLAYERS];
 new LSarea;
 new LVarea;
 new SFarea;
-
-
+new PlayerText:loctd;
+new PlayerText:mphtd;
+new PlayerText:fueltd;
+new PlayerText:sl1;
+new PlayerText:sl2;
+new PlayerText:sl3;
+new PlayerText:sl4;
+new PlayerText:sl5;
 
 #include <zcmd>
 #include <sscanf>
@@ -42,6 +48,7 @@ public OnGameModeInit()
 	if(connect_mysql()) print("Connected to MYSQL Database.");
 	SendRconCommand("loadfs camera");
 	SetTimer("savetimer",3500,true);
+	SetTimer("speedo",120,true);
 	AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
 	ServerInit();
 	return 1;
@@ -69,6 +76,7 @@ public OnPlayerConnect(playerid)
 	SetPlayerTime(playerid,5,30);
 	if(AccountExists(playerid) == 1) ShowLogin(playerid);
 	else ShowRegister(playerid);
+	createtextdraws(playerid);
 	return 1;
 }
 
@@ -80,6 +88,7 @@ public OnPlayerDisconnect(playerid, reason)
 
 public OnPlayerSpawn(playerid)
 {
+    showtextdraws(playerid);
 	if(hspawn[playerid] == 0)
 	{
 	    SetPlayerPos(playerid, pX[playerid], pY[playerid], pZ[playerid]);
@@ -99,6 +108,7 @@ public OnPlayerSpawn(playerid)
 
 public OnPlayerDeath(playerid, killerid, reason)
 {
+	hidetextdraws(playerid);
     if(IsPlayerInDynamicArea(playerid, LSarea)) hspawn[playerid] = 1;
    	if(IsPlayerInDynamicArea(playerid, LVarea)) hspawn[playerid] = 2;
    	if(IsPlayerInDynamicArea(playerid, SFarea)) hspawn[playerid] = 3;
@@ -408,6 +418,8 @@ public OnPlayerExitVehicle(playerid, vehicleid)
 
 public OnPlayerStateChange(playerid, newstate, oldstate)
 {
+	hidetextdraws(playerid);
+	showtextdraws(playerid);
 	return 1;
 }
 
@@ -626,4 +638,16 @@ public savetimer()
 	return 1;
 }
 
-get camera coords and interpolate on spawn to make the spawn effect look cooler. make sure to save it on logging off though.
+forward speedo();
+public speedo()
+{
+    for(new i=0;i<MAX_PLAYERS;i++)
+	{
+	    if(IsPlayerConnected(i) && GetPlayerState(i) == PLAYER_STATE_DRIVER)
+	    {
+	        Speedo(i);
+	    }
+	}
+	return 1;
+}
+//get camera coords and interpolate on spawn to make the spawn effect look cooler. make sure to save it on logging off though.
