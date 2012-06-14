@@ -19,6 +19,9 @@
 	native GetDistanceBetweenPlayers(playerid,playerid2);
 	native GetDistanceBetweenVehicles(playerid, playerid2);
 	native PointToPoint(Float:x, Float:y, Float:z, Float:x1, Float:x2, Float:x3);
+	native ShowLogin(playerid);
+	native ShowRegister(playerid);
+	native spawn_camera(playerid);
 */
 	
 	
@@ -78,7 +81,7 @@ stock setpstrdata(playerid, table[], field[], data[])
 
 stock getintdata(playerid, table[], field[])
 {
-	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",table,field,getname(playerid));
+	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",field,table,getname(playerid));
 	mysql_query(String);
 	mysql_store_result();
 	mysql_fetch_row_format(String, "|");
@@ -90,7 +93,7 @@ stock getintdata(playerid, table[], field[])
 
 stock getfltdata(playerid, table[], field[])
 {
-	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",table,field,getname(playerid));
+	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",field,table,getname(playerid));
 	mysql_query(String);
 	mysql_store_result();
 	mysql_fetch_row_format(String, "|");
@@ -102,7 +105,7 @@ stock getfltdata(playerid, table[], field[])
 
 stock getstrdata(playerid, table[], field[])
 {
-	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",table,field,getname(playerid));
+	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",field,table,getname(playerid));
 	mysql_query(String);
 	mysql_store_result();
 	mysql_fetch_row_format(String, "|");
@@ -114,13 +117,14 @@ stock getstrdata(playerid, table[], field[])
 
 stock AccountExists(playerid)
 {
+	printf("%d",getintdata(playerid, "users", "uID"));
 	if(getintdata(playerid, "users", "uID") > 0) return 1;
 	return -1;
 }
 
 stock connect_mysql()
 {
-	return mysql_connect(SQL_HOST, SQL_USER, SQL_USER, SQL_PASSWORD);
+	return mysql_connect(SQL_HOST, SQL_USER, SQL_DB, SQL_PASSWORD);
 }
 
 stock GetVehicleModelIDFromName(name[])
@@ -157,4 +161,77 @@ stock PointToPoint(Float:x, Float:y, Float:z, Float:x1, Float:x2, Float:x3)
 {
 	tmpdis = floatsqroot(floatpower(floatabs(floatsub(x2,x)),2)+floatpower(floatabs(floatsub(y2,y)),2)+floatpower(floatabs(floatsub(z2,z)),2));
     return floatround(tmpdis);
+}
+
+stock ShowLogin(playerid)
+{
+	scm(playerid,COLOR_ORANGE,"Hey There!");
+	scm(playerid,COLOR_ORANGE,"Welcome to Ideal Roleplay (The Resurrection).");
+	scm(playerid,COLOR_YELLOW,"Seems like you have already registered here before");
+	scm(playerid,COLOR_YELLOW,"so you may proceed to LOGIN.");
+	new lstr[256];
+	format(lstr,256,"Your account has been identified as:\n\
+		UserID: {FFFFFF}%d\n\
+		{A9C4E4}Username: {FFFFFF}%s\n\
+		{A9C4E4}IF this is your account {FFFFFF}please enter your password below {A9C4E4}to login.",getintdata(playerid,"users","uID"),getname(playerid));
+	ShowPlayerDialog(playerid,1,DIALOG_STYLE_PASSWORD,"Login",lstr,"Login","Quit");
+	spawn_camera(playerid);
+	return 1;
+}
+
+stock ShowRegister(playerid)
+{
+	scm(playerid,COLOR_ORANGE,"Hey there!");
+	scm(playerid,COLOR_ORANGE,"Welcome to Ideal Roleplay (The Resurrection).");
+	scm(playerid,COLOR_YELLOW,"Seems like you haven't registered here yet");
+	scm(playerid,COLOR_YELLOW,"so you may create an account right away.");
+	new lstr[256];
+	format(lstr,256,"Your account will be identified as:\n\
+		{A9C4E4}Username: {FFFFFF}%s\n\
+		{A9C4E4}If you wish to use another name please reconnect\n\
+		{A9C4E4}else {FFFFFF}please enter a password below {A9C4E4}to register.",getname(playerid));
+	ShowPlayerDialog(playerid,2,DIALOG_STYLE_PASSWORD,"Register",lstr,"Register","Quit");
+	spawn_camera(playerid);
+	return 1;
+}
+
+
+stock spawn_camera(playerid)
+{
+ 	InterpolateCameraPos(playerid,737.286,-1436.615,39.343,713.984,-1768.145,55.055,10000);
+	InterpolateCameraLookAt(playerid,675.730,-1729.415,62.378,712.978,-1848.934,43.395, 10000);
+	return 1;
+}
+
+stock LoginPlayer(playerid, pass[])
+{
+	format(String,128,"SELECT uID FROM users WHERE Name='%s' AND Password=md5('%s')",getname(playerid),pass);
+	mysql_query(String);
+	mysql_store_result();
+	if(!mysql_num_rows())
+	{
+		mysql_free_result();
+		new lstr[256];
+		format(lstr,256,"{FF0000}Wrong password, try again.{A9C4E4}\n\
+			Your account has been identified as:\n\
+			UserID: {FFFFFF}%d\n\
+			{A9C4E4}Username: {FFFFFF}%s\n\
+			{A9C4E4}IF this is your account {FFFFFF}please enter your password below {A9C4E4}to login.",getintdata(playerid,"users","uID"),getname(playerid));
+		ShowPlayerDialog(playerid,1,DIALOG_STYLE_PASSWORD,"Login",String,"Login","Quit");
+	}
+	Logged[playerid] = 1;
+	if(GetPVarInt(playerid,"justreg") == 1) return 1;
+	scm(playerid,COLOR_GREEN,"Welcome back! You have successfully logged in.");
+	return 1;
+}
+
+stock RegisterPlayer(playerid,pass[])
+{
+	format(String,128,"INSERT INTO users (Name,Password) VALUES ('%s',md5('%s'))",getname(playerid),pass);
+	mysql_query(String);
+	scm(playerid,COLOR_GREEN,"Your account has been created and has been automatically");
+	scm(playerid,COLOR_GREEN,"logged in.");
+	SetPVarInt(playerid,"justreg",1);
+	LoginPlayer(playerid,pass);
+	return 1;
 }

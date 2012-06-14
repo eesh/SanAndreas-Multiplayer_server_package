@@ -7,24 +7,28 @@
 #define SQL_PASSWORD ""
 #define SQL_DB "IRR"
 
+new Logged[MAX_PLAYERS];
+new String[128];
+
 #include <zcmd>
 #include <sscanf>
 #include <streamer>
 #include <zones>
 #include <a_mysql>
-#include <functions>
 #include <colours>
+#include <functions>
 
 main()
 {
 	print("\n----------------------------------");
-	print(" Ideal Roleplay\n\t\t\t-The Resurrection");
+	print(" Ideal Roleplay\n\t\t-The Resurrection");
 	print("----------------------------------\n");
 }
 
 public OnGameModeInit()
 {
 	SetGameModeText("Resurrection v0.0.1");
+	mysql_debug(1);
 	if(connect_mysql()) print("Connected to MYSQL Database.");
 	SendRconCommand("loadfs camera");
 	AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
@@ -39,13 +43,21 @@ public OnGameModeExit()
 public OnPlayerRequestClass(playerid, classid)
 {
 	SetPlayerPos(playerid, 1958.3783, 1343.1572, 15.3746);
-	SetPlayerCameraPos(playerid, 1958.3783, 1343.1572, 15.3746);
-	SetPlayerCameraLookAt(playerid, 1958.3783, 1343.1572, 15.3746);
+	SetPlayerCameraPos(playerid,737.286,-1436.615,39.343);
+	SetPlayerCameraLookAt(playerid,737.133,-1533.071,29.210, CAMERA_CUT);
+	SetPlayerTime(playerid,5,30);
+	spawn_camera(playerid);
 	return 1;
 }
 
 public OnPlayerConnect(playerid)
 {
+    SetPlayerCameraPos(playerid,737.286,-1436.615,39.343);
+	SetPlayerCameraLookAt(playerid,737.133,-1533.071,29.210, CAMERA_MOVE);
+	SetPlayerTime(playerid,5,30);
+	print("test");
+	if(AccountExists(playerid) == 1) ShowLogin(playerid),print("test");
+	else ShowRegister(playerid),print("test");
 	return 1;
 }
 
@@ -206,6 +218,25 @@ public OnVehicleStreamOut(vehicleid, forplayerid)
 
 public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
+	switch(dialogid)
+	{
+	    case 1:
+	    {
+	        if(!response) return Kick(playerid);
+	        new pass[32];
+	        mysql_real_escape_string(inputtext, pass);
+	        if(strlen(pass) < 5 && strlen(pass) > 32) return scm(playerid, COLOR_RED, "Password should contain atleast 5 characters and max. 32 characters.");
+	        LoginPlayer(playerid, pass);
+	    }
+	    case 2:
+	    {
+	        if(!response) return Kick(playerid);
+	        new pass[32];
+	        mysql_real_escape_string(inputtext, pass);
+	        if(strlen(pass) < 5 && strlen(pass) > 32) return scm(playerid, COLOR_RED, "Password should contain atleast 5 characters and max. 32 characters.");
+	        RegisterPlayer(playerid, pass);
+	    }
+	}
 	return 1;
 }
 
@@ -217,5 +248,43 @@ public OnPlayerClickPlayer(playerid, clickedplayerid, source)
 public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 {
 	SetPlayerPosFindZ(playerid, fX, fY, fZ);
+	return 1;
+}
+
+//Admin Commands
+
+CMD:setweather(playerid,params[])
+{
+	new weatherid;
+	if(sscanf(params,"i",weatherid)) return scm(playerid,-1,"/setweather [weatherid]");
+	SetWeather(weatherid);
+	return 1;
+}
+
+CMD:setpweather(playerid,params[])
+{
+	new weatherid,player;
+	if(sscanf(params,"ui",player,weatherid)) return scm(playerid,-1,"/setplayerweather [playerid] [weatherid]");
+	SetPlayerWeather(player, weatherid);
+	return 1;
+}
+
+CMD:settime(playerid, params[])
+{
+	new hours,mins;
+	if(sscanf(params,"ii",hours,mins)) return scm(playerid,-1,"/settime [hours] [minutes]");
+	for(new i;i<MAX_PLAYERS;i++)
+	{
+	    if(IsPlayerConnected(i)) SetPlayerTime(i, hours, mins);
+	}
+	return 1;
+}
+
+CMD:setplayertime(playerid, params[])
+{
+	new hours,mins,player;
+	if(sscanf(params,"uii",player,hours,mins)) return scm(playerid,-1,"/settime [playerid] [hours] [minutes]");
+ 	if(IsPlayerConnected(player)) SetPlayerTime(player, hours, mins);
+ 	    else scm(playerid, 0xFF0000FF, "That player is offline.");
 	return 1;
 }
