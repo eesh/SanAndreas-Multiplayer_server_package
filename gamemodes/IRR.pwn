@@ -26,6 +26,8 @@ new PlayerText:sl2;
 new PlayerText:sl3;
 new PlayerText:sl4;
 new PlayerText:sl5;
+new chour;
+new cmins;
 
 #include <zcmd>
 #include <sscanf>
@@ -49,6 +51,7 @@ public OnGameModeInit()
 	SendRconCommand("loadfs camera");
 	SetTimer("savetimer",3500,true);
 	SetTimer("speedo",120,true);
+	SetTimer("clock",1000,true);
 	AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
 	ServerInit();
 	return 1;
@@ -83,6 +86,7 @@ public OnPlayerConnect(playerid)
 public OnPlayerDisconnect(playerid, reason)
 {
 	Logged[playerid] = 0;
+	destroytextdraws(playerid);
 	return 1;
 }
 
@@ -647,6 +651,20 @@ public speedo()
 	    {
 	        Speedo(i);
 	    }
+	}
+	return 1;
+}
+
+forward clock();
+public clock()
+{
+	cmins++;
+	if(cmins == 60) chour++;
+	if(chour == 34) chour = 0;
+	SetWorldTime(chour);
+	for(new i;i<MAX_PLAYERS;i++)
+	{
+	    if(IsPlayerConnected(i) && Logged[i] == 1) SetPlayerTime(i, chour, cmins);
 	}
 	return 1;
 }

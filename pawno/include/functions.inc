@@ -534,3 +534,16 @@ stock IsCar(modelid)
 	if(!IsPlane(modelid) && !IsHeli(modelid) && !IsBoat(modelid) && !IsMotorBike(modelid) && !IsRC(modelid) && IsBike(modelid) && !IsTrain(modelid)) return 1;
 	return 0;
 }
+
+stock destroytextdraws(playerid)
+{
+	PlayerTextDrawDestroy(playerid, loctd);
+	PlayerTextDrawDestroy(playerid, mphtd);
+	PlayerTextDrawDestroy(playerid, fueltd);
+	PlayerTextDrawDestroy(playerid, sl1);
+	PlayerTextDrawDestroy(playerid, sl2);
+	PlayerTextDrawDestroy(playerid, sl3);
+	PlayerTextDrawDestroy(playerid, sl4);
+	PlayerTextDrawDestroy(playerid, sl5);
+	return 1;
+}
