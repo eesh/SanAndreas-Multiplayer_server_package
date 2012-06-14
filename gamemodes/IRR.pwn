@@ -1,15 +1,19 @@
-// This is a comment
-// uncomment the line below if you want to write a filterscript
-//#define FILTERSCRIPT
-
 #include <a_samp>
+
+#undef MAX_PLAYERS
+#define MAX_PLAYERS 32
+#define SQL_HOST "localhost"
+#define SQL_USER "root"
+#define SQL_PASSWORD ""
+#define SQL_DB "IRR"
+
 #include <zcmd>
 #include <sscanf>
 #include <streamer>
 #include <zones>
 #include <a_mysql>
 #include <functions>
-
+#include <colours>
 
 main()
 {
@@ -20,8 +24,9 @@ main()
 
 public OnGameModeInit()
 {
-	// Don't use these lines if it's a filterscript
-	SetGameModeText("Blank Script");
+	SetGameModeText("Resurrection v0.0.1");
+	if(connect_mysql()) print("Connected to MYSQL Database.");
+	SendRconCommand("loadfs camera");
 	AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
 	return 1;
 }
@@ -206,5 +211,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 public OnPlayerClickPlayer(playerid, clickedplayerid, source)
 {
+	return 1;
+}
+
+public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
+{
+	SetPlayerPosFindZ(playerid, fX, fY, fZ);
 	return 1;
 }

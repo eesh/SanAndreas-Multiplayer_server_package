@@ -1,0 +1,30 @@
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[09:40:00] 
+[09:40:00] Server Plugins
+[09:40:00] --------------
+[09:40:00]  Loading plugin: streamer
+[09:40:00] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[09:40:00]   Loaded.
+[09:40:00]  Loading plugin: mysql
+[09:40:04]   Failed.
+[09:40:04]  Loaded 1 plugins.
+
+[09:40:04] 
+[09:40:04] Filterscripts
+[09:40:04] ---------------
+[09:40:04]   Loading filterscript 'attachments.amx'...
+[09:40:04]   Loaded 1 filterscripts.
+
+[09:40:04] Script[gamemodes/IRR.amx]: Run time error 19: "File or function is not found"
+[09:40:04] Number of vehicle models: 0
