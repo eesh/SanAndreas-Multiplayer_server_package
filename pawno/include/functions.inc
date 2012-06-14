@@ -22,6 +22,12 @@
 	native ShowLogin(playerid);
 	native ShowRegister(playerid);
 	native spawn_camera(playerid);
+	native LoginPlayer(playerid, pass[]);
+	native RegisterPlayer(playerid, pass[]);
+	native ServerInit();
+	native SavePlayer();
+	native CreateDynamicArea(Float:maxx,Float:minx,Float:maxy,Float:miny);
+	native AreaCheck(playerid);
 */
 	
 	
@@ -91,7 +97,7 @@ stock getintdata(playerid, table[], field[])
 	return v;
 }
 
-stock getfltdata(playerid, table[], field[])
+stock Float:getfltdata(playerid, table[], field[])
 {
 	format(String, 128, "SELECT %s FROM %s WHERE Name='%s'",field,table,getname(playerid));
 	mysql_query(String);
@@ -219,8 +225,13 @@ stock LoginPlayer(playerid, pass[])
 			{A9C4E4}IF this is your account {FFFFFF}please enter your password below {A9C4E4}to login.",getintdata(playerid,"users","uID"),getname(playerid));
 		ShowPlayerDialog(playerid,1,DIALOG_STYLE_PASSWORD,"Login",String,"Login","Quit");
 	}
+	pSkin[playerid]=getintdata(playerid,"users","skin");
+	pX[playerid]=getfltdata(playerid,"users", "x");
+	pY[playerid]=getfltdata(playerid,"users", "y");
+	pZ[playerid]=getfltdata(playerid,"users", "z");
+	pAngle[playerid]=getfltdata(playerid,"users", "angle");
 	Logged[playerid] = 1;
-	if(GetPVarInt(playerid,"justreg") == 1) return 1;
+	if(GetPVarInt(playerid,"justreg") == 1) return 1,SetPVarInt(playerid,"justreg",0);
 	scm(playerid,COLOR_GREEN,"Welcome back! You have successfully logged in.");
 	return 1;
 }
@@ -233,5 +244,47 @@ stock RegisterPlayer(playerid,pass[])
 	scm(playerid,COLOR_GREEN,"logged in.");
 	SetPVarInt(playerid,"justreg",1);
 	LoginPlayer(playerid,pass);
+	return 1;
+}
+
+stock SavePlayer(playerid)
+{
+	new Float:p[4];
+	GetPlayerPos(playerid, p[0],p[1],p[2]);
+	GetPlayerFacingAngle(playerid,p[3]);
+	setpfltdata(playerid, "users","x", p[0]);
+	setpfltdata(playerid, "users","y", p[1]);
+	setpfltdata(playerid, "users","z", p[2]);
+	setpfltdata(playerid, "users","angle", p[3]);
+	return 1;
+}
+
+stock ServerInit()
+{
+	LVarea=CreateDynamicArea(2989.536, -572.2159, 2966.18, 490.4708);
+	LSarea=CreateDynamicArea(2977.858, -537.1823, 443.7593, -2954.502);
+	SFarea=CreateDynamicArea( -595.5717, -2977.858, 2977.858, -2942.825);
+	return 1;
+}
+
+stock CreateDynamicArea(Float:maxx,Float:minx,Float:maxy,Float:miny)
+{
+	return CreateDynamicRectangle(minx,miny,maxx,maxy,-1,-1,-1);
+}
+
+stock AreaCheck(playerid)
+{
+	if(IsPlayerInDynamicArea(playerid,LVarea) && GetPVarInt(playerid,"Area") != LVarea)
+	{
+ 		SetPVarInt(playerid,"Area",LVarea);
+	}
+	if(IsPlayerInDynamicArea(playerid,LSarea) && GetPVarInt(playerid,"Area") != LSarea)
+	{
+ 		SetPVarInt(playerid,"Area",LSarea);
+	}
+	if(IsPlayerInDynamicArea(playerid,SFarea) && GetPVarInt(playerid,"Area") != SFarea)
+	{
+   		SetPVarInt(playerid,"Area",SFarea);
+	}
 	return 1;
 }

@@ -9,6 +9,17 @@
 
 new Logged[MAX_PLAYERS];
 new String[128];
+new pSkin[MAX_PLAYERS];
+new Float:pX[MAX_PLAYERS];
+new Float:pY[MAX_PLAYERS];
+new Float:pZ[MAX_PLAYERS];
+new Float:pAngle[MAX_PLAYERS];
+new hspawn[MAX_PLAYERS];
+new LSarea;
+new LVarea;
+new SFarea;
+
+
 
 #include <zcmd>
 #include <sscanf>
@@ -31,7 +42,9 @@ public OnGameModeInit()
 	mysql_debug(1);
 	if(connect_mysql()) print("Connected to MYSQL Database.");
 	SendRconCommand("loadfs camera");
+	SetTimer("savetimer",3500,true);
 	AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
+	ServerInit();
 	return 1;
 }
 
@@ -63,16 +76,309 @@ public OnPlayerConnect(playerid)
 
 public OnPlayerDisconnect(playerid, reason)
 {
+	Logged[playerid] = 0;
 	return 1;
 }
 
 public OnPlayerSpawn(playerid)
 {
+	if(hspawn[playerid] == 0)
+	{
+	    SetPlayerPos(playerid, pX[playerid], pY[playerid], pZ[playerid]);
+	    SetPlayerFacingAngle(playerid, pAngle[playerid]);
+	    SetPlayerSkin(playerid, pSkin[playerid]);
+	}
+	else
+	{
+		cmd_debug(playerid, "");
+    	if(hspawn[playerid] == 1) { SetPlayerPos(playerid,1178.9723,-1323.2080,14.1464); SetPlayerFacingAngle(playerid, 169.4691); }
+    	if(hspawn[playerid] == 2) { SetPlayerPos(playerid,1580.3074,1765.0140,10.8203); SetPlayerFacingAngle(playerid, 90.0850); }
+    	if(hspawn[playerid] == 3) { SetPlayerPos(playerid,-2660.2834,627.9525,14.4531); SetPlayerFacingAngle(playerid, 180.5627); }
+    	hspawn[playerid] = 0;
+	}
 	return 1;
 }
 
 public OnPlayerDeath(playerid, killerid, reason)
 {
+    if(IsPlayerInDynamicArea(playerid, LSarea)) hspawn[playerid] = 1;
+   	if(IsPlayerInDynamicArea(playerid, LVarea)) hspawn[playerid] = 2;
+   	if(IsPlayerInDynamicArea(playerid, SFarea)) hspawn[playerid] = 3;
+	new
+		msg[128],
+		killerName[MAX_PLAYER_NAME],
+		reasonMsg[32],
+		playerName[MAX_PLAYER_NAME];
+	GetPlayerName(killerid, killerName, sizeof(killerName));
+	GetPlayerName(playerid, playerName, sizeof(playerName));
+	if (killerid != INVALID_PLAYER_ID)
+	{
+		switch (reason)
+		{
+			case 0:
+			{
+				reasonMsg = "Unarmed";
+			}
+			case 1:
+			{
+				reasonMsg = "Brass Knuckles";
+			}
+			case 2:
+			{
+				reasonMsg = "Golf Club";
+			}
+			case 3:
+			{
+				reasonMsg = "Night Stick";
+			}
+			case 4:
+			{
+				reasonMsg = "Knife";
+			}
+			case 5:
+			{
+				reasonMsg = "Baseball Bat";
+			}
+			case 6:
+			{
+				reasonMsg = "Shovel";
+			}
+			case 7:
+			{
+				reasonMsg = "Pool Cue";
+			}
+			case 8:
+			{
+				reasonMsg = "Katana";
+			}
+			case 9:
+			{
+				reasonMsg = "Chainsaw";
+			}
+			case 10:
+			{
+				reasonMsg = "Dildo";
+			}
+			case 11:
+			{
+				reasonMsg = "Dildo";
+			}
+			case 12:
+			{
+				reasonMsg = "Vibrator";
+			}
+			case 13:
+			{
+				reasonMsg = "Vibrator";
+			}
+			case 14:
+			{
+				reasonMsg = "Flowers";
+			}
+			case 15:
+			{
+				reasonMsg = "Cane";
+			}
+			case 16,18:
+			{
+			    format(String,128,"INSERT INTO ban (Name,reason) VALUES ('%s','wpn hax')",getname(killerid));
+	    		mysql_query(String);
+	    		Ban(killerid);
+			}
+			case 22:
+			{
+				reasonMsg = "Pistol";
+			}
+			case 23:
+			{
+				reasonMsg = "Silenced Pistol";
+			}
+			case 24:
+			{
+				reasonMsg = "Desert Eagle";
+			}
+			case 25:
+			{
+				reasonMsg = "Shotgun";
+			}
+			case 26:
+			{
+				reasonMsg = "Sawn-off Shotgun";
+			}
+			case 27:
+			{
+				reasonMsg = "Combat Shotgun";
+			}
+			case 28:
+			{
+				reasonMsg = "MAC-10";
+			}
+			case 29:
+			{
+				reasonMsg = "MP5";
+			}
+			case 30:
+			{
+				reasonMsg = "AK-47";
+			}
+			case 31:
+			{
+				if (GetPlayerState(killerid) == PLAYER_STATE_DRIVER)
+				{
+					switch (GetVehicleModel(GetPlayerVehicleID(killerid)))
+					{
+						case 447:
+						{
+							reasonMsg = "Sea Sparrow Machine Gun";
+						}
+						default:
+						{
+							reasonMsg = "M4";
+						}
+					}
+				}
+				else
+				{
+					reasonMsg = "M4";
+				}
+			}
+			case 32:
+			{
+				reasonMsg = "TEC-9";
+			}
+			case 33:
+			{
+				reasonMsg = "Rifle";
+			}
+			case 34:
+			{
+				reasonMsg = "Sniper Rifle";
+			}
+			case 35,36:
+			{
+			    format(String,128,"INSERT INTO ban (Name,reason) VALUES ('%s','wpn hax')",getname(killerid));
+	    		mysql_query(String);
+	    		Ban(killerid);
+			}
+			case 38:
+			{
+				if (GetPlayerState(killerid) == PLAYER_STATE_DRIVER)
+				{
+					switch (GetVehicleModel(GetPlayerVehicleID(killerid)))
+					{
+						case 425:
+						{
+							reasonMsg = "Hunter Machine Gun";
+						}
+						default:
+						{
+							reasonMsg = "Minigun";
+						}
+					}
+				}
+				else
+				{
+					reasonMsg = "Minigun";
+					format(String,128,"INSERT INTO ban (Name,reason) VALUES ('%s','wpn hax')",getname(killerid));
+	    			mysql_query(String);
+	    			Ban(killerid);
+				}
+			}
+			case 39:
+			{
+					format(String,128,"INSERT INTO ban (Name,reason) VALUES ('%s','wpn hax')",getname(killerid));
+	    			mysql_query(String);
+	    			Ban(killerid);
+			}
+			case 41:
+			{
+				reasonMsg = "Spraycan";
+			}
+			case 42:
+			{
+				reasonMsg = "Fire Extinguisher";
+			}
+			case 49:
+			{
+    			reasonMsg = "Vehicle";
+			}
+			case 50:
+			{
+				if (GetPlayerState(killerid) == PLAYER_STATE_DRIVER)
+				{
+					switch (GetVehicleModel(GetPlayerVehicleID(killerid)))
+					{
+						case 417, 425, 447, 465, 469, 487, 488, 497, 501, 548, 563:
+						{
+							reasonMsg = "Helicopter Blades";
+						}
+						default:
+						{
+							reasonMsg = "Vehicle";
+						}
+					}
+				}
+				else
+				{
+					reasonMsg = "Vehicle";
+				}
+			}
+			case 51:
+			{
+				if (GetPlayerState(killerid) == PLAYER_STATE_DRIVER)
+				{
+					switch (GetVehicleModel(GetPlayerVehicleID(killerid)))
+					{
+						case 425:
+						{
+							reasonMsg = "Hunter Rockets";
+						}
+						case 432:
+						{
+							reasonMsg = "Rhino Turret";
+						}
+						case 520:
+						{
+							reasonMsg = "Hydra Rockets";
+						}
+						default:
+						{
+							reasonMsg = "Explosion";
+						}
+					}
+				}
+				else
+				{
+					reasonMsg = "Explosion";
+				}
+			}
+			default:
+			{
+				reasonMsg = "";
+			}
+		}
+		format(msg, sizeof(msg), "%s was killed by %s with a %s.", playerName, killerName, reasonMsg);
+	}
+	else
+	{
+		switch (reason)
+		{
+			case 53:
+			{
+				format(msg, sizeof(msg), "%s drowned in water.", playerName);
+			}
+			case 54:
+			{
+				format(msg, sizeof(msg), "%s fell off a height.", playerName);
+			}
+			default:
+			{
+				format(msg, sizeof(msg), "%s died.", playerName);
+			}
+		}
+	}
+	SendClientMessageToAll(COLOR_GRAD2,msg);
+	SendDeathMessage(killerid,playerid,reason);
 	return 1;
 }
 
@@ -88,6 +394,7 @@ public OnVehicleDeath(vehicleid, killerid)
 
 public OnPlayerText(playerid, text[])
 {
+	if(!Logged[playerid]) { scm(playerid,red,"You mussed be logged in before you can message anybody."); return 0; }
 	return 1;
 }
 
@@ -133,6 +440,7 @@ public OnRconCommand(cmd[])
 
 public OnPlayerRequestSpawn(playerid)
 {
+	if(!Logged[playerid]) return scm(playerid,red,"You must be logged in before you can spawn.");
 	return 1;
 }
 
@@ -251,6 +559,13 @@ public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 	return 1;
 }
 
+public OnPlayerCommandReceived(playerid, cmdtext[])
+{
+	if(!Logged[playerid]) return scm(playerid,red,"You must be logged in before you can use any command."),0;
+	if(GetPlayerState(playerid) == PLAYER_STATE_WASTED) return scm(playerid,red,"You cannot use any commands when your dead."),0;
+	return 1;
+}
+
 //Admin Commands
 
 CMD:setweather(playerid,params[])
@@ -286,5 +601,29 @@ CMD:setplayertime(playerid, params[])
 	if(sscanf(params,"uii",player,hours,mins)) return scm(playerid,-1,"/settime [playerid] [hours] [minutes]");
  	if(IsPlayerConnected(player)) SetPlayerTime(player, hours, mins);
  	    else scm(playerid, 0xFF0000FF, "That player is offline.");
+	return 1;
+}
+
+//Player Commands
+
+CMD:debug(playerid,params[])
+{
+	SetPlayerVirtualWorld(playerid, 0);
+	SetPlayerInterior(playerid, 0);
+	return 1;
+}
+
+// timers
+forward savetimer();
+public savetimer()
+{
+	for(new i;i<MAX_PLAYERS;i++)
+	{
+	    if(IsPlayerConnected(i) && GetPlayerState(i) == PLAYER_STATE_SPAWNED)
+	    {
+	        SavePlayer(i);
+	        AreaCheck(i);
+	    }
+	}
 	return 1;
 }
