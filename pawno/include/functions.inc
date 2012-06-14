@@ -123,7 +123,6 @@ stock getstrdata(playerid, table[], field[])
 
 stock AccountExists(playerid)
 {
-	printf("%d",getintdata(playerid, "users", "uID"));
 	if(getintdata(playerid, "users", "uID") > 0) return 1;
 	return -1;
 }
@@ -211,6 +210,7 @@ stock spawn_camera(playerid)
 
 stock LoginPlayer(playerid, pass[])
 {
+	mysql_debug(1);
 	format(String,128,"SELECT uID FROM users WHERE Name='%s' AND Password=md5('%s')",getname(playerid),pass);
 	mysql_query(String);
 	mysql_store_result();
@@ -223,13 +223,14 @@ stock LoginPlayer(playerid, pass[])
 			UserID: {FFFFFF}%d\n\
 			{A9C4E4}Username: {FFFFFF}%s\n\
 			{A9C4E4}IF this is your account {FFFFFF}please enter your password below {A9C4E4}to login.",getintdata(playerid,"users","uID"),getname(playerid));
-		ShowPlayerDialog(playerid,1,DIALOG_STYLE_PASSWORD,"Login",String,"Login","Quit");
+		ShowPlayerDialog(playerid,1,DIALOG_STYLE_PASSWORD,"Login",lstr,"Login","Quit");
 	}
 	pSkin[playerid]=getintdata(playerid,"users","skin");
 	pX[playerid]=getfltdata(playerid,"users", "x");
 	pY[playerid]=getfltdata(playerid,"users", "y");
 	pZ[playerid]=getfltdata(playerid,"users", "z");
 	pAngle[playerid]=getfltdata(playerid,"users", "angle");
+	mysql_debug(0);
 	Logged[playerid] = 1;
 	if(GetPVarInt(playerid,"justreg") == 1) return 1,SetPVarInt(playerid,"justreg",0);
 	scm(playerid,COLOR_GREEN,"Welcome back! You have successfully logged in.");
@@ -249,6 +250,9 @@ stock RegisterPlayer(playerid,pass[])
 
 stock SavePlayer(playerid)
 {
+	if(Logged[playerid] == 0) return 1;
+	if(GetPlayerState(playerid) == PLAYER_STATE_WASTED)	return 1;
+	if(GetPlayerState(playerid) == PLAYER_STATE_NONE) return 1;
 	new Float:p[4];
 	GetPlayerPos(playerid, p[0],p[1],p[2]);
 	GetPlayerFacingAngle(playerid,p[3]);

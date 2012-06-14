@@ -39,7 +39,6 @@ main()
 public OnGameModeInit()
 {
 	SetGameModeText("Resurrection v0.0.1");
-	mysql_debug(1);
 	if(connect_mysql()) print("Connected to MYSQL Database.");
 	SendRconCommand("loadfs camera");
 	SetTimer("savetimer",3500,true);
@@ -68,9 +67,8 @@ public OnPlayerConnect(playerid)
     SetPlayerCameraPos(playerid,737.286,-1436.615,39.343);
 	SetPlayerCameraLookAt(playerid,737.133,-1533.071,29.210, CAMERA_MOVE);
 	SetPlayerTime(playerid,5,30);
-	print("test");
-	if(AccountExists(playerid) == 1) ShowLogin(playerid),print("test");
-	else ShowRegister(playerid),print("test");
+	if(AccountExists(playerid) == 1) ShowLogin(playerid);
+	else ShowRegister(playerid);
 	return 1;
 }
 
@@ -617,9 +615,9 @@ CMD:debug(playerid,params[])
 forward savetimer();
 public savetimer()
 {
-	for(new i;i<MAX_PLAYERS;i++)
+	for(new i=0;i<MAX_PLAYERS;i++)
 	{
-	    if(IsPlayerConnected(i) && GetPlayerState(i) == PLAYER_STATE_SPAWNED)
+	    if(IsPlayerConnected(i) && GetPlayerState(i) != PLAYER_STATE_WASTED)
 	    {
 	        SavePlayer(i);
 	        AreaCheck(i);
@@ -627,3 +625,5 @@ public savetimer()
 	}
 	return 1;
 }
+
+get camera coords and interpolate on spawn to make the spawn effect look cooler. make sure to save it on logging off though.
