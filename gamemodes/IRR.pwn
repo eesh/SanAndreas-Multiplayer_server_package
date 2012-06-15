@@ -8,6 +8,8 @@
 #define SQL_DB "IRR"
 #define MAX_CPS 1000
 
+new job[MAX_PLAYERS];
+new Money[MAX_PLAYERS];
 new fuel[MAX_VEHICLES];
 new stalled[MAX_VEHICLES];
 new Float:refuelcp[20][3];
@@ -105,6 +107,7 @@ public OnPlayerDisconnect(playerid, reason)
 	TextDrawSetString(deathcon, String);
 	TextDrawShowForAll(deathcon);
 	SetTimer("deathconn",3000,false);
+	resetvars(playerid);
 	return 1;
 }
 
@@ -792,7 +795,7 @@ public clock()
 	cmins++;
 	if(cmins == 60) chour++,cmins=0;
 	if(chour == 24) chour = 0;
-//	SetWorldTime(chour);
+	SetWorldTime(chour);
 	for(new i;i<MAX_PLAYERS;i++)
 	{
 	    if(IsPlayerConnected(i))

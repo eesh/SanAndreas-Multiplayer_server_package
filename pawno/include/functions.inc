@@ -53,6 +53,8 @@
 	native GetCapacity(vehicleid);
 	native IsNearRefuelCenter(playerid);
 	native IsDeiselVehicle(vehicleid);
+	native GivePlayerCash(playerid, amount);
+	native GetPlayerCash(playerid);
 */
 	
 	
@@ -1512,7 +1514,7 @@ stock refuel(playerid)
 		format(String,128,"{FFCC66}Petrol: {FF0000}%d\n\n{FF66CC}Diesel: {FF0000}%d",cpfuel[check][0],cpfuel[check][1]);
 		UpdateDynamic3DTextLabelText(fuelcp[check],0xFFFFFF,String);
 		f=fuel[v]+3;
-	    GivePlayerMoney(playerid, -8);
+	    GivePlayerCash(playerid, -8);
 	    fuel[v]=f;
 		format(String,128,"Fuel: %d", fuel[v]);
 		PlayerTextDrawSetString(playerid,fueltd, String);
@@ -1526,7 +1528,7 @@ stock refuel(playerid)
 		new tmp;
 		tmp=GetCapacity(GetPlayerVehicleID(playerid)) - fuel[GetPlayerVehicleID(playerid)];
 		fuel[GetPlayerVehicleID(playerid)]=fuel[GetPlayerVehicleID(playerid)]+tmp;
-		GivePlayerMoney(playerid, -8);
+		GivePlayerCash(playerid, -8);
 		format(String,128,"{FFCC66}Petrol: {FF0000}%d\n\n{FF66CC}Diesel: {FF0000}%d",cpfuel[check][0],cpfuel[check][1]);
 		UpdateDynamic3DTextLabelText(fuelcp[check],0xFFFFFF,String);
 		format(String,128,"Fuel: %d", fuel[v]);
@@ -1574,4 +1576,25 @@ stock IsFastCar(vehicleid)
 	   VehicleModel == 494 || VehicleModel == 502 || VehicleModel == 503 || VehicleModel == 506 ||
 	   VehicleModel == 522 || VehicleModel == 541 || VehicleModel == 560 || VehicleModel == 603) return 1; // Sport car
 	return 0;
+}
+
+stock resetvars(playerid)
+{
+	SetPVarInt(playerid, "crefuel",-1);
+	job[playerid] = 0;
+	Money[playerid] = 0;
+	return 1;
+}
+
+stock GivePlayerCash(playerid, amount)
+{
+	ResetPlayerMoney(playerid);
+	Money[playerid]+=amount;
+	GivePlayerMoney(playerid, Money[playerid]);
+	return 1;
+}
+
+stock GetPlayerCash(playerid) 
+{
+	return Money[playerid];
 }
