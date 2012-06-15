@@ -47,6 +47,12 @@
 	native explode(const sSource[], aExplode[][], const sDelimiter[] = " ", iVertices = sizeof aExplode, iLength = sizeof aExplode[]);
 	native fuelvehicles();
 	native LoadMap();
+	native refuel(playerid);
+	native IsPetrolVeh(vehicleid);
+	native IsFastCar(vehicleid);
+	native GetCapacity(vehicleid);
+	native IsNearRefuelCenter(playerid);
+	native IsDeiselVehicle(vehicleid);
 */
 	
 	
@@ -181,9 +187,9 @@ stock GetDistanceBetweenVehicles(vehicleid,vehicleid2)
 	return floatround(tmpdis);
 }
 
-stock PointToPoint(Float:x, Float:y, Float:z, Float:x1, Float:x2, Float:x3)
+stock PointToPoint(Float:x, Float:y, Float:z, Float:x2, Float:y2, Float:z2)
 {
-	tmpdis = floatsqroot(floatpower(floatabs(floatsub(x2,x)),2)+floatpower(floatabs(floatsub(y2,y)),2)+floatpower(floatabs(floatsub(z2,z)),2));
+	new Float:tmpdis = floatsqroot(floatpower(floatabs(floatsub(x2,x)),2)+floatpower(floatabs(floatsub(y2,y)),2)+floatpower(floatabs(floatsub(z2,z)),2));
     return floatround(tmpdis);
 }
 
@@ -294,6 +300,8 @@ stock SavePlayer(playerid)
 
 stock ServerInit()
 {
+	chour=random(23);
+	cmins=random(59);
 	LVarea=CreateDynamicArea(2989.536, -572.2159, 2966.18, 490.4708);
 	LSarea=CreateDynamicArea(2977.858, -537.1823, 443.7593, -2954.502);
 	SFarea=CreateDynamicArea( -595.5717, -2977.858, 2977.858, -2942.825);
@@ -1371,12 +1379,13 @@ stock LoadRefuel()
 	    new field[4][32];
 	    mysql_fetch_row_format(q,"|");
 		explode(q,field,"|");
-		new id=CreateDynamicCP(strval(field[1]),strval(field[2]),strval(field[3]),4,-1,-1,-1,30);
-		refuelcp[id]=1;
-		cpfuel[id][0]=random(500);
-		cpfuel[id][1]=random(500);
-		format(String,128,"{0066CC}Petrol: {FF0000}%d\n\n{0066CC}Diesel: {FF0000}%d",cpfuel[id][0],cpfuel[id][1]);
-		fuelcp[id]=CreateDynamic3DTextLabel(String,0xFFFFFFFF,strval(field[1]),strval(field[2]),strval(field[3])+2,10);
+		refuelcp[i][0]=strval(field[1]);
+		refuelcp[i][1]=strval(field[2]);
+		refuelcp[i][2]=strval(field[3]);
+		cpfuel[i][0]=random(500);
+		cpfuel[i][1]=random(500);
+		format(String,128,"{0066CC}Petrol: {FF0000}%d\n\n{0066CC}Diesel: {FF0000}%d",cpfuel[i][0],cpfuel[i][1]);
+		fuelcp[i]=CreateDynamic3DTextLabel(String,0xFFFFFFFF,strval(field[1]),strval(field[2]),strval(field[3])+2,10);
 	}
 	mysql_free_result();
 	print("loaded gas stations");
@@ -1457,4 +1466,112 @@ stock LoadMap()
 	print("loaded map icons");
 	mysql_free_result();
 	return 1;
+}
+
+
+stock IsNearRefuelCenter(playerid)
+{
+	if(GetPVarInt(playerid,"crefuel") == -1) 
+	{
+		new Float:p[3];
+		GetVehiclePos(GetPlayerVehicleID(playerid),p[0],p[1],p[2]);
+		for(new i;i<sizeof(refuelcp);i++)
+		{
+			if(PointToPoint(p[0],p[1],p[2],refuelcp[i][0],refuelcp[i][1],refuelcp[i][2]) < 4)
+			SetPVarInt(playerid,"crefuel",i);
+			return i;
+		}
+	}
+	new i=GetPVarInt(playerid,"crefuel"),Float:p[3];
+	if(PointToPoint(p[0],p[1],p[2],refuelcp[i][0],refuelcp[i][1],refuelcp[i][2]) < 4) return i;
+	SetPVarInt(playerid,"crefuel",-1);
+	return -1;
+}
+
+stock refuel(playerid)
+{
+	new check=IsNearRefuelCenter(playerid);
+	if(check == -1) return 1;
+	if(!IsPlayerInAnyVehicle(playerid)) return 1;
+	if(fuel[GetPlayerVehicleID(playerid)] == 100) return scm(playerid,0xFF0000FF,"The fuel tank of your vehicle is full.");
+	if(GetPlayerMoney(playerid) < 8) return scm(playerid,0xFF0000FF,"You dont have enough money.");
+	GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine,lights,alarm,doors,bonnet,boot,objective);
+	if(engine == 1)
+	{
+	    scm(playerid,0xFFFF00FF,"You cannot refuel when the engine is on.");
+	    return 1;
+	}
+	new v=GetPlayerVehicleID(playerid),f;
+	f=fuel[v];
+	if(f < 97)
+	{
+		if(IsPetrolVeh(GetPlayerVehicleID(playerid)) && cpfuel[check][0] < 3) return scm(playerid,red,"Theres not enough petrol in this gas station.");
+	    if(IsDesielVeh(GetPlayerVehicleID(playerid)) && cpfuel[check][1] < 3) return scm(playerid,red,"Theres not enough desiel in this gas station.");
+        if(IsPetrolVeh(GetPlayerVehicleID(playerid))) cpfuel[check][0]=cpfuel[check][0]-3;
+		if(!IsPetrolVeh(GetPlayerVehicleID(playerid))) cpfuel[check][1]=cpfuel[check][1]-3;
+		format(String,128,"{FFCC66}Petrol: {FF0000}%d\n\n{FF66CC}Diesel: {FF0000}%d",cpfuel[check][0],cpfuel[check][1]);
+		UpdateDynamic3DTextLabelText(fuelcp[check],0xFFFFFF,String);
+		f=fuel[v]+3;
+	    GivePlayerMoney(playerid, -8);
+	    fuel[v]=f;
+		format(String,128,"Fuel: %d", fuel[v]);
+		PlayerTextDrawSetString(playerid,fueltd, String);
+	}
+	if(fuel[GetPlayerVehicleID(playerid)] > 97 && fuel[v] < 100)
+	{
+	    if(IsPetrolVeh(GetPlayerVehicleID(playerid)) && cpfuel[check][0] < 3) return scm(playerid,red,"Theres not enough petrol in this gas station.");
+	    if(IsDesielVeh(GetPlayerVehicleID(playerid)) && cpfuel[check][1] < 3) return scm(playerid,red,"Theres not enough desiel in this gas station.");
+        if(IsPetrolVeh(GetPlayerVehicleID(playerid))) cpfuel[check][0]=cpfuel[check][0]-3;
+		if(!IsPetrolVeh(GetPlayerVehicleID(playerid))) cpfuel[check][1]=cpfuel[check][1]-3;
+		new tmp;
+		tmp=GetCapacity(GetPlayerVehicleID(playerid)) - fuel[GetPlayerVehicleID(playerid)];
+		fuel[GetPlayerVehicleID(playerid)]=fuel[GetPlayerVehicleID(playerid)]+tmp;
+		GivePlayerMoney(playerid, -8);
+		format(String,128,"{FFCC66}Petrol: {FF0000}%d\n\n{FF66CC}Diesel: {FF0000}%d",cpfuel[check][0],cpfuel[check][1]);
+		UpdateDynamic3DTextLabelText(fuelcp[check],0xFFFFFF,String);
+		format(String,128,"Fuel: %d", fuel[v]);
+		PlayerTextDrawSetString(playerid,fueltd, String);
+		SendClientMessage(playerid,red,"The fuel tank of your vehicle is now full.");
+  		return 1;
+	}
+	return 1;
+}
+
+stock IsPetrolVeh(v)
+{
+	new mdl=GetVehicleModel(v);
+	if(
+	mdl == 401 || mdl == 404 || mdl == 405 || mdl == 410 || mdl == 412 || mdl == 420 || mdl == 419 || mdl == 421 || mdl == 422 || mdl == 426 || mdl == 436 || mdl == 438 ||
+ 	mdl == 439 || mdl == 440 || mdl == 466 || mdl == 480 || mdl == 516 || mdl == 529 || mdl == 542 || mdl == 555 || mdl == 575 || mdl == 605 || mdl == 467 || mdl == 482 ||
+	mdl == 517 || mdl == 537 || mdl == 543 || mdl == 558 || mdl == 576 || mdl == 468 || mdl == 491 || mdl == 492 || mdl == 496 || mdl == 500 || mdl == 507 || mdl == 518 ||
+	mdl == 521 || mdl == 523 || mdl == 526 || mdl == 527 || mdl == 533 || mdl == 534 || mdl == 335 || mdl == 335 || mdl == 540 || mdl == 546 || mdl == 547 || mdl == 549 ||
+	mdl == 550 || mdl == 551 || mdl == 559 || mdl == 565 || mdl == 566 || mdl == 567 || mdl == 580 || mdl == 585 || mdl == 587 || mdl == 604) return 1;
+	return 0;
+}
+
+stock IsDesielVeh(v)
+{
+    if(!IsPetrolVeh(v)) return 1;
+	return 0;
+}
+
+stock GetCapacity(vehicleid)
+{
+	new mdl=GetVehicleModel(vehicleid);
+	if(IsBike(mdl)) return 0;
+	if(IsHeli(mdl)) return 75;
+	if(IsPlane(mdl)) return 150;
+	if(IsMotorBike(mdl)) return 50;
+	if(IsFastCar(mdl)) return 120;
+	return 100;
+}
+
+stock IsFastCar(vehicleid)
+{
+	new VehicleModel=GetVehicleModel(vehicleid);
+    if(VehicleModel == 402 || VehicleModel == 411 || VehicleModel == 415 || VehicleModel == 429 ||
+	   VehicleModel == 434 || VehicleModel == 451 || VehicleModel == 477 || VehicleModel == 480 ||
+	   VehicleModel == 494 || VehicleModel == 502 || VehicleModel == 503 || VehicleModel == 506 ||
+	   VehicleModel == 522 || VehicleModel == 541 || VehicleModel == 560 || VehicleModel == 603) return 1; // Sport car
+	return 0;
 }

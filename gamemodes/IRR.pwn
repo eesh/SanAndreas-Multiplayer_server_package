@@ -9,9 +9,10 @@
 #define MAX_CPS 1000
 
 new fuel[MAX_VEHICLES];
-new refuelcp[MAX_CPS];
-new Text3D:fuelcp[MAX_CPS];
-new cpfuel[MAX_CPS][2];
+new stalled[MAX_VEHICLES];
+new Float:refuelcp[20][3];
+new Text3D:fuelcp[20];
+new cpfuel[20][2];
 new Logged[MAX_PLAYERS];
 new String[128];
 new pSkin[MAX_PLAYERS];
@@ -84,7 +85,7 @@ public OnPlayerConnect(playerid)
 {
     SetPlayerCameraPos(playerid,737.286,-1436.615,39.343);
 	SetPlayerCameraLookAt(playerid,737.133,-1533.071,29.210, CAMERA_MOVE);
-	SetPlayerTime(playerid,5,30);
+	SetPlayerTime(playerid,5,45);
 	SetPlayerWeather(playerid, 6);
 	if(AccountExists(playerid) == 1) ShowLogin(playerid);
 	else ShowRegister(playerid);
@@ -604,6 +605,33 @@ public OnPlayerCommandReceived(playerid, cmdtext[])
 	return 1;
 }
 
+public OnVehicleDamageStatusUpdate(vehicleid, playerid)
+{
+    new panels, tires;
+    GetVehicleDamageStatus(vehicleid, panels, doors, lights, tires);
+    bonnet = doors & 0x7;
+    if(bonnet == 3)
+    {
+		if(stalled[vehicleid] != 1 && IsCar(GetVehicleModel(vehicleid)) == 1)
+		{
+			SetVehicleVelocity(vehicleid,0,0,0);
+			GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
+			SetVehicleParamsEx(vehicleid,VEHICLE_PARAMS_OFF,lights,alarm,doors,bonnet,boot,objective);
+			scm(playerid,red,"This vehicles engine broke down. Please call a mechanic(525).");
+			stalled[vehicleid]=1;
+			new Float:h;
+	        GetPlayerHealth(playerid,h);
+			SetPlayerHealth(playerid,h-20);
+/*			if(strlen(owner[vehicleid]) != 0)
+			{
+			    format(String,128,"UPDATE vehs SET fuel=%d,stalled=1 WHERE Name='%s'",fuel[vehicleid],owner[vehicleid]);
+			    mysql_query(String);
+			}*/
+		}
+	}
+    return 1;
+}
+
 //Admin Commands
 
 CMD:setweather(playerid,params[])
@@ -624,12 +652,8 @@ CMD:setpweather(playerid,params[])
 
 CMD:settime(playerid, params[])
 {
-	new hours,mins;
-	if(sscanf(params,"ii",hours,mins)) return scm(playerid,-1,"/settime [hours] [minutes]");
-	for(new i;i<MAX_PLAYERS;i++)
-	{
-	    if(IsPlayerConnected(i)) SetPlayerTime(i, hours, mins);
-	}
+	if(sscanf(params,"ii",chour,cmins)) return scm(playerid,-1,"/settime [hours] [minutes]");
+	SetWorldTime(chour);
 	return 1;
 }
 
@@ -766,12 +790,21 @@ forward clock();
 public clock()
 {
 	cmins++;
-	if(cmins == 60) chour++;
-	if(chour == 34) chour = 0;
-	SetWorldTime(chour);
+	if(cmins == 60) chour++,cmins=0;
+	if(chour == 24) chour = 0;
+//	SetWorldTime(chour);
 	for(new i;i<MAX_PLAYERS;i++)
 	{
-	    if(IsPlayerConnected(i) && Logged[i] == 1) SetPlayerTime(i, chour, cmins);
+	    if(IsPlayerConnected(i))
+		{
+			if(Logged[i] == 1)
+			{
+				SetPlayerTime(i, chour, cmins);
+				new k,ud,lr;
+				GetPlayerKeys(i,k,ud,lr);
+				if(k == KEY_HANDBRAKE)	refuel(i);
+			}
+		}
 	}
 	return 1;
 }
