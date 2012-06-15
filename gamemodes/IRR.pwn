@@ -752,12 +752,16 @@ COMMAND:boot(playerid, params[])
     return true;
 }
 
-CMD:camvector(playerid,params[])
+CMD:spawn(playerid,params[])
 {
-	new Float:p[3];
-	GetPlayerCameraFrontVector(playerid, p[0],p[1],p[2]);
-	format(String,128,"%f %f %f", p[0],p[1],p[2]);
-	scm(playerid, 0xFFFF66FF,String);
+	new Float:p[4],n[32],c1,c2;
+	GetPlayerPos(playerid, p[0],p[1],p[2]);
+	GetPlayerFacingAngle(playerid, p[3]);
+	if(sscanf(params,"s[32]I(0)I(1)",n,c1,c2)) return scm(playerid,-1,"/spawn [model name] [colour 1] [colour 2]");
+	new mdl=GetVehicleModelIDFromName(n);
+	if(mdl < 400 && mdl > 611) return scm(playerid,-1,"Invalid vehicle model name.");
+	vid = CreateVehicle(mdl,p[0],p[1],p[2],p[3],c1,c2,-1);
+	PutPlayerInVehicle(playerid,vid,0);
 	return 1;
 }
 
