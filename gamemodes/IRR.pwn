@@ -28,6 +28,7 @@ new PlayerText:sl4;
 new PlayerText:sl5;
 new chour;
 new cmins;
+new Text:deathcon;
 
 #include <zcmd>
 #include <sscanf>
@@ -77,9 +78,14 @@ public OnPlayerConnect(playerid)
     SetPlayerCameraPos(playerid,737.286,-1436.615,39.343);
 	SetPlayerCameraLookAt(playerid,737.133,-1533.071,29.210, CAMERA_MOVE);
 	SetPlayerTime(playerid,5,30);
+	SetPlayerWeather(playerid, 6);
 	if(AccountExists(playerid) == 1) ShowLogin(playerid);
 	else ShowRegister(playerid);
 	createtextdraws(playerid);
+	format(String,128,"%s has joined the server.",getname(playerid));
+	TextDrawSetString(deathcon, String);
+	TextDrawShowForAll(deathcon);
+	SetTimer("deathconn",3000,false);
 	return 1;
 }
 
@@ -87,6 +93,10 @@ public OnPlayerDisconnect(playerid, reason)
 {
 	Logged[playerid] = 0;
 	destroytextdraws(playerid);
+	format(String,128,"%s has left the server.",getname(playerid));
+	TextDrawSetString(deathcon, String);
+	TextDrawShowForAll(deathcon);
+	SetTimer("deathconn",3000,false);
 	return 1;
 }
 
@@ -98,6 +108,7 @@ public OnPlayerSpawn(playerid)
 	    SetPlayerPos(playerid, pX[playerid], pY[playerid], pZ[playerid]);
 	    SetPlayerFacingAngle(playerid, pAngle[playerid]);
 	    SetPlayerSkin(playerid, pSkin[playerid]);
+	    TogglePlayerClock(playerid, true);
 	}
 	else
 	{
@@ -389,7 +400,9 @@ public OnPlayerDeath(playerid, killerid, reason)
 			}
 		}
 	}
-	SendClientMessageToAll(COLOR_GRAD2,msg);
+	TextDrawSetString(deathcon, msg);
+	TextDrawShowForAll(deathcon);
+	SetTimer("deathconn",3000,false);
 	SendDeathMessage(killerid,playerid,reason);
 	return 1;
 }
@@ -454,7 +467,8 @@ public OnRconCommand(cmd[])
 
 public OnPlayerRequestSpawn(playerid)
 {
-	if(!Logged[playerid]) return scm(playerid,red,"You must be logged in before you can spawn.");
+	if(Logged[playerid] != 2) return scm(playerid,red,"You must be logged in before you can spawn.");
+	Logged[playerid] = 1;
 	return 1;
 }
 
@@ -570,6 +584,7 @@ public OnPlayerClickPlayer(playerid, clickedplayerid, source)
 public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 {
 	SetPlayerPosFindZ(playerid, fX, fY, fZ);
+	SetPlayerPos(playerid, fX, fY,fZ+5);
 	return 1;
 }
 
@@ -666,6 +681,13 @@ public clock()
 	{
 	    if(IsPlayerConnected(i) && Logged[i] == 1) SetPlayerTime(i, chour, cmins);
 	}
+	return 1;
+}
+
+forward deathcontd();
+public deathcontd()
+{
+	TextDrawHideForAll(deathcon);
 	return 1;
 }
 //get camera coords and interpolate on spawn to make the spawn effect look cooler. make sure to save it on logging off though.
