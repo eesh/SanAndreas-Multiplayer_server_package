@@ -280,6 +280,10 @@ stock SavePlayer(playerid)
 	setpfltdata(playerid, "users","y", p[1]);
 	setpfltdata(playerid, "users","z", p[2]);
 	setpfltdata(playerid, "users","angle", p[3]);
+	GetPlayerCameraPos(playerid, p[0],p[1],p[2]);
+	setpfltdata(playerid, "camera","px", p[0]);
+	setpfltdata(playerid, "camera","py", p[1]);
+	setpfltdata(playerid, "camera","pz", p[2]);
 	return 1;
 }
 
