@@ -29,6 +29,7 @@ new PlayerText:sl5;
 new chour;
 new cmins;
 new Text:deathcon;
+new vid,engine,lights,alarm,doors,bonnet,boot,objective;
 
 #include <zcmd>
 #include <sscanf>
@@ -640,6 +641,80 @@ CMD:debug(playerid,params[])
 	SetPlayerVirtualWorld(playerid, 0);
 	SetPlayerInterior(playerid, 0);
 	return 1;
+}
+
+COMMAND:engine(playerid, params[])
+{
+    if(IsBike(GetVehicleModel(GetPlayerVehicleID(playerid)))) return scm(playerid,red,"Bicycles do not have an engine.");
+    if(GetPlayerState(playerid) != 2) return scm(playerid,0xFF0000FF,"Your not the driver.");
+    vid = GetPlayerVehicleID(playerid);
+//    if(stalled[vid] == 1) return scm(playerid,0xFF0000FF,"This vehicles engine broke down. Please call a mechanic.");
+    GetVehicleParamsEx(vid,engine,lights,alarm,doors,bonnet,boot,objective);
+//    if(fuel[vid] == 0) return scm(playerid,red,"There is no fuel in this vehicle."),SetVehicleParamsEx(vid,0,lights,alarm,doors,bonnet,boot,objective);
+    if(engine != 1)
+    {
+//        setfuel(playerid,0);
+ //       if(fuel[vid] <= 5 && fuel[vid] > 0) return scm(playerid,0xFF0000FF,"This vehicles fuel is low. Please call a mechanic or use a refuel can.");
+   // 	if(fuel[vid] == 0) return scm(playerid,red,"There is no fuel in this vehicle."),SetVehicleParamsEx(vid,0,lights,alarm,doors,bonnet,boot,objective);
+		SetTimerEx("startengine",3000,false,"d",playerid);
+		GameTextForPlayer(playerid,"Starting engine.~n~Please Wait....",3000,5);
+    }
+    else
+    {
+        SetVehicleParamsEx(vid,0,lights,alarm,doors,bonnet,boot,objective);
+    }
+    return true;
+}
+
+COMMAND:lights(playerid, params[])
+{
+    if(!IsPlayerConnected(playerid)) return false;
+    if(GetPlayerState(playerid) != 2) return false;
+    vid = GetPlayerVehicleID(playerid);
+    GetVehicleParamsEx(vid,engine,lights,alarm,doors,bonnet,boot,objective);
+    if(lights != 1)
+    {
+        SetVehicleParamsEx(vid,engine,1,alarm,doors,bonnet,boot,objective);
+    }
+    else
+    {
+        SetVehicleParamsEx(vid,engine,0,alarm,doors,bonnet,boot,objective);
+    }
+    return true;
+}
+
+COMMAND:hood(playerid, params[])
+{
+    if(!IsPlayerConnected(playerid)) return false;
+    if(GetPlayerState(playerid) != 2) return false;
+    vid = GetPlayerVehicleID(playerid);
+    GetVehicleParamsEx(vid,engine,lights,alarm,doors,bonnet,boot,objective);
+    if(bonnet != 1)
+    {
+        SetVehicleParamsEx(vid,engine,lights,alarm,doors,1,boot,objective);
+    }
+    else
+    {
+        SetVehicleParamsEx(vid,engine,lights,alarm,doors,0,boot,objective);
+    }
+    return true;
+}
+
+COMMAND:boot(playerid, params[])
+{
+    if(!IsPlayerConnected(playerid)) return false;
+    if(GetPlayerState(playerid) != 2) return false;
+    vid = GetPlayerVehicleID(playerid);
+    GetVehicleParamsEx(vid,engine,lights,alarm,doors,bonnet,boot,objective);
+    if(boot != 1)
+    {
+        SetVehicleParamsEx(vid,engine,lights,alarm,doors,bonnet,1,objective);
+    }
+    else
+    {
+        SetVehicleParamsEx(vid,engine,lights,alarm,doors,bonnet,0,objective);
+    }
+    return true;
 }
 
 // timers

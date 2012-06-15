@@ -287,6 +287,7 @@ stock ServerInit()
 	LSarea=CreateDynamicArea(2977.858, -537.1823, 443.7593, -2954.502);
 	SFarea=CreateDynamicArea( -595.5717, -2977.858, 2977.858, -2942.825);
 	SetCars();
+	ManualVehicleEngineAndLights();
 	//death and connect message textdraw
 	deathcon = TextDrawCreate(503.000000, 157.000000, "_");
 	TextDrawBackgroundColor(deathcon, 255);
