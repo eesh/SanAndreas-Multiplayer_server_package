@@ -43,6 +43,8 @@
 	native IsRC(modeilid);
 	native destroytextdraws(playerid);
 	native SetCars();
+	native LoadRefuel();
+	native explode(const sSource[], aExplode[][], const sDelimiter[] = " ", iVertices = sizeof aExplode, iLength = sizeof aExplode[]);
 */
 	
 	
@@ -288,6 +290,8 @@ stock ServerInit()
 	SFarea=CreateDynamicArea( -595.5717, -2977.858, 2977.858, -2942.825);
 	SetCars();
 	ManualVehicleEngineAndLights();
+	LoadRefuel();
+	fuelvehicles();
 	//death and connect message textdraw
 	deathcon = TextDrawCreate(503.000000, 157.000000, "_");
 	TextDrawBackgroundColor(deathcon, 255);
@@ -411,6 +415,7 @@ stock showtextdraws(playerid)
 	PlayerTextDrawShow(playerid, loctd);
 	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
 	{
+		if(IsBike(GetVehicleModel(GetPlayerVehicleID(playerid)))) return 1;
 		PlayerTextDrawShow(playerid, mphtd);
 		PlayerTextDrawShow(playerid, fueltd);
 	}
@@ -1335,5 +1340,69 @@ stock SetCars()
 	AddStaticVehicleEx(604,-1448.2561,2556.4714,55.4767,264.8961,-1,-1,800); //
 	AddStaticVehicleEx(400,-1527.9260,2644.1108,55.9283,90.5443,-1,-1,800); //
 	AddStaticVehicleEx(413,-1566.9855,2640.2004,55.8155,271.4250,-1,-1,800); //
+	return 1;
+}
+
+stock LoadRefuel()
+{
+	new q[128];
+	format(q,128,"SELECT * FROM refuel");
+	mysql_query(q);
+	mysql_store_result();
+	for(new i=mysql_retrieve_row();i<mysql_num_rows();i++)
+	{
+	    new field[4][32];
+	    mysql_fetch_row_format(q,"|");
+		explode(q,field,"|");
+		new id=CreateDynamicCP(strval(field[1]),strval(field[2]),strval(field[3]),4,-1,-1,-1,30);
+		refuelcp[id]=1;
+		cpfuel[id][0]=random(500);
+		cpfuel[id][1]=random(500);
+		format(String,128,"{0066CC}Petrol: {FF0000}%d\n\n{0066CC}Diesel: {FF0000}%d",cpfuel[id][0],cpfuel[id][1]);
+		fuelcp[id]=CreateDynamic3DTextLabel(String,0xFFFFFFFF,strval(field[1]),strval(field[2]),strval(field[3])+2,10);
+	}
+	mysql_free_result();
+	print("loaded gas stations");
+	return 1;
+}
+
+stock explode(const sSource[], aExplode[][], const sDelimiter[] = " ", iVertices = sizeof aExplode, iLength = sizeof aExplode[]) // Created by Westie
+{
+	new
+		iNode,
+		iPointer,
+		iPrevious = -1,
+		iDelimiter = strlen(sDelimiter);
+
+	while(iNode < iVertices)
+	{
+		iPointer = strfind(sSource, sDelimiter, false, iPointer);
+
+		if(iPointer == -1)
+		{
+			strmid(aExplode[iNode], sSource, iPrevious, strlen(sSource), iLength);
+			break;
+		}
+		else
+		{
+			strmid(aExplode[iNode], sSource, iPrevious, iPointer, iLength);
+		}
+
+		iPrevious = (iPointer += iDelimiter);
+		++iNode;
+	}
+	return iPrevious;
+}
+
+stock fuelvehicles()
+{
+	for(new i;i<MAX_VEHICLES;i++)
+	{
+		fuel[i] = 100;
+		if(IsBike(GetVehicleModel(i)))
+		{
+			SetVehicleParamsEx(i,1,-1,-1,-1,-1,-1,-1);
+		}
+	}
 	return 1;
 }

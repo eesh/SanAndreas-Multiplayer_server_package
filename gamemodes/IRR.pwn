@@ -6,7 +6,12 @@
 #define SQL_USER "root"
 #define SQL_PASSWORD ""
 #define SQL_DB "IRR"
+#define MAX_CPS 1000
 
+new fuel[MAX_VEHICLES];
+new refuelcp[MAX_CPS];
+new Text3D:fuelcp[MAX_CPS];
+new cpfuel[MAX_CPS][2];
 new Logged[MAX_PLAYERS];
 new String[128];
 new pSkin[MAX_PLAYERS];
@@ -54,6 +59,7 @@ public OnGameModeInit()
 	SetTimer("savetimer",3500,true);
 	SetTimer("speedo",120,true);
 	SetTimer("clock",1000,true);
+	SetTimer("fuellower",20000,true);
 	AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
 	ServerInit();
 	return 1;
@@ -763,6 +769,35 @@ forward deathcontd();
 public deathcontd()
 {
 	TextDrawHideForAll(deathcon);
+	return 1;
+}
+
+forward fuellower();
+public fuellower()
+{
+	for(new i=0;i<MAX_VEHICLES;i++)
+	{
+	    if(IsBike(GetVehicleModel(i))) continue;
+	    GetVehicleParamsEx(i,engine,lights,alarm,doors,bonnet,boot,objective);
+	    if(fuel[i]==0) { SetVehicleParamsEx(i,0,lights,alarm,doors,bonnet,boot,objective); continue; }
+		if(engine == 1)
+		{
+			fuel[i]-=1;
+		}
+/*		if(strlen(owner[i]) != 0)
+		{
+		    format(String,128,"UPDATE vehs SET fuel=%d WHERE Name='%s' AND Model=%d",fuel[i],owner[i],GetVehicleModel(i));
+		    mysql_query(String);
+		}*/
+	}
+	for(new p;p<MAX_PLAYERS;p++)
+	{
+        new v;
+        v=GetPlayerVehicleID(p);
+        if(v == 0) continue;
+        format(String,128,"Fuel: %d", fuel[v]);
+        PlayerTextDrawSetString(p, fueltd, String);
+    }
 	return 1;
 }
 //get camera coords and interpolate on spawn to make the spawn effect look cooler. make sure to save it on logging off though.
