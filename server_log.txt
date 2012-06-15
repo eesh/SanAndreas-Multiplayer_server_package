@@ -417,3 +417,6 @@ v0.3e, (C)2005-2012 SA-MP Team
 [15:55:18] ----------------------------------
 
 [15:55:18] Number of vehicle models: 147
+[20:45:20] Incoming connection: 127.0.0.1:49158
+[20:45:20] [join] eesh has joined the server (0:127.0.0.1)
+[20:47:04] [part] eesh has left the server (0:1)
