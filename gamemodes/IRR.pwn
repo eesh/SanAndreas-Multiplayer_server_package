@@ -116,6 +116,8 @@ public OnPlayerSpawn(playerid)
 	    SetPlayerFacingAngle(playerid, pAngle[playerid]);
 	    SetPlayerSkin(playerid, pSkin[playerid]);
 	    TogglePlayerClock(playerid, true);
+	    SetPlayerWeather(playerid, 0);
+	    SetPlayerTime(playerid,chour,cmins);
 	}
 	else
 	{
@@ -723,6 +725,15 @@ COMMAND:boot(playerid, params[])
     return true;
 }
 
+CMD:camvector(playerid,params[])
+{
+	new Float:p[3];
+	GetPlayerCameraFrontVector(playerid, p[0],p[1],p[2]);
+	format(String,128,"%f %f %f", p[0],p[1],p[2]);
+	scm(playerid, 0xFFFF66FF,String);
+	return 1;
+}
+
 // timers
 forward savetimer();
 public savetimer()
@@ -765,8 +776,8 @@ public clock()
 	return 1;
 }
 
-forward deathcontd();
-public deathcontd()
+forward deathconn();
+public deathconn()
 {
 	TextDrawHideForAll(deathcon);
 	return 1;

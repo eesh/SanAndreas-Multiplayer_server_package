@@ -45,6 +45,8 @@
 	native SetCars();
 	native LoadRefuel();
 	native explode(const sSource[], aExplode[][], const sDelimiter[] = " ", iVertices = sizeof aExplode, iLength = sizeof aExplode[]);
+	native fuelvehicles();
+	native LoadMap();
 */
 	
 	
@@ -200,6 +202,8 @@ stock ShowLogin(playerid)
 	spawn_camera(playerid);
 	SetPlayerCameraPos(playerid,737.286,-1436.615,39.343);
 	SetPlayerCameraLookAt(playerid,737.133,-1533.071,29.210, CAMERA_MOVE);
+	SetPlayerTime(playerid,5,30);
+	SetPlayerWeather(playerid, 6);
 	spawn_camera(playerid);
 	return 1;
 }
@@ -251,7 +255,6 @@ stock LoginPlayer(playerid, pass[])
 	pZ[playerid]=getfltdata(playerid,"users", "z");
 	pAngle[playerid]=getfltdata(playerid,"users", "angle");
 	Logged[playerid] = 2;
-	SetPlayerWeather(playerid, 0);
 	if(GetPVarInt(playerid,"justreg") == 1) return 1,SetPVarInt(playerid,"justreg",0);
 	scm(playerid,COLOR_GREEN,"Welcome back! You have successfully logged in.");
 	return 1;
@@ -259,7 +262,9 @@ stock LoginPlayer(playerid, pass[])
 
 stock RegisterPlayer(playerid,pass[])
 {
-	format(String,128,"INSERT INTO users (Name,Password) VALUES ('%s',md5('%s'))",getname(playerid),pass);
+	format(String,128,"INSERT INTO users (Name,Password,skin) VALUES ('%s',md5('%s'),188)",getname(playerid),pass);
+	mysql_query(String);
+	format(String,128,"INSERT INTO camera (Name) VALUES ('%s')",getname(playerid));
 	mysql_query(String);
 	scm(playerid,COLOR_GREEN,"Your account has been created and has been automatically");
 	scm(playerid,COLOR_GREEN,"logged in.");
@@ -295,6 +300,7 @@ stock ServerInit()
 	SetCars();
 	ManualVehicleEngineAndLights();
 	LoadRefuel();
+	LoadMap();
 	fuelvehicles();
 	//death and connect message textdraw
 	deathcon = TextDrawCreate(503.000000, 157.000000, "_");
@@ -420,6 +426,8 @@ stock showtextdraws(playerid)
 	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
 	{
 		if(IsBike(GetVehicleModel(GetPlayerVehicleID(playerid)))) return 1;
+		format(String,128,"Fuel: %d",fuel[GetPlayerVehicleID(playerid)]);
+		PlayerTextDrawSetString(playerid, fueltd, String);
 		PlayerTextDrawShow(playerid, mphtd);
 		PlayerTextDrawShow(playerid, fueltd);
 	}
@@ -432,6 +440,11 @@ stock hidetextdraws(playerid)
 	PlayerTextDrawHide(playerid, loctd);
 	PlayerTextDrawHide(playerid, mphtd);
 	PlayerTextDrawHide(playerid, fueltd);
+	PlayerTextDrawHide(playerid, sl1);
+	PlayerTextDrawHide(playerid, sl2);
+	PlayerTextDrawHide(playerid, sl3);
+	PlayerTextDrawHide(playerid, sl4);
+	PlayerTextDrawHide(playerid, sl5);
 	return 1;
 }
 
@@ -1408,5 +1421,40 @@ stock fuelvehicles()
 			SetVehicleParamsEx(i,1,-1,-1,-1,-1,-1,-1);
 		}
 	}
+	return 1;
+}
+
+forward startengine(playerid);
+public startengine(playerid)
+{
+    new chance=random(5);
+	if(chance == 3) return scm(playerid,0xFF0000FF,"The engine failed to {FFFFFF}start{FF0000}. Please try again.");
+	vid = GetPlayerVehicleID(playerid);
+	SetVehicleParamsEx(vid,1,lights,alarm,doors,bonnet,boot,objective);
+	SetVehicleParamsEx(vid,1,lights,alarm,doors,bonnet,boot,objective);
+	return 1;
+}
+
+stock LoadMap()
+{
+	new query[128],tmp;
+	format(query,128,"SELECT * FROM map");
+	mysql_query(query);
+	mysql_store_result();
+	tmp=mysql_num_rows();
+	for(new i=mysql_retrieve_row();i<tmp;i++)
+	{
+	    new field[6][32];
+	    mysql_fetch_row_format(query , "|");
+	    explode(query , field, "|");
+	    new Float:x,Float:y,Float:z,t;
+	    x=strval(field[1]);
+	    y=strval(field[2]);
+	    z=strval(field[3]);
+	    t=strval(field[4]);
+	   	CreateDynamicMapIcon(x,y,z,t,-1,-1,-1,-1,100.0);
+	}
+	print("loaded map icons");
+	mysql_free_result();
 	return 1;
 }

@@ -196,3 +196,101 @@ Console input: loadfs xD
 
 [11:56:07]   Filterscript 'xD.amx' loaded.
 [11:58:58] [part] eesh has left the server (0:1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:47:49] 
+[12:47:49] Server Plugins
+[12:47:49] --------------
+[12:47:49]  Loading plugin: streamer
+[12:47:49] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:47:49]   Loaded.
+[12:47:49]  Loading plugin: mysql
+[12:47:49] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:47:49]   Loaded.
+[12:47:49]  Loaded 2 plugins.
+
+[12:47:49] 
+[12:47:49] Filterscripts
+[12:47:49] ---------------
+[12:47:49]   Loading filterscript 'attachments.amx'...
+[12:47:49]   Loaded 1 filterscripts.
+
+[12:47:49] Connected to MYSQL Database.
+[12:47:49] 
+--------------------------------------
+[12:47:49]  Camera Position setup v1.0 by Ikey07
+[12:47:49] --------------------------------------
+
+[12:47:49]   Filterscript 'camera.amx' loaded.
+[12:47:49] loaded gas stations
+[12:47:49] 
+----------------------------------
+[12:47:49]  Ideal Roleplay
+		-The Resurrection
+[12:47:49] ----------------------------------
+
+[12:47:49] Number of vehicle models: 147
+[12:48:28] Incoming connection: 127.0.0.1:49714
+[12:48:28] [join] eesh has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:55:07] 
+[12:55:07] Server Plugins
+[12:55:07] --------------
+[12:55:07]  Loading plugin: streamer
+[12:55:07] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:55:07]   Loaded.
+[12:55:07]  Loading plugin: mysql
+[12:55:07] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:55:07]   Loaded.
+[12:55:07]  Loaded 2 plugins.
+
+[12:55:07] 
+[12:55:07] Filterscripts
+[12:55:07] ---------------
+[12:55:07]   Loading filterscript 'attachments.amx'...
+[12:55:07]   Loaded 1 filterscripts.
+
+[12:55:07] Connected to MYSQL Database.
+[12:55:07] 
+--------------------------------------
+[12:55:07]  Camera Position setup v1.0 by Ikey07
+[12:55:07] --------------------------------------
+
+[12:55:07]   Filterscript 'camera.amx' loaded.
+[12:55:07] loaded gas stations
+[12:55:07] 
+----------------------------------
+[12:55:07]  Ideal Roleplay
+		-The Resurrection
+[12:55:07] ----------------------------------
+
+[12:55:07] Number of vehicle models: 147
+[12:55:24] Incoming connection: 127.0.0.1:50451
+[12:55:24] [join] eesh has joined the server (0:127.0.0.1)
