@@ -55,6 +55,9 @@
 	native IsDeiselVehicle(vehicleid);
 	native GivePlayerCash(playerid, amount);
 	native GetPlayerCash(playerid);
+	native IsJobVeh(vehicleid);
+	native LoadJobs();
+	native resetvars();
 */
 
 new VehicleNames[212][] = {
@@ -522,6 +525,7 @@ stock ServerInit()
 	LVarea=CreateDynamicArea(2989.536, -572.2159, 2966.18, 490.4708);
 	LSarea=CreateDynamicArea(2977.858, -537.1823, 443.7593, -2954.502);
 	SFarea=CreateDynamicArea( -595.5717, -2977.858, 2977.858, -2942.825);
+	LoadJobs();
 	SetCars();
 	ManualVehicleEngineAndLights();
 	LoadRefuel();
@@ -1795,6 +1799,7 @@ stock resetvars(playerid)
 {
 	SetPVarInt(playerid, "crefuel",-1);
 	job[playerid] = 0;
+	org[playerid] = 0;
 	Money[playerid] = 0;
 	return 1;
 }
@@ -1810,4 +1815,44 @@ stock GivePlayerCash(playerid, amount)
 stock GetPlayerCash(playerid) 
 {
 	return Money[playerid];
+}
+
+stock LoadJobs()
+{
+	fjcp=CreateDynamicCP(285.3521,1425.9495,10.5859,1.0,0,0,-1,100.0);
+	fjvehs[0]=AddStaticVehicle(524,282.7017,1455.4984,11.5180,89.2696,0,1); // fveh
+	fjvehs[1]=AddStaticVehicle(524,282.6774,1461.2642,11.5152,90.4342,0,1); // fveh
+	fjvehs[2]=AddStaticVehicle(524,282.8173,1449.5874,11.5181,91.5803,0,1); // fveh
+	fjvehs[3]=AddStaticVehicle(524,283.0300,1444.0322,11.5159,90.5346,0,1); // fveh
+	mjvehs[0]=AddStaticVehicleEx(525,-1883.97961426,-1640.63403320,21.73999977,181.99993896,-1,-1,15); //Tow Truck
+	mjvehs[1]=AddStaticVehicleEx(525,-1892.99182129,-1641.05102539,21.73999977,181.99853516,-1,-1,15); //Tow Truck
+	mjvehs[2]=AddStaticVehicleEx(525,-1834.45300293,-1638.36853027,21.73999977,180.00000000,-1,-1,15); //Tow Truck
+	mjvehs[3]=AddStaticVehicleEx(525,-1827.91015625,-1638.55627441,21.73999977,180.00000000,-1,-1,15); //Tow Truck
+	mgcp=CreateDynamicCP(-1860.4327,-1611.0386,21.4881,4.0,0,0,-1,100.0);
+	mjcp=CreateDynamicCP(-1888.5319,-1642.0157,21.7500,1.0,0,0,-1,100);
+	tjcp=CreateDynamicCP(1743.1898,-1863.4309,13.5751,1.0,0,0,-1,100);
+	tjvehs[0]=AddStaticVehicle(420,1749.2529,-1859.7515,13.2704,271.1065,6,6); // taxi 1
+	tjvehs[1]=AddStaticVehicle(420,1737.0516,-1859.9260,13.2720,271.0742,6,6); // taxi 2
+	tjvehs[2]=AddStaticVehicle(420,1763.7013,-1859.4799,13.2718,270.3394,6,6); // taxi 3
+	tjvehs[3]=AddStaticVehicle(438,1770.7509,-1859.3623,13.4924,270.9401,6,6); // cab 1
+	tjvehs[4]=AddStaticVehicle(438,1777.8868,-1859.2908,13.4956,270.2206,6,6); // cab 2
+	tjvehs[5]=AddStaticVehicle(438,1788.8846,-1859.3545,13.4931,271.2159,6,6); // cab 3
+	trshcp=CreateDynamicCP(-2130.0718,-188.3774,35.3203,1.0,0,0,-1,100);
+	trshvehs[0]=AddStaticVehicle(408,-2123.6453,-199.6926,35.8611,179.6025,0,1); // trash 1
+	trshvehs[1]=AddStaticVehicle(408,-2114.4351,-198.8337,35.8647,181.7618,0,1); // trash 2
+	trshvehs[2]=AddStaticVehicle(408,-2102.3960,-198.6151,35.8532,178.7317,0,1); // trash 3
+	trshvehs[3]=AddStaticVehicle(408,-2146.0430,-202.9311,35.8811,269.1339,0,1); // trash 5
+	trshvehs[4]=AddStaticVehicle(408,-2146.2498,-187.7718,35.8686,269.9481,0,1); // trash 6
+	CreateDynamic3DTextLabel("Mechanic-Garage",-1,-1862.7615,-1630.3010,21.8849,100.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,0,0,0,-1,100);
+	return 1;
+}
+
+stock IsJobVeh(v)
+{
+	if(v == fjvehs[0] || v == fjvehs[1] || v == fjvehs[2] || v == fjvehs[3]) return 1;
+	if(v == mjvehs[0] || v == mjvehs[1] || v == mjvehs[2] || v == mjvehs[3]) return 2;
+	if(v == tjvehs[0] || v == tjvehs[1] || v == tjvehs[2] || v == tjvehs[3]) return 3;
+	if(v == tjvehs[4] || v == tjvehs[5]) return 3;
+	if(v == trshvehs[0] || v == trshvehs[1] || v == trshvehs[2] || v == trshvehs[3] || v == trshvehs[4]) return 4;
+	return 0;
 }

@@ -6,8 +6,15 @@
 #define SQL_USER "root"
 #define SQL_PASSWORD ""
 #define SQL_DB "IRR"
-#define MAX_CPS 1000
+#define MAX_CPS 1000 //defines the maximum number of dynamic Checkpoints the server can hold.
+#define MAX_ORGS 12 //defines the maximum organizations on the server.
 
+new mgcp;
+new fjcp;
+new mjcp;
+new tjcp;
+new trshcp;
+new org[MAX_PLAYERS];
 new job[MAX_PLAYERS];
 new Money[MAX_PLAYERS];
 new fuel[MAX_VEHICLES];
@@ -38,6 +45,33 @@ new chour;
 new cmins;
 new Text:deathcon;
 new vid,engine,lights,alarm,doors,bonnet,boot,objective;
+new fjvehs[4];
+new mjvehs[4];
+new tjvehs[6];
+new trshvehs[5];
+
+enum eorgdata
+{
+	wpn1,
+	wpn2,
+	skin1,
+	skin2,
+	skin3,
+	ammo1,
+	ammo2,
+	oname[32],
+	Float:cpx,
+	Float:cpy,
+	Float:cpz,
+	Float:intx,
+	Float:inty,
+	Float:intz,
+	Float:interior,
+	Float:memcount,
+	leader[32]
+}
+
+new orgdata[MAX_ORGS][eorgdata];
 
 #include <zcmd>
 #include <sscanf>
@@ -125,7 +159,8 @@ public OnPlayerSpawn(playerid)
 	}
 	else
 	{
-		cmd_debug(playerid, "");
+		SetPlayerVirtualWorld(playerid, 0);
+		SetPlayerInterior(playerid, 0);
     	if(hspawn[playerid] == 1) { SetPlayerPos(playerid,1178.9723,-1323.2080,14.1464); SetPlayerFacingAngle(playerid, 169.4691); }
     	if(hspawn[playerid] == 2) { SetPlayerPos(playerid,1580.3074,1765.0140,10.8203); SetPlayerFacingAngle(playerid, 90.0850); }
     	if(hspawn[playerid] == 3) { SetPlayerPos(playerid,-2660.2834,627.9525,14.4531); SetPlayerFacingAngle(playerid, 180.5627); }
@@ -634,6 +669,56 @@ public OnVehicleDamageStatusUpdate(vehicleid, playerid)
 	}
     return 1;
 }
+
+public OnPlayerEnterDynamicRaceCP(playerid, checkpointid)
+{
+	return 1;
+}
+
+public OnPlayerLeaveDynamicRaceCP(playerid, checkpointid)
+{
+	return 1;
+}
+
+public OnPlayerEnterDynamicCP(playerid, checkpointid)
+{
+	if(fjcp == checkpointid)
+	{
+		ShowPlayerDialog(playerid,5,DIALOG_STYLE_MSGBOX,"Refueller","You may know that the gas stations also contain fuel.\nAs the fuel decreases whenever someone refuels,\nit is your job to refuel them. All you have to do \nis drive the fuel truck to the station and /fillstation.\n\n Do you want to work as a refueller?","Yes","No");
+	}
+	if(checkpointid == mjcp)
+  	{
+  	    ShowPlayerDialog(playerid,96,DIALOG_STYLE_MSGBOX,"Mechanic:","There are many cars around SA that breakdown\nwhen they hit something. They can only\nbe fixed by a mechanic using /fix.\nYou can fix upto 5 cars every 5mins by towing them here.\n\nDo you want to work as a mechanic?","Ok","Cancel");
+  	}
+  	if(checkpointid == tjcp)
+  	{
+  	    ShowPlayerDialog(playerid,106,DIALOG_STYLE_MSGBOX,"Taxi Driver:","There are many people around SA waiting for a taxi.\nWhen they call the taxi hotline(555)\nAll the taxi drivers will\nbe alerted about the cutormers location.\nThey can pay use using /paytaxi.\n\nDo you want to work as a Taxi driver?","Ok","Cancel");
+  	}
+  	if(checkpointid == trshcp)
+  	{
+  	    ShowPlayerDialog(playerid,108,DIALOG_STYLE_MSGBOX,"Trash Collector:","Theres too much trash on the roads just\nwaiting to be picked up by\ntrashcollectors. If this trash\nis not cleaned, the total pollution rises and players spawn\nwith less health.\n\nDo you want to work as a trash collector?","Ok","Cancel");
+  	}
+	if(checkpointid == mgcp)
+  	{
+  	    if(IsPlayerInAnyVehicle(playerid))
+  	    {
+  	        if(job[playerid] == 2)
+  	        {
+//				jsal[playerid]+=50;
+//				stalled[GetPlayerVehicleID(playerid)] = 0;
+				scm(playerid,red,"You have earned 50$ from the repair work.");
+				RepairVehicle(GetPlayerVehicleID(playerid));
+  	        }
+  	    }
+ 	}
+	return 1;
+}
+
+public OnPlayerLeaveDynamicCP(playerid, checkpointid)
+{
+	return 1;
+}
+
 
 //Admin Commands
 
