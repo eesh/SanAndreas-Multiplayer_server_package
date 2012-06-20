@@ -1,0 +1,101 @@
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:04:28] 
+[12:04:28] Server Plugins
+[12:04:28] --------------
+[12:04:28]  Loading plugin: streamer
+[12:04:29] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:04:29]   Loaded.
+[12:04:29]  Loading plugin: mysql
+[12:04:29] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:04:29]   Loaded.
+[12:04:29]  Loaded 2 plugins.
+
+[12:04:29] 
+[12:04:29] Filterscripts
+[12:04:29] ---------------
+[12:04:29]   Loading filterscript 'attachments.amx'...
+[12:04:29]   Loaded 1 filterscripts.
+
+[12:04:29] Connected to MYSQL Database.
+[12:04:29] 
+--------------------------------------
+[12:04:29]  Camera Position setup v1.0 by Ikey07
+[12:04:29] --------------------------------------
+
+[12:04:29]   Filterscript 'camera.amx' loaded.
+[12:04:29] loaded gas stations
+[12:04:29] loaded map icons
+[12:04:29] 
+----------------------------------
+[12:04:29]  Ideal Roleplay
+		-The Resurrection
+[12:04:29] ----------------------------------
+
+[12:04:29] Number of vehicle models: 147
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:04:36] 
+[12:04:36] Server Plugins
+[12:04:36] --------------
+[12:04:36]  Loading plugin: streamer
+[12:04:36] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:04:36]   Loaded.
+[12:04:36]  Loading plugin: mysql
+[12:04:36] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:04:36]   Loaded.
+[12:04:36]  Loaded 2 plugins.
+
+[12:04:36] 
+[12:04:36] Filterscripts
+[12:04:36] ---------------
+[12:04:36]   Loading filterscript 'attachments.amx'...
+[12:04:36]   Loaded 1 filterscripts.
+
+[12:04:36] Connected to MYSQL Database.
+[12:04:36] 
+--------------------------------------
+[12:04:36]  Camera Position setup v1.0 by Ikey07
+[12:04:36] --------------------------------------
+
+[12:04:36]   Filterscript 'camera.amx' loaded.
+[12:04:36] loaded gas stations
+[12:04:36] loaded map icons
+[12:04:36] 
+----------------------------------
+[12:04:36]  Ideal Roleplay
+		-The Resurrection
+[12:04:36] ----------------------------------
+
+[12:04:36] Number of vehicle models: 147
+[12:04:37] hello
+[12:04:39] hello
+[12:04:40] hello
+[12:04:41] hello
+[12:04:42] hello

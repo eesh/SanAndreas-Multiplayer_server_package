@@ -1801,6 +1801,7 @@ stock resetvars(playerid)
 	job[playerid] = 0;
 	org[playerid] = 0;
 	Money[playerid] = 0;
+	admin[playerid] = 0;
 	return 1;
 }
 
