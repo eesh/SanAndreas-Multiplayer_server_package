@@ -34,10 +34,43 @@ CMD:setoveh(playerid, params[])
 	format(query, sizeof(query), "INSERT INTO orgvehs (ID,Model,X,Y,Z,R,c1,c2,vid) VALUES (%d, %d, %f, %f, %f, %f, %d, %d, %d)", id, mdl ,x , y,z,r,c1,c2,vid);
 	mysql_query(query);
 	vorg[GetPlayerVehicleID(playerid)]=id;
+	orgvid[GetPlayerVehicleID(playerid)]=vid;
 	new a[128];
 	format(a,128,"ALTER TABLE  `orgs` ORDER BY  `ID`");
 	mysql_query(a);
 	SendClientMessage(playerid, COLOR_ORANGE, "You have made this an org vehicle successfully.");
+	return 1;
+}
+
+CMD:loadovehs(playerid,params[])
+{
+	if(admin[playerid] != 4) return 1;
+	for(new i;i<MAX_VEHICLES;i++)
+	{
+	    if(vorg[i] > 0)
+	    {
+	        DestroyVehicle(i);
+	        vorg[i]=0;
+	        orgvid[i]=0;
+	    }
+	}
+	LoadOvehs();
+	scm(playerid,red,"Reloaded all org vehicles.");
+	return 1;
+}
+
+CMD:deloveh(playerid,params[])
+{
+	new q[128];
+	if(admin[playerid] != 4) return scm(playerid,0xFF0000FF,"You cannot use this command.");
+ 	if(sscanf(params,"i",vid)) return scm(playerid,red,"[vehicle id [/dl]]");
+ 	if(vorg[vid] == 0) return scm(playerid,red,"Thats not a org vehicle.");
+	format(q,128,"DELETE FROM orgvehs WHERE ID=%d AND VID=%d",vorg[vid],orgvid[vid]);
+	mysql_query(q);
+	DestroyVehicle(vid);
+	vorg[vid]=0;
+	orgvid[vid]=0;
+	scm(playerid,red,"Deleted.");
 	return 1;
 }
 

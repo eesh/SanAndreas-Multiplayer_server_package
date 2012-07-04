@@ -42,6 +42,7 @@ new req[MAX_PLAYERS];
 new fuel[MAX_VEHICLES];
 new stalled[MAX_VEHICLES];
 new vorg[MAX_VEHICLES];
+new orgvid[MAX_PLAYERS];
 new Float:refuelcp[20][3];
 new Text3D:fuelcp[20];
 new cpfuel[20][2];

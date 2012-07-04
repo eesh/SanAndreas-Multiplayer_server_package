@@ -540,6 +540,8 @@ stock ServerInit()
 	SFarea=CreateDynamicArea( -595.5717, -2977.858, 2977.858, -2942.825);
 	dcp = CreateDynamicCP(-2033.0657,-117.2213,1035.1719, 1.0, 0,3, -1,30);
 	LoadJobs();
+	LoadOcps();
+	LoadOvehs();
 	SetCars();
 	ManualVehicleEngineAndLights();
 	LoadRefuel();
@@ -1966,7 +1968,7 @@ stock LoadOcps()
 		corg[cpid]=strval(field[0]);
     }
 	mysql_free_result();
-	return 1;
+	return print("loaded faction checkpoints");
 }
 
 stock Log(log,msg[])
@@ -2108,4 +2110,32 @@ stock GetDCPcoords(cpid, &Float:x, &Float:y, &Float:z)
 	z=strval(p[2]);
 	mysql_free_result();
 	return 1;
+}
+
+stock LoadOvehs()
+{
+	new query[128];
+    format(query,128,"SELECT * FROM `orgvehs`");
+    mysql_query(query);
+    mysql_store_result();
+    new t=mysql_num_rows();
+	for(new i=mysql_retrieve_row();i<t;i++)
+        {
+            new field[13][128],c1,c2;
+            mysql_fetch_row_format(query, "|");
+            explode(query, field, "|");
+            new mdl,vidid,Float:x,Float:y,Float:z,Float:r;
+            mdl=strval(field[1]);
+            x=strval(field[2]);
+            y=strval(field[3]);
+            z=strval(field[4]);
+            r=strval(field[5]);
+            c1=strval(field[6]);
+            c2=strval(field[7]);
+            vidid=CreateVehicle(mdl,x,y,z+0.2,r,c1,c2,-1);
+            vorg[vidid]=strval(field[0]);
+            orgvid[vidid]=strval(field[8]);
+  		}
+	mysql_free_result();
+	return print("loaded faction vehicles");
 }
