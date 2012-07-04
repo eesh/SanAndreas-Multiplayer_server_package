@@ -9,15 +9,27 @@
 #define MAX_CPS 1000 //defines the maximum number of dynamic Checkpoints the server can hold.
 #define MAX_ORGS 12 //defines the maximum organizations on the server.
 
+/*
+	Jobs:
+	1-refueller
+	2-mechanic
+	3-taxi
+	4-trash
+*/
+
+new jsal[MAX_PLAYERS];
 new mgcp;
 new fjcp;
 new mjcp;
 new tjcp;
 new trshcp;
+new leader[MAX_PLAYERS];
+new civil[MAX_PLAYERS];
 new admin[MAX_PLAYERS];
 new org[MAX_PLAYERS];
 new job[MAX_PLAYERS];
 new Money[MAX_PLAYERS];
+new req[MAX_PLAYERS];
 new fuel[MAX_VEHICLES];
 new stalled[MAX_VEHICLES];
 new Float:refuelcp[20][3];
@@ -50,6 +62,9 @@ new fjvehs[4];
 new mjvehs[4];
 new tjvehs[6];
 new trshvehs[5];
+new corg[MAX_CPS];
+new vip[MAX_PLAYERS];
+new vipcar[MAX_PLAYERS];
 
 enum eorgdata
 {
@@ -61,7 +76,8 @@ enum eorgdata
 	skin3,
 	ammo1,
 	ammo2,
-	oname[32],
+	otype,
+	oname[64],
 	Float:cpx,
 	Float:cpy,
 	Float:cpz,
@@ -69,8 +85,8 @@ enum eorgdata
 	Float:inty,
 	Float:intz,
 	Float:interior,
-	Float:memcount,
-	leader[32]
+	memcount,
+	oleader[32]
 }
 
 new orgdata[MAX_ORGS][eorgdata];
@@ -134,6 +150,7 @@ public OnPlayerConnect(playerid)
 	TextDrawSetString(deathcon, String);
 	TextDrawShowForAll(deathcon);
 	SetTimer("deathconn",3000,false);
+	SetPlayerColor(playerid,0xFFFFFF00);
 	return 1;
 }
 
@@ -145,6 +162,10 @@ public OnPlayerDisconnect(playerid, reason)
 	TextDrawSetString(deathcon, String);
 	TextDrawShowForAll(deathcon);
 	SetTimer("deathconn",3000,false);
+	if(vip[playerid]!=0)
+	{
+		DestroyVehicle(vipcar[playerid]);
+	}
 	resetvars(playerid);
 	return 1;
 }
@@ -624,6 +645,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	        if(strlen(pass) < 5 && strlen(pass) > 32) return scm(playerid, COLOR_RED, "Password should contain atleast 5 characters and max. 32 characters.");
 	        RegisterPlayer(playerid, pass);
 	    }
+	    case 3:
+	    {
+	        if(response) return 1;
+	        
+	    }
+	    case 4:
+	    {
+	        if(response) return 1;
+
+	    }
+		case 5:
+	    {
+	        if(response) return 1;
+
+	    }
+	    case 6:
+	    {
+	        if(response) return 1;
+
+	    }
 	}
 	return 1;
 }
@@ -688,19 +729,19 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid)
 {
 	if(fjcp == checkpointid)
 	{
-		ShowPlayerDialog(playerid,5,DIALOG_STYLE_MSGBOX,"Refueller","You may know that the gas stations also contain fuel.\nAs the fuel decreases whenever someone refuels,\nit is your job to refuel them. All you have to do \nis drive the fuel truck to the station and /fillstation.\n\n Do you want to work as a refueller?","Yes","No");
+		ShowPlayerDialog(playerid,3,DIALOG_STYLE_MSGBOX,"Refueller","You may know that the gas stations also contain fuel.\nAs the fuel decreases whenever someone refuels,\nit is your job to refuel them. All you have to do \nis drive the fuel truck to the station and /fillstation.\n\n Do you want to work as a refueller?","Yes","No");
 	}
 	if(checkpointid == mjcp)
   	{
-  	    ShowPlayerDialog(playerid,96,DIALOG_STYLE_MSGBOX,"Mechanic:","There are many cars around SA that breakdown\nwhen they hit something. They can only\nbe fixed by a mechanic using /fix.\nYou can fix upto 5 cars every 5mins by towing them here.\n\nDo you want to work as a mechanic?","Ok","Cancel");
+  	    ShowPlayerDialog(playerid,4,DIALOG_STYLE_MSGBOX,"Mechanic:","There are many cars around SA that breakdown\nwhen they hit something. They can only\nbe fixed by a mechanic using /fix.\nYou can fix upto 5 cars every 5mins by towing them here.\n\nDo you want to work as a mechanic?","Ok","Cancel");
   	}
   	if(checkpointid == tjcp)
   	{
-  	    ShowPlayerDialog(playerid,106,DIALOG_STYLE_MSGBOX,"Taxi Driver:","There are many people around SA waiting for a taxi.\nWhen they call the taxi hotline(555)\nAll the taxi drivers will\nbe alerted about the cutormers location.\nThey can pay use using /paytaxi.\n\nDo you want to work as a Taxi driver?","Ok","Cancel");
+  	    ShowPlayerDialog(playerid,5,DIALOG_STYLE_MSGBOX,"Taxi Driver:","There are many people around SA waiting for a taxi.\nWhen they call the taxi hotline(555)\nAll the taxi drivers will\nbe alerted about the cutormers location.\nThey can pay use using /paytaxi.\n\nDo you want to work as a Taxi driver?","Ok","Cancel");
   	}
   	if(checkpointid == trshcp)
   	{
-  	    ShowPlayerDialog(playerid,108,DIALOG_STYLE_MSGBOX,"Trash Collector:","Theres too much trash on the roads just\nwaiting to be picked up by\ntrashcollectors. If this trash\nis not cleaned, the total pollution rises and players spawn\nwith less health.\n\nDo you want to work as a trash collector?","Ok","Cancel");
+  	    ShowPlayerDialog(playerid,6,DIALOG_STYLE_MSGBOX,"Trash Collector:","Theres too much trash on the roads just\nwaiting to be picked up by\ntrashcollectors. If this trash\nis not cleaned, the total pollution rises and players spawn\nwith less health.\n\nDo you want to work as a trash collector?","Ok","Cancel");
   	}
 	if(checkpointid == mgcp)
   	{
@@ -708,8 +749,8 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid)
   	    {
   	        if(job[playerid] == 2)
   	        {
-//				jsal[playerid]+=50;
-//				stalled[GetPlayerVehicleID(playerid)] = 0;
+				jsal[playerid]+=50;
+				stalled[GetPlayerVehicleID(playerid)] = 0;
 				scm(playerid,red,"You have earned 50$ from the repair work.");
 				RepairVehicle(GetPlayerVehicleID(playerid));
   	        }

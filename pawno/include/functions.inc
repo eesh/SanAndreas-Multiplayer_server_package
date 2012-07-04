@@ -58,6 +58,15 @@
 	native IsJobVeh(vehicleid);
 	native LoadJobs();
 	native resetvars();
+	native getoname(orgid);
+	native LoadOStats(playerid);
+	native getoname(orgid);
+	native updateorgint(orgid, field[], data);
+	native updateorgstr(orgid, field[], data[]);
+	native updateorgflt(orgid, field[], Float:data);
+	native getomemcnt(orgid);
+	native LoadOcps();
+	native Log(type, string[]);
 */
 
 new VehicleNames[212][] = {
@@ -1645,7 +1654,7 @@ stock fuelvehicles()
 {
 	for(new i;i<MAX_VEHICLES;i++)
 	{
-		fuel[i] = 100;
+		fuel[i] = GetCapacity(GetVehicleModel(i));
 		if(IsBike(GetVehicleModel(i)))
 		{
 			SetVehicleParamsEx(i,1,-1,-1,-1,-1,-1,-1);
@@ -1802,6 +1811,10 @@ stock resetvars(playerid)
 	org[playerid] = 0;
 	Money[playerid] = 0;
 	admin[playerid] = 0;
+	vip[playerid]=0;
+	vipcar[playerid]=0;
+	req[playerid]=0;
+	leader[playerid]=0;
 	return 1;
 }
 
@@ -1856,4 +1869,111 @@ stock IsJobVeh(v)
 	if(v == tjvehs[4] || v == tjvehs[5]) return 3;
 	if(v == trshvehs[0] || v == trshvehs[1] || v == trshvehs[2] || v == trshvehs[3] || v == trshvehs[4]) return 4;
 	return 0;
+}
+
+stock CheckOrgExists(id)
+{
+	if(strlen(orgdata[id][oname]) > 1) return 1;
+	else return 0;
+}
+
+stock updateorgdata(id)
+{
+	new str[512];
+	format(str,512,"UPDATE orgs SET oname='%s', skin1=%d, skin2=%d, skin3=%d, wpn1=%d, wpn2=%d, ocolour=%d, type=%d WHERE orgid=%d",\
+	orgdata[id][oname],orgdata[id][skin1],orgdata[id][skin2],orgdata[id][skin3],orgdata[id][wpn1],orgdata[id][wpn2],orgdata[id][ocolour],orgdata[id][otype],id);
+	format(str,512,"UPDATE orgs SET cpx='%s', cpy=%d, cpz=%d, intx=%d, inty=%d, intz=%d, interior=%d, memcount=%d, ammo1=%d, ammo2=%d, leader='%s' WHERE orgid=%d",\
+	orgdata[id][cpx],orgdata[id][cpy],orgdata[id][cpz],orgdata[id][intx],orgdata[id][inty],orgdata[id][intz],orgdata[id][interior],\
+	orgdata[id][memcount],orgdata[id][ammo1],orgdata[id][ammo2],orgdata[id][oleader],id);
+	return 1;
+}	
+
+stock updateorgint(orgid, field[], data)
+{
+	format(String, 128, "UPDATE orgs SET `%s`=%d WHERE orgid=%d",field,data,orgid);
+	mysql_query(String);
+	return 1;
+}
+
+stock updateorgflt(orgid, field[], Float:data)
+{
+	format(String, 128, "UPDATE orgs SET `%s`=%f WHERE orgid=%d",field,data,orgid);
+	mysql_query(String);
+	return 1;
+}	
+
+stock updateorgstr(orgid, field[], data[])
+{
+	format(String, 128, "UPDATE orgs SET `%s`='%s' WHERE orgid=%d",field,data,orgid);
+	mysql_query(String);
+	return 1;
+}	
+
+stock getocolor(id)
+{
+	/*format(String,128,"SELECT ocolour FROM orgs WHERE orgid=%d",id);
+	mysql_query(String);
+	mysql_store_result();
+	new field[1][32];
+	mysql_fetch_row_format(String,"|");
+	explode(String,field,"|");
+	mysql_free_result();
+	return strval(field[0]);*/
+	return orgdata[id][ocolour];
+}
+
+stock getoname(orgid)
+{
+	return orgdata[orgid][oname];
+}
+
+stock LoadOstats(playerid)
+{
+	org[playerid]=getintdata(playerid,"users","org");
+	req[playerid]=getintdata(playerid,"users","req");
+	return 1;
+}
+
+stock getomemcnt(orgid)
+{
+	return orgdata[orgid][memcount];
+}
+
+stock LoadOcps()
+{
+	new query[256],tmp;
+    format(query,sizeof(query),"SELECT ID,CPX,CPY,CPZ FROM `orgs` ORDER BY orgid");
+    mysql_query(query);
+    mysql_store_result();
+    tmp=mysql_num_rows();
+	for(new i=mysql_retrieve_row();i<tmp;i++)
+	{
+		new field[4][128];
+		if(mysql_num_rows() == 0) continue;
+		mysql_fetch_row_format(query, "|");
+		explode(query, field, "|");
+		new cpid,Float:x,Float:y,Float:z;
+		x=strval(field[1]);
+		y=strval(field[2]);
+		z=strval(field[3]);
+		cpid=CreateDynamicCP(x,y,z,1.0,0,0,-1,100.0);
+		corg[cpid]=strval(field[0]);
+    }
+	mysql_free_result();
+	return 1;
+}
+
+stock Log(log,msg[])
+{
+	if(log == 1)
+	{
+	    for(new i;i<MAX_PLAYERS;i++)
+	    {
+	        if(admin[i] != 0)
+	        {
+	            scm(i,0xA9C4E4FF,msg);
+	        }
+	 	}
+	}
+	return 1;
 }

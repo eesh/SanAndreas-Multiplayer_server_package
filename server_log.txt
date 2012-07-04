@@ -99,3 +99,255 @@ v0.3e, (C)2005-2012 SA-MP Team
 [12:04:40] hello
 [12:04:41] hello
 [12:04:42] hello
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[21:09:22] 
+[21:09:22] Server Plugins
+[21:09:22] --------------
+[21:09:22]  Loading plugin: streamer
+[21:09:23] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[21:09:23]   Loaded.
+[21:09:23]  Loading plugin: mysql
+[21:09:23] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[21:09:23]   Loaded.
+[21:09:23]  Loaded 2 plugins.
+
+[21:09:23] I couldn't load any gamemode scripts. Please verify your server.cfg
+[21:09:23] It needs a gamemode0 line at the very least.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[22:10:20] 
+[22:10:20] Server Plugins
+[22:10:20] --------------
+[22:10:20]  Loading plugin: streamer
+[22:10:21] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[22:10:21]   Loaded.
+[22:10:21]  Loading plugin: mysql
+[22:10:21] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[22:10:21]   Loaded.
+[22:10:21]  Loaded 2 plugins.
+
+[22:10:21] I couldn't load any gamemode scripts. Please verify your server.cfg
+[22:10:21] It needs a gamemode0 line at the very least.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[22:10:22] 
+[22:10:22] Server Plugins
+[22:10:22] --------------
+[22:10:22]  Loading plugin: streamer
+[22:10:22] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[22:10:22]   Loaded.
+[22:10:22]  Loading plugin: mysql
+[22:10:22] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[22:10:22]   Loaded.
+[22:10:22]  Loaded 2 plugins.
+
+[22:10:22] I couldn't load any gamemode scripts. Please verify your server.cfg
+[22:10:22] It needs a gamemode0 line at the very least.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[22:10:23] 
+[22:10:23] Server Plugins
+[22:10:23] --------------
+[22:10:23]  Loading plugin: streamer
+[22:10:23] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[22:10:23]   Loaded.
+[22:10:23]  Loading plugin: mysql
+[22:10:23] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[22:10:23]   Loaded.
+[22:10:23]  Loaded 2 plugins.
+
+[22:10:23] I couldn't load any gamemode scripts. Please verify your server.cfg
+[22:10:23] It needs a gamemode0 line at the very least.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[22:10:24] 
+[22:10:24] Server Plugins
+[22:10:24] --------------
+[22:10:24]  Loading plugin: streamer
+[22:10:24] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[22:10:24]   Loaded.
+[22:10:24]  Loading plugin: mysql
+[22:10:24] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[22:10:24]   Loaded.
+[22:10:24]  Loaded 2 plugins.
+
+[22:10:24] I couldn't load any gamemode scripts. Please verify your server.cfg
+[22:10:24] It needs a gamemode0 line at the very least.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[22:10:25] 
+[22:10:25] Server Plugins
+[22:10:25] --------------
+[22:10:25]  Loading plugin: streamer
+[22:10:25] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[22:10:25]   Loaded.
+[22:10:25]  Loading plugin: mysql
+[22:10:25] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[22:10:25]   Loaded.
+[22:10:25]  Loaded 2 plugins.
+
+[22:10:25] I couldn't load any gamemode scripts. Please verify your server.cfg
+[22:10:25] It needs a gamemode0 line at the very least.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[22:12:42] 
+[22:12:42] Server Plugins
+[22:12:42] --------------
+[22:12:42]  Loading plugin: streamer
+[22:12:42] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[22:12:42]   Loaded.
+[22:12:42]  Loading plugin: mysql
+[22:12:42] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[22:12:42]   Loaded.
+[22:12:42]  Loaded 2 plugins.
+
+[22:12:42] 
+[22:12:42] Filterscripts
+[22:12:42] ---------------
+[22:12:42]   Loading filterscript 'attachments.amx'...
+[22:12:42]   Loaded 1 filterscripts.
+
+[22:12:42] Connected to MYSQL Database.
+[22:12:42] 
+--------------------------------------
+[22:12:42]  Camera Position setup v1.0 by Ikey07
+[22:12:42] --------------------------------------
+
+[22:12:42]   Filterscript 'camera.amx' loaded.
+[22:12:42] loaded gas stations
+[22:12:42] loaded map icons
+[22:12:42] 
+----------------------------------
+[22:12:42]  Ideal Roleplay
+		-The Resurrection
+[22:12:42] ----------------------------------
+
+[22:12:42] Number of vehicle models: 147
+[22:13:58] Incoming connection: 127.0.0.1:59800
+[22:13:58] [join] eesh has joined the server (0:127.0.0.1)
+[22:14:39] [part] eesh has left the server (0:1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[21:17:51] 
+[21:17:51] Server Plugins
+[21:17:51] --------------
+[21:17:51]  Loading plugin: streamer
+[21:17:52] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[21:17:52]   Loaded.
+[21:17:52]  Loading plugin: mysql
+[21:17:52] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[21:17:52]   Loaded.
+[21:17:52]  Loaded 2 plugins.
+
+[21:17:52] 
+[21:17:52] Filterscripts
+[21:17:52] ---------------
+[21:17:52]   Loading filterscript 'attachments.amx'...
+[21:17:52]   Loaded 1 filterscripts.
+
+[21:17:53] Connected to MYSQL Database.
