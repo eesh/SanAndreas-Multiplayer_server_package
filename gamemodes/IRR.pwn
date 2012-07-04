@@ -1,4 +1,5 @@
 #include <a_samp>
+#include <GetVehicleColor>
 
 #undef MAX_PLAYERS
 #define MAX_PLAYERS 32
@@ -40,6 +41,7 @@ new Money[MAX_PLAYERS];
 new req[MAX_PLAYERS];
 new fuel[MAX_VEHICLES];
 new stalled[MAX_VEHICLES];
+new vorg[MAX_VEHICLES];
 new Float:refuelcp[20][3];
 new Text3D:fuelcp[20];
 new cpfuel[20][2];

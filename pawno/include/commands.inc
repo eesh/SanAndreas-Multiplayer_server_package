@@ -21,6 +21,26 @@ CMD:givemoney(playerid,params[])
 	return 1;
 }
 
+CMD:setoveh(playerid, params[])
+{
+	new id, query[256], Float:x, Float:y, Float:z, Float:r, mdl,c1,c2;
+	if(!IsPlayerInAnyVehicle(playerid)) return scm(playerid,red,"you have to be in a vehicle.");
+	if(sscanf(params,"ii",id,vid)) return scm(playerid,red,"[org] [veh id 1 - 8]");
+	if(admin[playerid] != 4) return 0;
+	mdl = GetVehicleModel(GetPlayerVehicleID(playerid));
+	GetVehicleColor(GetPlayerVehicleID(playerid), c1, c2);
+	GetVehiclePos(GetPlayerVehicleID(playerid), x, y, z);
+	GetVehicleZAngle(GetPlayerVehicleID(playerid), r);
+	format(query, sizeof(query), "INSERT INTO orgvehs (ID,Model,X,Y,Z,R,c1,c2,vid) VALUES (%d, %d, %f, %f, %f, %f, %d, %d, %d)", id, mdl ,x , y,z,r,c1,c2,vid);
+	mysql_query(query);
+	vorg[GetPlayerVehicleID(playerid)]=id;
+	new a[128];
+	format(a,128,"ALTER TABLE  `orgs` ORDER BY  `ID`");
+	mysql_query(a);
+	SendClientMessage(playerid, COLOR_ORANGE, "You have made this an org vehicle successfully.");
+	return 1;
+}
+
 CMD:setpskin(playerid,params[])
 {
 	new id,sk,s[128],n[32],p[32];
@@ -53,12 +73,6 @@ CMD:setleader(playerid, params[])
 	SendClientMessage(id, COLOR_ORANGE,String);
     LoadOstats(id);
     cmd_oskin(id, "");
-    format(String,128,"DELETE FROM `omem` WHERE Name='%s'",getname(id));
-    mysql_query(String);
-	format(String,128,"INSERT INTO `omem` (`org`,`name`,`leader`) VALUES (%d,'%s',1)",sl,getname(id));
-	mysql_query(String);
-	mysql_query("ALTER TABLE  `omem` ORDER BY  `name`");
-	mysql_query("ALTER TABLE  `omem` ORDER BY  `org`");
 	setpintdata(id,"stats","job",0);
 	job[id] = 0;
 	format(orgdata[sl][oleader],32,"%s",getname(id));
@@ -108,12 +122,6 @@ CMD:setco(playerid, params[])
 	SendClientMessage(id, COLOR_ORANGE,String);
 	LoadOstats(id);
 	cmd_oskin(id,"");
-    format(String,128,"DELETE FROM `omem` WHERE Name='%s'",getname(id));
-    mysql_query(String);
-	format(String,128,"INSERT INTO `omem` (`org`,`name`,`leader`) VALUES (%d,'%s',2)",org[id],getname(id));
-	mysql_query(String);
-	mysql_query("ALTER TABLE  `omem` ORDER BY  `name`");
-	mysql_query("ALTER TABLE  `omem` ORDER BY  `org`");
 	setpintdata(id,"stats","job",0);
 	job[id]=0;
 	return 1;
@@ -378,10 +386,6 @@ CMD:accept(playerid, params[])
 	SendClientMessage(playerid, COLOR_ORANGE, String);
 	LoadOstats(id);
 	cmd_oskin(id,"");
-	format(String,128,"INSERT INTO `omem` (`org`,`name`,`leader`) VALUES (%d,'%s',0)",org[playerid],getname(id));
-	mysql_query(String);
-	mysql_query("ALTER TABLE  `omem` ORDER BY  `name`");
-	mysql_query("ALTER TABLE  `omem` ORDER BY  `org`");
 	setpintdata(id,"stats","job",0);
 	job[id] = 0;
 	return 1;
@@ -556,5 +560,14 @@ CMD:ooc(playerid,params[])
 	GetPlayerName(playerid,n,32);
 	format(s,128,"[OOC]((%s: %s ))",n,params);
 	SendClientMessageToAll(0x009900FF,s);
+	return 1;
+}
+
+CMD:cones(playerid,params[])
+{
+	for(new i,s=sizeof(dcones);i<s;i++)
+	{
+		coneobjs[i]=CreateDynamicObject(1238,dcones[i][0],dcones[i][1],dcones[i][2],0,0,0,0,0,playerid,200);
+	}
 	return 1;
 }

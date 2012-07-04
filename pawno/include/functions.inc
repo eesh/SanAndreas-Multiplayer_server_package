@@ -2094,3 +2094,18 @@ stock OnPlayerEnterDCP(playerid, cpid)
 	}
 	return 1;
 }
+
+stock GetDCPcoords(cpid, &Float:x, &Float:y, &Float:z)
+{
+	format(String,128,"SELECT X,Y,Z FROM drive WHERE ID=%d",cpid);
+	mysql_query(String);
+	mysql_store_result();
+	mysql_fetch_row_format(String,"|");
+	new p[3][32];
+	explode(String,p,"|");
+	x=strval(p[0]);
+	y=strval(p[1]);
+	z=strval(p[2]);
+	mysql_free_result();
+	return 1;
+}
