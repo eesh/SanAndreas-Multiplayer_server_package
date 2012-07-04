@@ -61,6 +61,7 @@ CMD:setleader(playerid, params[])
 	mysql_query("ALTER TABLE  `omem` ORDER BY  `org`");
 	setpintdata(id,"stats","job",0);
 	job[id] = 0;
+	format(orgdata[sl][oleader],32,"%s",getname(id));
 	return 1;
 }
 

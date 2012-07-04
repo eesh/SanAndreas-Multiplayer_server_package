@@ -67,6 +67,10 @@
 	native getomemcnt(orgid);
 	native LoadOcps();
 	native Log(type, string[]);
+	native StringContainsIP(string[]);
+	native CreateDCones(playerid);
+	native DestroyDCones(playerid);
+	native ColouredText(string[]);
 */
 
 new VehicleNames[212][] = {
@@ -534,6 +538,7 @@ stock ServerInit()
 	LVarea=CreateDynamicArea(2989.536, -572.2159, 2966.18, 490.4708);
 	LSarea=CreateDynamicArea(2977.858, -537.1823, 443.7593, -2954.502);
 	SFarea=CreateDynamicArea( -595.5717, -2977.858, 2977.858, -2942.825);
+	dcp = CreateDynamicCP(-2033.0657,-117.2213,1035.1719, 1.0, 0,3, -1,30);
 	LoadJobs();
 	SetCars();
 	ManualVehicleEngineAndLights();
@@ -1812,6 +1817,7 @@ stock resetvars(playerid)
 	Money[playerid] = 0;
 	admin[playerid] = 0;
 	vip[playerid]=0;
+	dlic[playerid]=0;
 	vipcar[playerid]=0;
 	req[playerid]=0;
 	leader[playerid]=0;
@@ -1974,6 +1980,117 @@ stock Log(log,msg[])
 	            scm(i,0xA9C4E4FF,msg);
 	        }
 	 	}
+	}
+	return 1;
+}
+
+stock CreateDCones(playerid)
+{
+	for(new i,s=sizeof(dcones);i<s;i++)
+	{
+		coneobjs[i]=CreateDynamicObject(1238,dcones[i][0],dcones[i][1],dcones[i][2],0,0,0,0,0,playerid,200);
+	}
+	dteststatus=playerid;
+	coneshit = 0;
+	return 1;
+}
+
+stock DestroyDCones()
+{
+	for(new i,s=sizeof(coneobjs);i<s;i++)
+	{
+		DestroyDynamicObject(coneobjs[i]);
+	}
+	return 1;
+}
+
+stock StringContainsIP(string[])
+{
+    new
+        dotCount
+    ;
+    for(new i; string[i] != EOS; ++i)
+    {
+        if(('0' <= string[i] <= '9') || string[i] == '.' || string[i] == ':')
+        {
+            if((string[i] == '.') && (string[i + 1] != '.') && ('0' <= string[i - 1] <= '9'))
+            {
+                ++dotCount;
+            }
+            continue;
+        }
+    }
+    return (dotCount > 2);
+}
+
+stock ColouredText(text[])
+{
+    new
+        pos = -1,
+        string[(128 + 16)]
+    ;
+    strmid(string, text, 0, 128, (sizeof(string) - 16));
+
+    while((pos = strfind(string, "!", true, (pos + 1))) != -1)
+    {
+        new
+            i = (pos + 1),
+            hexCount
+        ;
+        for( ; ((string[i] != 0) && (hexCount < 6)); ++i, ++hexCount)
+        {
+            if(!(('a' <= string[i] <= 'f') || ('A' <= string[i] <= 'F') || ('0' <= string[i] <= '9')))
+            {
+                break;
+            }
+        }
+        if((hexCount == 6) && !(hexCount < 6))
+        {
+            string[pos] = '{';
+            strins(string, "}", i);
+        }
+    }
+    return string;
+}
+
+stock dtesttimer(playerid)
+{
+	if(dteststatus == playerid)
+	{
+		scm(playerid,-1,"You took too long to complete the test.");
+		coneshit = 0;
+		DestroyDCones();
+		SetPlayerPos(-2031.0657,-118.2214,1035.1719);
+		SetPlayerInterior(playerid, 3);
+  		SetVehicleToRespawn(dscar);
+		dteststatus=-1;
+	}
+	return 1;
+}
+
+stock OnPlayerEnterDCP(playerid, cpid)
+{
+    if(cpid < 9)
+	{
+	    new Float:p[3],Float:q[3];
+	    GetDCPcoords(drivingtcp,p[0],p[1],p[2]);
+	    GetDCPcoords(drivingtcp+1,q[0],q[1],q[2]);
+	    playerdcp=CreateDynamicRaceCP(0,p[0],p[1],p[2],q[0],q[1],q[2],4,0,0,playerid,100);
+	}
+	if(cpid == 9)
+	{
+		new Float:p[3],Float:q[3];
+	    GetDCPcoords(drivingtcp,p[0],p[1],p[2]);
+	    GetDCPcoords(drivingtcp+1,q[0],q[1],q[2]);
+	    playerdcp=CreateDynamicRaceCP(1,p[0],p[1],p[2],q[0],q[1],q[2],4,0,0,playerid,100);
+	}
+	if(cpid == 10)
+	{
+	    SetVehicleParamsForPlayer(dscar,playerid,0,1);
+	    format(String,128,"You have hit %d cones.",coneshit);
+	    scm(playerid,0xFFCC00FF,"Now please turn off the engine and get back inside the room.");
+	    scm(playerid,-1,String);
+		DestroyDCones();
 	}
 	return 1;
 }
