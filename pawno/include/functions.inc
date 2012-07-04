@@ -2139,3 +2139,19 @@ stock LoadOvehs()
 	mysql_free_result();
 	return print("loaded faction vehicles");
 }
+
+stock CheckVIP(playerid)
+{
+	format(String,128,"SELECT time FROM vip WHERE Name='%s'",getname(playerid));
+	mysql_query(String);
+	mysql_store_result();
+	new time= mysql_fetch_int();
+	mysql_free_result();
+	if(time < gettime())
+	{
+		format(String,128,"DELETE FROM vip WHERE Name='%s'",getname(playerid));
+		mysql_query(String);
+		scm(playerid,red,"You're VIP status has expired.");
+	}
+	return 1;
+}

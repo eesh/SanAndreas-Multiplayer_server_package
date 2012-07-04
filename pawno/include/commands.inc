@@ -97,7 +97,7 @@ CMD:setleader(playerid, params[])
 	if(sscanf(params,"ui",id,sl)) return SendClientMessage(playerid, red, "USAGE:/setleader [playerid] [orgid]");
 	if(id == INVALID_PLAYER_ID) SendClientMessage(playerid, 0xFF0000AA, "Player not found");
 	if(!CheckOrgExists(sl)) return scm(playerid,0xFF0000FF,"Invalid organisation.");
-	format(String, sizeof(String), "UPDATE ostats SET org=%d, req=0, lead=1 WHERE name='%s'", sl, getname(id));
+	format(String, sizeof(String), "UPDATE users SET org=%d, req=0, lead=1 WHERE name='%s'", sl, getname(id));
 	mysql_query(String);
 	if(org[id] != sl) orgdata[sl][memcount]++;
 	org[id]=sl;
@@ -106,7 +106,7 @@ CMD:setleader(playerid, params[])
 	SendClientMessage(id, COLOR_ORANGE,String);
     LoadOstats(id);
     cmd_oskin(id, "");
-	setpintdata(id,"stats","job",0);
+	setpintdata(id,"users","job",0);
 	job[id] = 0;
 	format(orgdata[sl][oleader],32,"%s",getname(id));
 	return 1;
@@ -146,7 +146,7 @@ CMD:setco(playerid, params[])
 	if(sscanf(params,"ui",id,sl)) return SendClientMessage(playerid, red, "USAGE:/setco [playerid] [org]");
 	if (id == INVALID_PLAYER_ID) SendClientMessage(playerid, 0xFF0000AA, "Player not found");
 	if(!CheckOrgExists(sl)) return scm(playerid,0xFF0000FF,"Invalid organisation.");
-	format(String, sizeof(String), "UPDATE ostats SET org=%d, lead=2, osal=9000 WHERE name='%s'", sl, getname(sl));
+	format(String, sizeof(String), "UPDATE users SET org=%d, lead=2, osal=9000 WHERE name='%s'", sl, getname(sl));
 	mysql_query(String);
 	if(org[id] != sl) orgdata[sl][memcount]++;
 	org[id]=sl;
@@ -155,7 +155,7 @@ CMD:setco(playerid, params[])
 	SendClientMessage(id, COLOR_ORANGE,String);
 	LoadOstats(id);
 	cmd_oskin(id,"");
-	setpintdata(id,"stats","job",0);
+	setpintdata(id,"users","job",0);
 	job[id]=0;
 	return 1;
 }
@@ -419,7 +419,7 @@ CMD:accept(playerid, params[])
 	SendClientMessage(playerid, COLOR_ORANGE, String);
 	LoadOstats(id);
 	cmd_oskin(id,"");
-	setpintdata(id,"stats","job",0);
+	setpintdata(id,"users","job",0);
 	job[id] = 0;
 	return 1;
 }
@@ -495,7 +495,7 @@ CMD:setvip(playerid,params[])
 	if(admin[playerid] < 4) return 0;
 	new id,t,time;
 	if(sscanf(params,"ui",id,t)) return SendClientMessage(playerid, red, "USAGE:/setvip [playerid] [acc. type]");
-	time=getdate();
+	time=getdate() + (2592000 * t);
 	format(String,256,"INSERT INTO `vip` (name,type,timestamp) VALUES ('%s',%d,%d)",getname(id),t,time);
 	mysql_query(String);
 	vip[id]=t;
@@ -602,5 +602,16 @@ CMD:cones(playerid,params[])
 	{
 		coneobjs[i]=CreateDynamicObject(1238,dcones[i][0],dcones[i][1],dcones[i][2],0,0,0,0,0,playerid,200);
 	}
+	return 1;
+}
+
+CMD:setpj(playerid,params[])
+{
+	new id,veh=GetPlayerVehicleID(playerid);
+	if(vip[playerid]==0) return scm(playerid,0xFF0000FF,"Your not a vip.");
+	if(sscanf(params,"i",id)) return scm(playerid,0xFF0000FF,"USAGE:/setpj [id]");
+	ChangeVehiclePaintjob(veh,id);
+	OnVehiclePaintjob(playerid, veh, id);
+	if(GetPlayerSkin(playerid) == id) SendClientMessage(playerid,COLOR_ORANGE,"*PaintJob changed.");
 	return 1;
 }

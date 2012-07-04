@@ -781,6 +781,7 @@ public OnPlayerDisconnect(playerid, reason)
 public OnPlayerSpawn(playerid)
 {
     showtextdraws(playerid);
+    if(vip[playerid]) CheckVIP(playerid);
 	if(hspawn[playerid] == 0)
 	{
 	    SetPlayerPos(playerid, pX[playerid], pY[playerid], pZ[playerid]);
@@ -1213,7 +1214,7 @@ public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
 	        GameTextForPlayer(playerid,"You have ~g~passed.",4000,5);
 	        scm(playerid,0xFFCC00FF,"You have earned your license.");
 	        dlic[playerid] = 1;
-	        setpintdata(playerid,"stats","dlic",1);
+	        setpintdata(playerid,"users","dlic",1);
 	    }
 	}
 	return 1;
