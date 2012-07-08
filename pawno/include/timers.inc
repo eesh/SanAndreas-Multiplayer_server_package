@@ -46,12 +46,13 @@ public clock()
 	{
 	    if(IsPlayerConnected(i))
 		{
-			if(Logged[i] == 1)
+			if(Logged[i] == 1 && GetPlayerState(i) != PLAYER_STATE_WASTED)
 			{
+				SetAreaWeather(i);
 				SetPlayerTime(i, chour, cmins);
 				new k,ud,lr;
 				GetPlayerKeys(i,k,ud,lr);
-				if(k == KEY_HANDBRAKE)	refuel(i);
+				if(k == KEY_HANDBRAKE && vel[i]==0)	refuel(i);
 			}
 		}
 	}

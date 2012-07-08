@@ -495,8 +495,10 @@ CMD:setvip(playerid,params[])
 	if(admin[playerid] < 4) return 0;
 	new id,t,time;
 	if(sscanf(params,"ui",id,t)) return SendClientMessage(playerid, red, "USAGE:/setvip [playerid] [acc. type]");
-	time=getdate() + (2592000 * t);
-	format(String,256,"INSERT INTO `vip` (name,type,timestamp) VALUES ('%s',%d,%d)",getname(id),t,time);
+	time=gettime();
+	time+=2592000*t;
+	setpintdata(playerid,"users","vip",1);
+	format(String,256,"INSERT INTO `vip` (name,type,time) VALUES ('%s',%d,%d)",getname(id),t,time);
 	mysql_query(String);
 	vip[id]=t;
 	SendClientMessage(id, COLOR_ORANGE, "You are now a vip.");
@@ -613,5 +615,14 @@ CMD:setpj(playerid,params[])
 	ChangeVehiclePaintjob(veh,id);
 	OnVehiclePaintjob(playerid, veh, id);
 	if(GetPlayerSkin(playerid) == id) SendClientMessage(playerid,COLOR_ORANGE,"*PaintJob changed.");
+	return 1;
+}
+
+CMD:addpoint(playerid,params[])
+{
+	new Float:p[3];
+	GetVehiclePos(GetPlayerVehicleID(playerid),p[0],p[1],p[2]);
+	format(String,128,"INSERT INTO drive (X,Y,Z) VALUES (%f,%f,%f)",p[0],p[1],p[2]);
+	mysql_query(String);
 	return 1;
 }

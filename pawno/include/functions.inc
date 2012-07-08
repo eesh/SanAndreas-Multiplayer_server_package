@@ -493,6 +493,12 @@ stock LoginPlayer(playerid, pass[])
 	pY[playerid]=getfltdata(playerid,"users", "y");
 	pZ[playerid]=getfltdata(playerid,"users", "z");
 	pAngle[playerid]=getfltdata(playerid,"users", "angle");
+	admin[playerid]=getintdata(playerid,"users","admin");
+	org[playerid]=getintdata(playerid,"users","org");
+	req[playerid]=getintdata(playerid,"users","req");
+	leader[playerid]=getintdata(playerid,"users","lead");
+	dlic[playerid]=getintdata(playerid,"users","dlic");
+	vip[playerid]=getintdata(playerid,"users","vip");
 	Logged[playerid] = 2;
 	if(GetPVarInt(playerid,"justreg") == 1) return 1,SetPVarInt(playerid,"justreg",0);
 	scm(playerid,COLOR_GREEN,"Welcome back! You have successfully logged in.");
@@ -508,6 +514,7 @@ stock RegisterPlayer(playerid,pass[])
 	scm(playerid,COLOR_GREEN,"Your account has been created and has been automatically");
 	scm(playerid,COLOR_GREEN,"logged in.");
 	SetPVarInt(playerid,"justreg",1);
+	newbie[playerid] = 1;
 	LoginPlayer(playerid,pass);
 	return 1;
 }
@@ -535,6 +542,7 @@ stock ServerInit()
 {
 	chour=random(23);
 	cmins=random(59);
+	dscar=AddStaticVehicle(410,-2060.2190,-108.4071,34.9753,177.1565,9,1); // dcar
 	LVarea=CreateDynamicArea(2989.536, -572.2159, 2966.18, 490.4708);
 	LSarea=CreateDynamicArea(2977.858, -537.1823, 443.7593, -2954.502);
 	SFarea=CreateDynamicArea( -595.5717, -2977.858, 2977.858, -2942.825);
@@ -698,6 +706,7 @@ stock Speedo(playerid)
 	new Float:p[3],mph;
     GetVehicleVelocity(GetPlayerVehicleID(playerid), p[0], p[1], p[2]);
     mph = floatround((floatsqroot(((p[0]*p[0])+(p[1]*p[1]))))*100,floatround_round);
+	vel[playerid]=mph;
 	new s[128];
 	format(s,128,"MPH: %d",mph);
 	PlayerTextDrawSetString(playerid, mphtd,s);
@@ -1712,13 +1721,13 @@ stock IsNearRefuelCenter(playerid)
 	{
 		for(new i;i<sizeof(refuelcp);i++)
 		{
-			if(IsPlayerInRangeOfPoint(playerid,4,refuelcp[i][0],refuelcp[i][1],refuelcp[i][2]))
+			if(IsPlayerInRangeOfPoint(playerid,2,refuelcp[i][0],refuelcp[i][1],refuelcp[i][2]))
 			SetPVarInt(playerid,"crefuel",i);
 			return i;
 		}
 	}
 	new i=GetPVarInt(playerid,"crefuel");
-	if(IsPlayerInRangeOfPoint(playerid,4,refuelcp[i][0],refuelcp[i][1],refuelcp[i][2]) < 4) return i;
+	if(IsPlayerInRangeOfPoint(playerid,2,refuelcp[i][0],refuelcp[i][1],refuelcp[i][2])) return i;
 	SetPVarInt(playerid,"crefuel",-1);
 	return -1;
 }
@@ -1816,6 +1825,8 @@ stock resetvars(playerid)
 	SetPVarInt(playerid, "crefuel",-1);
 	job[playerid] = 0;
 	org[playerid] = 0;
+	newbie[playerid]=0;
+	vel[playerid]=0;
 	Money[playerid] = 0;
 	admin[playerid] = 0;
 	vip[playerid]=0;
@@ -2147,11 +2158,17 @@ stock CheckVIP(playerid)
 	mysql_store_result();
 	new time= mysql_fetch_int();
 	mysql_free_result();
-	if(time < gettime())
-	{
-		format(String,128,"DELETE FROM vip WHERE Name='%s'",getname(playerid));
-		mysql_query(String);
-		scm(playerid,red,"You're VIP status has expired.");
-	}
+	if(time > gettime()) return 1;
+	format(String,128,"DELETE FROM vip WHERE Name='%s'",getname(playerid));
+	mysql_query(String);
+	scm(playerid,red,"You're VIP status has expired.");
+	return 1;
+}
+
+stock SetAreaWeather(playerid)
+{
+	if(IsPlayerInDynamicArea(playerid, LSarea)) SetPlayerWeather(playerid, 6);
+	if(IsPlayerInDynamicArea(playerid, SFarea)) SetPlayerWeather(playerid, 2);
+	if(IsPlayerInDynamicArea(playerid, LVarea)) SetPlayerWeather(playerid, 5);
 	return 1;
 }
