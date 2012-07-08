@@ -451,7 +451,7 @@ public OnVehicleDeath(vehicleid, killerid)
 
 public OnPlayerText(playerid, text[])
 {
-	if(!Logged[playerid]) { scm(playerid,red,"You mussed be logged in before you can message anybody."); return 0; }
+	if(!Logged[playerid]) { scm(playerid,red,"You must be logged in before you can message anybody."); return 0; }
 	return 1;
 }
 

@@ -339,9 +339,8 @@ COMMAND:engine(playerid, params[])
     if(fuel[vid] == 0) return scm(playerid,red,"There is no fuel in this vehicle."),SetVehicleParamsEx(vid,0,lights,alarm,doors,bonnet,boot,objective);
     if(engine != 1)
     {
-//        setfuel(playerid,0);
-//      if(fuel[vid] <= 5 && fuel[vid] > 0) return scm(playerid,0xFF0000FF,"This vehicles fuel is low. Please call a mechanic or use a refuel can.");
-// 		if(fuel[vid] == 0) return scm(playerid,red,"There is no fuel in this vehicle."),SetVehicleParamsEx(vid,0,lights,alarm,doors,bonnet,boot,objective);
+        if(fuel[vid] <= 5 && fuel[vid] > 0) return scm(playerid,0xFF0000FF,"This vehicles fuel is low. Please call a mechanic or use a refuel can.");
+ 		if(fuel[vid] == 0) return scm(playerid,red,"There is no fuel in this vehicle."),SetVehicleParamsEx(vid,0,lights,alarm,doors,bonnet,boot,objective);
 		SetTimerEx("startengine",3000,false,"d",playerid);
 		GameTextForPlayer(playerid,"Starting engine.~n~Please Wait....",3000,5);
     }
@@ -598,15 +597,6 @@ CMD:ooc(playerid,params[])
 	return 1;
 }
 
-CMD:cones(playerid,params[])
-{
-	for(new i,s=sizeof(dcones);i<s;i++)
-	{
-		coneobjs[i]=CreateDynamicObject(1238,dcones[i][0],dcones[i][1],dcones[i][2],0,0,0,0,0,playerid,200);
-	}
-	return 1;
-}
-
 CMD:setpj(playerid,params[])
 {
 	new id,veh=GetPlayerVehicleID(playerid);
@@ -615,14 +605,5 @@ CMD:setpj(playerid,params[])
 	ChangeVehiclePaintjob(veh,id);
 	OnVehiclePaintjob(playerid, veh, id);
 	if(GetPlayerSkin(playerid) == id) SendClientMessage(playerid,COLOR_ORANGE,"*PaintJob changed.");
-	return 1;
-}
-
-CMD:addpoint(playerid,params[])
-{
-	new Float:p[3];
-	GetVehiclePos(GetPlayerVehicleID(playerid),p[0],p[1],p[2]);
-	format(String,128,"INSERT INTO drive (X,Y,Z) VALUES (%f,%f,%f)",p[0],p[1],p[2]);
-	mysql_query(String);
 	return 1;
 }
