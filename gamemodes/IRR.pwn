@@ -806,6 +806,8 @@ public OnPlayerLeaveDynamicRaceCP(playerid, checkpointid)
 
 public OnPlayerEnterVeh(playerid, vehicleid, seatid)
 {
+    GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
+    if(IsBike(GetVehicleModel(vehicleid))) { SetVehicleParamsEx(vehicleid,1,lights,alarm,doors,bonnet,boot,objective); }
 	if(vehicleid == dscar)
 	{
 	    if(dteststatus != playerid) return RemovePlayerFromVehicle(playerid);
@@ -815,6 +817,50 @@ public OnPlayerEnterVeh(playerid, vehicleid, seatid)
 	    GetDCPcoords(drivingtcp,p[0],p[1],p[2]);
 	    GetDCPcoords(drivingtcp+1,q[0],q[1],q[2]);
 	    playerdcp=CreateDynamicRaceCP(0,p[0],p[1],p[2],q[0],q[1],q[2],4,0,0,playerid,100);
+	}
+	if(vorg[vehicleid] != 0)
+ 	{
+		if(vorg[vehicleid] != org[playerid])
+	    {
+	    	if(seatid == 0)
+	    	{
+	    		if(admin[playerid] < 3)
+	    		{
+	    			RemovePlayerFromVehicle(playerid);
+	    			format(String,128,"You have to be in %s to be able use this vehicle.",orgdata[vorg[vehicleid]][oname]);
+	    			SendClientMessage(playerid, red, String);
+   				}
+	    		else
+	    		{
+	    			SendClientMessage(playerid,COLOR_ORANGE,"**You have been granted access to the org vehicle.");
+	    		}
+	    	}
+	    }
+  	}
+	if(IsJobVeh(vehicleid) != 0 && seatid == 0)
+	{
+	    new jveh=IsJobVeh(vehicleid);
+	    if(job[playerid] != jveh)
+	    {
+     		RemovePlayerFromVehicle(playerid);
+	        switch(jveh)
+	        {
+	            case 1:SendClientMessage(playerid,red,"You have to work as a Refueller to use this vehicle.");
+	            case 2:SendClientMessage(playerid,red,"You have to work as a Mechanic to use this vehicle.");
+	            case 3:SendClientMessage(playerid,red,"You have to work as a Taxi Driver to use this vehicle.");
+	            case 4:SendClientMessage(playerid,red,"You have to work as a Trash Collector to use this vehicle.");
+	        }
+	    }
+	    else
+		{
+		    switch(jveh)
+	        {
+	            case 1:SendClientMessage(playerid,COLOR_GREEN,"Goto Gas Stations and /fillstation to fuel them.");
+	            case 2:SendClientMessage(playerid,COLOR_GREEN,"/fix broken cars and drive them to mechanic garage to fix them.");
+	            case 3:SendClientMessage(playerid,COLOR_GREEN,"Once you drop passengers, let them /paytaxi you.");
+	            case 4:SendClientMessage(playerid,COLOR_GREEN,"/starttrash to start collecting trash.");
+	        }
+		}
 	}
 	return 1;
 }
