@@ -79,6 +79,8 @@
 	native LoadOvehs();
 	native dtesttimer(playerid);
 	native ShowMessage(playerid, caption[], message[]);
+	native loadmenus();
+	native callhotline(playerid, hotline);
 */
 
 new VehicleNames[212][] = {
