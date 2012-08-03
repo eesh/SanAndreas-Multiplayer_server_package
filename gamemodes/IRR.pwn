@@ -452,6 +452,21 @@ public OnVehicleDeath(vehicleid, killerid)
 public OnPlayerText(playerid, text[])
 {
 	if(!Logged[playerid]) { scm(playerid,red,"You must be logged in before you can message anybody."); return 0; }
+	if(incall[playerid]!=0)
+ 	{
+	    for(new i=0;i<MAX_PLAYERS;i++)
+     	{
+	        if(incall[i]==phno[playerid])
+			{
+			    mcredit[playerid] -= 0.25;
+			    if(mcredit[playerid] < 1) return scm(playerid,0xFF0000FF,"You are low on credit. Please recharge your credit."),cmd_hangup(playerid,"");
+				format(String,128,"[Phone] %s: %s",getname(playerid),text);
+		        SendClientMessage(i,SWAT_COLOR,String);
+		        SendClientMessage(playerid,0xE1E4AAFF,String);
+	        }
+   		}
+	    return 0;
+    }
 	return 1;
 }
 
@@ -598,24 +613,24 @@ public OnPlayerSelectedMenuRow(playerid, row)
 		if(row == 0)
 		{
 		    if(GetPlayerCash(playerid) < 10) return ShowMessage(playerid, "Insufficient cash", "You cannot afford this pack");
-		    setpintdata(playerid, "users", "mcredit", getintdata(playerid, "users", "mcredit")+10);
-		    format(String,128,"You just purchased a $10 credit pack.\nYour current mobile credit is $%d.",getintdata(playerid, "users", "mcredit"));
+		    setpfltdata(playerid, "users", "mcredit", getfltdata(playerid, "users", "mcredit")+10);
+		    format(String,128,"You just purchased a $10 credit pack.\nYour current mobile credit is $%d.",getfltdata(playerid, "users", "mcredit"));
 		    ShowMessage(playerid, "Mobile credit", String);
 		    GivePlayerCash(playerid, -10);
 		}
 		if(row == 1)
 		{
 		    if(GetPlayerCash(playerid) < 50) return ShowMessage(playerid, "Insufficient cash", "You cannot afford this pack");
-		    setpintdata(playerid, "users", "mcredit", getintdata(playerid, "users", "mcredit")+50);
-		    format(String,128,"You just purchased a $50 credit pack.\nYour current mobile credit is $%d.",getintdata(playerid, "users", "mcredit"));
+		    setpfltdata(playerid, "users", "mcredit", getfltdata(playerid, "users", "mcredit")+50);
+		    format(String,128,"You just purchased a $50 credit pack.\nYour current mobile credit is $%d.",getfltdata(playerid, "users", "mcredit"));
 		    ShowMessage(playerid, "Mobile credit", String);
 		    GivePlayerCash(playerid, -50);
 		}
 		if(row == 2)
 		{
 		    if(GetPlayerCash(playerid) < 200) return ShowMessage(playerid, "Insufficient cash", "You cannot afford this pack");
-		    setpintdata(playerid, "users", "mcredit", getintdata(playerid, "users", "mcredit")+200);
-		    format(String,128,"You just purchased a $200 credit pack.\nYour current mobile credit is $%d.",getintdata(playerid, "users", "mcredit"));
+		    setpfltdata(playerid, "users", "mcredit", getfltdata(playerid, "users", "mcredit")+200);
+		    format(String,128,"You just purchased a $200 credit pack.\nYour current mobile credit is $%d.",getfltdata(playerid, "users", "mcredit"));
 		    ShowMessage(playerid, "Mobile credit", String);
 		    GivePlayerCash(playerid, -200);
 		}

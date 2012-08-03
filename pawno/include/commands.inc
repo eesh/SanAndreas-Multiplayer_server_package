@@ -659,3 +659,79 @@ CMD:tppos(playerid,params[])
 	SetPlayerPos(playerid,p[0],p[1],p[2]);
 	return 1;
 }
+
+CMD:call(playerid,params[])
+{
+	new tmp;
+	if(phno[playerid] == 0) return scm(playerid,0xFF0000FF,"You dont have a mobile.");
+	if(mobon[playerid] != 1) return scm(playerid,0xFF0000FF,"You mobile is currently switched off. /phoneon on to switch it on");
+	if(calling[playerid] != 0) return scm(playerid,0xFF0000FF,"You are already calling somebody.");
+	if(sscanf(params,"i",tmp)) return SendClientMessage(playerid, red, "USAGE:/call [number]");
+	if(tmp > 100 && tmp < 999 ) return callhotline(playerid,tmp);
+ 	if(tmp < 100000 || tmp > 999999) return scm(playerid,0xFF0000FF,"Invalid number format.");
+	if(tmp == phno[playerid]) return scm(playerid,0xFF0000FF,"You cannot call yourself.");
+	if(mcredit[playerid] < 1) return scm(playerid,0xFF0000FF,"You dont have enough credit.");
+	for(new i=0;i<MAX_PLAYERS;i++)
+	{
+	    if(tmp==phno[i])
+	    {
+	        if(mobon[i] != 1) return scm(playerid,0xFF0000FF,"The number your trying to call is currently switched off."),cmd_hangup(playerid,params);
+	        if(incall[i] != 0) return scm(playerid,0xFF0000FF,"The number your trying to call is currently busy."),cmd_hangup(playerid,"");
+	        SetPlayerSpecialAction(playerid,SPECIAL_ACTION_USECELLPHONE);
+            RemovePlayerAttachedObject(playerid,4);
+			SetPlayerAttachedObject(playerid,4,getintdata(playerid,"users","mobileid"),6,0,0,90);
+	        new s[128];
+	        format(s,128,"You have a call from %d./pickup to pickup or else ignore.",phno[playerid]);
+	        SendClientMessage(i,0xE1E4AAFF,s);
+	        calling[playerid]=tmp;
+	        SendClientMessage(playerid,0xE1E4AAFF,"Please wait while the player picks up the phone.");
+        	SetTimer("Phonet",10000,false);
+	        break;
+	    }
+	}
+	if(calling[playerid]==0) return scm(playerid,0xFF0000FF,"Invalid number.");
+	return 1;
+}
+
+CMD:hangup(playerid, params[])
+{
+	if(incall[playerid] == 0) return scm(playerid, red, "Your not talking on the phone at the moment.");
+	incall[playerid]=0;
+	for(new i=0;i<MAX_PLAYERS;i++)
+ 	{
+	    if(incall[i]!=0)
+	    if(incall[i]==phno[playerid])
+	    {
+	        incall[i]=0;
+	        format(String,128, "%s has hung up on you!",getname(playerid));
+	        SendClientMessage(i,red,String);
+	        SetPlayerSpecialAction(playerid,SPECIAL_ACTION_STOPUSECELLPHONE);
+	        SetPlayerSpecialAction(i,SPECIAL_ACTION_STOPUSECELLPHONE);
+	        format(String,128, "You have hungup on %s.",getname(i));
+	        SendClientMessage(playerid,COLOR_YELLOW,String);
+			break;
+   		}
+	}
+	return 1;
+}
+
+CMD:pickup(playerid,params[])
+{
+	for(new i=0;i<MAX_PLAYERS;i++)
+	{
+	    if(calling[i]==phno[playerid])
+     	{
+     	    SetPlayerSpecialAction(playerid,SPECIAL_ACTION_USECELLPHONE);
+     	    RemovePlayerAttachedObject(playerid,4);
+			SetPlayerAttachedObject(playerid,4,getintdata(playerid,"users","mobileid"),6,0,0,90);
+	        calling[i]=0;
+	        incall[i]=phno[playerid];
+	        incall[playerid]=phno[i];
+	        SendClientMessage(playerid,0xE1E4AAFF,"You have answered the call. chat away....");
+	        SendClientMessage(i,0xE1E4AAFF,"The player has answered your call. /hangup to hangup");
+			break;
+      	}
+	}
+	if(incall[playerid] == 0) return scm(playerid,0xFF0000FF,"No one is calling you.");
+	return 1;
+}

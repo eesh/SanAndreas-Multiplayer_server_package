@@ -79,6 +79,26 @@ public startengine(playerid)
 	return 1;
 }
 
+forward Phone(playerid);
+public Phone(playerid)
+{
+	if(incall[playerid]==0)
+	{
+	    SetPlayerSpecialAction(playerid,SPECIAL_ACTION_STOPUSECELLPHONE);
+		SendClientMessage(playerid,red,"Player didn't respond.");
+		for(new i=0;i<MAX_PLAYERS;i++)
+		{
+			if(phno[i]==calling[playerid])
+		    {
+	      		SendClientMessage(playerid,0xE1E4AAFF,"You didnt respond to the call.");
+			    break;
+		    }
+ 		}
+	    calling[playerid]=0;
+	}
+	return 1;
+}
+
 
 forward fuellower();
 public fuellower()

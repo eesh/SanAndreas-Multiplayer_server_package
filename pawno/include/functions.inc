@@ -2243,3 +2243,29 @@ stock loadmenus()
 	AddMenuItem(storemenu[3], 0, "Back");
 	return print("loaded menus");
 }
+
+stock callhotline(playerid, hotline)
+{
+	switch(hotline)
+	{
+	    case 555:
+	    {
+	        for(new i;i<MAX_PLAYERS;i++)
+	        {
+	            if(job[playerid] == 3)
+	            {
+	                new z[32];
+	                GetPlayer2DZone(playerid,z,32);
+	                format(String,128,"%s needs a taxi.\nLocation: %s",getname(playerid),z);
+	                ShowPlayerDialog(i,107,DIALOG_STYLE_MSGBOX,"Taxi Job:",String,"Hire","Ignore");
+	                SetPVarInt(i,"hiring",playerid);
+	            }
+	        }
+	    }
+	    case 911:
+	    {
+			ShowPlayerDialog(playerid,109,DIALOG_STYLE_INPUT,"Police Dept.:","Please enter you report. This message will be forwarded to all the\nonline police officers.","Ok","");
+	    }
+	}
+	return 1;
+}
