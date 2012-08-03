@@ -692,4 +692,4 @@ new Float:dcones[592][3]=
 	{-2059.80004883,-130.19999695,34.59999847}, //Object number 590
 	{-2059.79980469,-130.19921875,34.59999847} //Object number 591
 };
-new Menu:storemenu[3];
+new Menu:storemenu[4];

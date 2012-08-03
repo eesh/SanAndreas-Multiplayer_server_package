@@ -2211,8 +2211,9 @@ stock loadmenus()
 	AddMenuItem(storemenu[0], 0, "Mobile Phone Sim Card $100");
 	AddMenuItem(storemenu[0], 0, "Mobile Phone $1200");
 	AddMenuItem(storemenu[0], 0, "Recharge Cards $10 - $200");
-	AddMenuItem(storemenu[0], 0, "Pringle Chips bundle $10");
-	AddMenuItem(storemenu[0], 0, "Royalm Cigars $20");
+	AddMenuItem(storemenu[0], 0, "Pringle Chips bundle $300 - $1000");
+	AddMenuItem(storemenu[0], 0, "Royal Cigars $20");
+	AddMenuItem(storemenu[0], 0, "Wallet $1000");
 	
 	//storemenu[1] mobile selection
 	storemenu[1]=CreateMenu("Select mobile:",1,20,140,100,50);
@@ -2233,5 +2234,12 @@ stock loadmenus()
 	AddMenuItem(storemenu[2], 0, "$50 Pack");
 	AddMenuItem(storemenu[2], 0, "$200 Pack");
 	AddMenuItem(storemenu[2], 0, "Back");
+	
+	//storemenu[3] recharges
+	storemenu[3]=CreateMenu("Pick Bundle",1,20,140,100,50);
+	AddMenuItem(storemenu[3], 0, "30HP Bundle $300");
+	AddMenuItem(storemenu[3], 0, "50HP Bundle $500");
+	AddMenuItem(storemenu[3], 0, "100HP Bundle $1000");
+	AddMenuItem(storemenu[3], 0, "Back");
 	return print("loaded menus");
 }

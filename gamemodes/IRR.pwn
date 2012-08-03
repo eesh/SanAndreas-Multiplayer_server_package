@@ -540,7 +540,7 @@ public OnVehicleRespray(playerid, vehicleid, color1, color2)
 
 public OnPlayerSelectedMenuRow(playerid, row)
 {
-	new Menu:smenu;
+	new Menu:smenu=GetPlayerMenu(playerid);
 	if(smenu == storemenu[0])
 	{
 	    if(row == 0)
@@ -562,6 +562,26 @@ public OnPlayerSelectedMenuRow(playerid, row)
 	    if(row == 2)
 	    {
 			ShowMenuForPlayer(storemenu[2], playerid);
+	    }
+	    if(row == 3)
+	    {
+	        ShowMenuForPlayer(storemenu[3], playerid);
+	    }
+	    if(row == 4)
+	    {
+	        if(GetPlayerCash(playerid) < 200) return ShowMessage(playerid, "Insufficient cash", "You cannot afford to buy a pack of Royal Cigars.");
+	        if(getintdata(playerid,"users","cigs") > 10) return ShowMessage(playerid, "Royal Cigars", "You already have more than 2 packs of cigars.");
+	        setpintdata(playerid, "users", "cigs", getintdata(playerid, "users", "cigs")+5);
+	        GivePlayerCash(playerid, -200);
+	        ShowMessage(playerid, "Royal Cigars", "You have bought a pack of Royal Cigars containing 5 cigars.");
+	    }
+	    if(row == 5)
+	    {
+	        if(getintdata(playerid, "users", "wallet")) return ShowMessage(playerid, "Wallet", "You already have a wallet with you.");
+	        if(GetPlayerCash(playerid) < 1000) return ShowMessage(playerid, "Insufficient cash", "You cannot afford to buy a wallet.");
+	        setpintdata(playerid, "users", "wallet", 1);
+	        GivePlayerCash(playerid, -1000);
+	        ShowMessage(playerid, "Wallet", "You have purchased a wallet for $1000.");
 	    }
 	}
 	if(smenu == storemenu[1])
@@ -600,11 +620,41 @@ public OnPlayerSelectedMenuRow(playerid, row)
 		    GivePlayerCash(playerid, -200);
 		}
 	}
+	if(smenu == storemenu[3])
+	{
+	    if(row == 3) return ShowMenuForPlayer(storemenu[0], playerid);
+	    if(row == 0)
+	    {
+			if(GetPlayerCash(playerid) < 300) return ShowMessage(playerid, "Insufficient cash", "You cannot afford to buy this bundle.");
+			if(getintdata(playerid, "users", "snacks") > 200) return ShowMessage(playerid, "Snacks Bundle", "You already have more than 200HP worth of snacks.");
+			GivePlayerCash(playerid, -300);
+			setpintdata(playerid, "users", "snacks", getintdata(playerid, "users", "snacks")+30);
+			ShowMessage(playerid, "Snacks Bundle", "You have purchased a 30HP snacks bundle.");
+	    }
+	    if(row == 1)
+	    {
+			if(GetPlayerCash(playerid) < 500) return ShowMessage(playerid, "Insufficient cash", "You cannot afford to buy this bundle.");
+			if(getintdata(playerid, "users", "snacks") > 200) return ShowMessage(playerid, "Snacks Bundle", "You already have more than 200HP worth of snacks.");
+			GivePlayerCash(playerid, -500);
+			setpintdata(playerid, "users", "snacks", getintdata(playerid, "users", "snacks")+50);
+			ShowMessage(playerid, "Snacks Bundle", "You have purchased a 50HP snacks bundle.");
+	    }
+	    if(row == 2)
+	    {
+			if(GetPlayerCash(playerid) < 1000) return ShowMessage(playerid, "Insufficient cash", "You cannot afford to buy this bundle.");
+			if(getintdata(playerid, "users", "snacks") > 200) return ShowMessage(playerid, "Snacks Bundle", "You already have more than 200HP worth of snacks.");
+			GivePlayerCash(playerid, -1000);
+			setpintdata(playerid, "users", "snacks", getintdata(playerid, "users", "snacks")+100);
+			ShowMessage(playerid, "Snacks Bundle", "You have purchased a 100HP snacks bundle.");
+	    }
+	}
 	return 1;
 }
 
 public OnPlayerExitedMenu(playerid)
 {
+	new Menu:smenu=GetPlayerMenu(playerid);
+	if(smenu == storemenu[1] || smenu == storemenu[2] || smenu == storemenu[3]) ShowMenuForPlayer(storemenu[0], playerid);
 	return 1;
 }
 
