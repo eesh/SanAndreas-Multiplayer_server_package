@@ -735,3 +735,55 @@ CMD:pickup(playerid,params[])
 	if(incall[playerid] == 0) return scm(playerid,0xFF0000FF,"No one is calling you.");
 	return 1;
 }
+
+CMD:phoneon(playerid,params[])
+{
+	if(phno[playerid] == 0) return scm(playerid,0xFF0000FF,"You dont have a mobile.");
+	if(mobon[playerid]==1) return scm(playerid,0xFF0000FF,"You mobile is already switched on.");
+	mobon[playerid]=1;
+	scm(playerid,red,"Mobile switched on. /phoneoff to turn it off");
+	return 1;
+}
+
+CMD:phoneoff(playerid,params[])
+{
+	if(phno[playerid] == 0) return scm(playerid,0xFF0000FF,"You dont have a mobile.");
+	if(mobon[playerid] == 0) return scm(playerid,0xFF0000FF,"You mobile is already switched on.");
+	mobon[playerid]=0;
+	scm(playerid,red,"Mobile switched off. /phoneon to turn it on");
+	return 1;
+}
+
+CMD:smokecig(playerid,params[])
+{
+	if(getintdata(playerid,"users","cigs") == 0)return scm(playerid,0xFF0000FF,"You dont have any cigars left.");
+	new c=getintdata(playerid,"users","cigs");
+	SetPlayerSpecialAction(playerid,SPECIAL_ACTION_SMOKE_CIGGY);
+	format(String,128,"UPDATE users SET cigs=%d-1 WHERE Name='%s'",c,getname(playerid));
+	mysql_query(String);
+	return 1;
+}
+
+
+CMD:eatsnack(playerid,params[])
+{
+	if(getintdata(playerid,"users","snacks") == 0)return scm(playerid,0xFF0000FF,"You dont have any snacks left.");
+	new c=getintdata(playerid,"users","snacks");
+	new Float:h;
+	GetPlayerHealth(playerid,h);
+	if(h > 80) return scm(playerid,0xFF0000FF,"Your not hungry.");
+	if(h < 50 && c > 100)
+	{
+		SetPlayerHealth(playerid, h+100);
+		c-=100;
+	}
+	if(h > 50)
+	{
+		SetPlayerHealth(playerid, h+50);
+		c-=50;
+	}
+	SetPlayerHealth(playerid,h+20);
+	format(String,128,"UPDATE users SET snacks=%d WHERE Name='%s'",c,getname(playerid));
+	mysql_query(String);
+	return 1;
+}
