@@ -5,6 +5,38 @@
 
 //Admin Commands
 
+CMD:setvip(playerid,params[])
+{
+	if(admin[playerid] < 4) return 0;
+	new id,t,time;
+	if(sscanf(params,"ui",id,t)) return SendClientMessage(playerid, red, "USAGE:/setvip [playerid] [acc. type]");
+	time=gettime();
+	time+=2592000*t;
+	setpintdata(playerid,"users","vip",1);
+	format(String,256,"INSERT INTO `vip` (name,type,time) VALUES ('%s',%d,%d)",getname(id),t,time);
+	mysql_query(String);
+	vip[id]=t;
+	SendClientMessage(id, COLOR_ORANGE, "You are now a vip.");
+	format(String,128,"You have made %s a vip. type:%d",getname(id),t);
+	SendClientMessage(playerid,COLOR_ORANGE,String);
+	return 1;
+}
+
+CMD:setadmin(playerid,params[])
+{
+	if(admin[playerid] != 4) return 0;
+	new id,l;
+	if(sscanf(params,"ui",id,l)) return scm(playerid,red,"USAGE:/setadmin [playerid] [level 1-4]");
+	if(l < 0 && l > 4) return scm(playerid,red,"Invalid admin level entered. (1 - 4 levels only)");
+	if(l > admin[id]) scm(id,COLOR_ORANGE,"Your administrator status has been promoted.");
+	if(l < admin[id] && l != 0) scm(id,COLOR_ORANGE,"Your administrator status has been demoted.");
+	if(l < admin[id] && l == 0) scm(id,COLOR_ORANGE,"Your administrator status has been taken away.");
+	admin[id] = l;
+	format(String,128,"You modified %s\'s administrator status to %d",getname(id),l);
+	scm(playerid, -1, String);
+	return 1;
+}
+
 CMD:givemoney(playerid,params[])
 {
 	new id,a;
@@ -329,6 +361,20 @@ CMD:get(playerid, params[])
 	GetPlayerPos(playerid, p[0],p[1],p[2]);
 	SetPlayerPos(id, p[0],p[1],p[2]);
 	SendClientMessage(id,-1,"An administrator has teleported you.");
+	scm(playerid,-1,"You have teleported to a player.");
+	return 1;
+}
+
+CMD:goto(playerid, params[])
+{
+	if(admin[playerid] < 2) return 0;
+	new id;
+	if(sscanf(params,"u",id)) return scm(playerid,red,"USAGE:/goto [playerid]");
+	new Float:p[3];
+	GetPlayerPos(id, p[0],p[1],p[2]);
+	SetPlayerPos(playerid, p[0],p[1],p[2]);
+	SendClientMessage(id,-1,"An administrator has teleported to you.");
+	scm(playerid,-1,"You have teleported a player to you.");
 	return 1;
 }
 
@@ -501,22 +547,6 @@ CMD:car(playerid,params[])
 	return 1;
 }
 
-CMD:setvip(playerid,params[])
-{
-	if(admin[playerid] < 4) return 0;
-	new id,t,time;
-	if(sscanf(params,"ui",id,t)) return SendClientMessage(playerid, red, "USAGE:/setvip [playerid] [acc. type]");
-	time=gettime();
-	time+=2592000*t;
-	setpintdata(playerid,"users","vip",1);
-	format(String,256,"INSERT INTO `vip` (name,type,time) VALUES ('%s',%d,%d)",getname(id),t,time);
-	mysql_query(String);
-	vip[id]=t;
-	SendClientMessage(id, COLOR_ORANGE, "You are now a vip.");
-	format(String,128,"You have made %s a vip. type:%d",getname(id),t);
-	SendClientMessage(playerid,COLOR_ORANGE,String);
-	return 1;
-}
 
 CMD:setveh(playerid,params[])
 {

@@ -7,18 +7,20 @@ new benter[3];
 new bexit[2];
 new bmenu[3];
 new bform;
+new store[3];
 new playerdcp;
 new drivingtcp;
 new coneshit;
 new dscar;
 new dcp;
-new jsal[MAX_PLAYERS];
 new mgcp;
 new fjcp;
 new mjcp;
 new tjcp;
 new trshcp;
+new jsal[MAX_PLAYERS];
 new leader[MAX_PLAYERS];
+new phno[MAX_PLAYERS];
 new civil[MAX_PLAYERS];
 new vel[MAX_PLAYERS];
 new dlic[MAX_PLAYERS];
@@ -32,17 +34,19 @@ new fuel[MAX_VEHICLES];
 new stalled[MAX_VEHICLES];
 new vorg[MAX_VEHICLES];
 new orgvid[MAX_PLAYERS];
-new Float:refuelcp[20][3];
-new Text3D:fuelcp[20];
-new cpfuel[20][2];
-new Logged[MAX_PLAYERS];
-new String[128];
 new pSkin[MAX_PLAYERS];
 new Float:pX[MAX_PLAYERS];
 new Float:pY[MAX_PLAYERS];
 new Float:pZ[MAX_PLAYERS];
 new Float:pAngle[MAX_PLAYERS];
 new hspawn[MAX_PLAYERS];
+new Logged[MAX_PLAYERS];
+new vip[MAX_PLAYERS];
+new vipcar[MAX_PLAYERS];
+new Float:refuelcp[20][3];
+new Text3D:fuelcp[20];
+new cpfuel[20][2];
+new String[128];
 new LSarea;
 new LVarea;
 new SFarea;
@@ -66,8 +70,6 @@ new mjvehs[4];
 new tjvehs[6];
 new trshvehs[5];
 new corg[MAX_CPS];
-new vip[MAX_PLAYERS];
-new vipcar[MAX_PLAYERS];
 
 enum eorgdata
 {
@@ -690,4 +692,4 @@ new Float:dcones[592][3]=
 	{-2059.80004883,-130.19999695,34.59999847}, //Object number 590
 	{-2059.79980469,-130.19921875,34.59999847} //Object number 591
 };
-new Menu:storemenu;
+new Menu:storemenu[3];

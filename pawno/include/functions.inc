@@ -78,6 +78,7 @@
 	native CheckVIP(playerid);
 	native LoadOvehs();
 	native dtesttimer(playerid);
+	native ShowMessage(playerid, caption[], message[]);
 */
 
 new VehicleNames[212][] = {
@@ -553,9 +554,6 @@ stock ServerInit()
 {
 	chour=random(23);
 	cmins=random(59);
-	storemenu=CreateMenu("Buy item:",1,20,140,100,50);
-	AddMenuItem(storemenu, 0, "Mobile Phone $1200");
-	AddMenuItem(storemenu, 0, "Recharge Cards $3 - $20");
 	dscar=AddStaticVehicle(410,-2060.2190,-108.4071,34.9753,177.1565,9,1); // dcar
 	LVarea=CreateDynamicArea(2989.536, -572.2159, 2966.18, 490.4708);
 	LSarea=CreateDynamicArea(2977.858, -537.1823, 443.7593, -2954.502);
@@ -2195,5 +2193,45 @@ stock loadcheckpoints()
 	bmenu[1]=CreateDynamicCP(2316.6194,-10.0373,26.7422,1.0,-1,-1,-1,5);
 	bmenu[2]=CreateDynamicCP(2316.2925,-15.4816,26.7422,1.0,-1,-1,-1,5);
 	bform=CreateDynamicCP(2308.8755,-2.2297,26.7422,1.0,-1,-1,-1,5);
+	store[0]=CreateDynamicCP(-28.11369,-89.14723,1003.54688,1.0,-1,18,-1,6);
+	store[1]=CreateDynamicCP(-30.83792,-28.63183,1003.55725,1.0,-1,4,-1,6);
+	store[2]=CreateDynamicCP(-30.46215,-55.27759,1003.54688,1.0,-1,6,-1,6);
 	return print("loaded checkpoints.");
+}
+
+stock ShowMessage(playerid, caption[], message[])
+{
+	return ShowPlayerDialog(playerid, 999, DIALOG_STYLE_MSGBOX, caption, message, "Okay", "");
+}
+
+stock loadmenus()
+{
+	//storemenu[0]
+	storemenu[0]=CreateMenu("Buy item:",1,20,140,100,50);
+	AddMenuItem(storemenu[0], 0, "Mobile Phone Sim Card $100");
+	AddMenuItem(storemenu[0], 0, "Mobile Phone $1200");
+	AddMenuItem(storemenu[0], 0, "Recharge Cards $10 - $200");
+	AddMenuItem(storemenu[0], 0, "Pringle Chips bundle $10");
+	AddMenuItem(storemenu[0], 0, "Royalm Cigars $20");
+	
+	//storemenu[1] mobile selection
+	storemenu[1]=CreateMenu("Select mobile:",1,20,140,100,50);
+	AddMenuItem(storemenu[1], 0, "Gold");
+	AddMenuItem(storemenu[1], 0, "Blue");
+	AddMenuItem(storemenu[1], 0, "Orange");
+	AddMenuItem(storemenu[1], 0, "Black");
+	AddMenuItem(storemenu[1], 0, "Violet");
+	AddMenuItem(storemenu[1], 0, "Red");
+	AddMenuItem(storemenu[1], 0, "Dark Blue");
+	AddMenuItem(storemenu[1], 0, "Lime Green");
+	AddMenuItem(storemenu[1], 0, "Silver");
+	AddMenuItem(Storemenu[1], 0, "Back");
+	
+	//storemenu[2] recharges
+	storemenu[2]=CreateMenu("Recharge cards:",1,20,140,100,50);
+	AddMenuItem(storemenu[2], 0, "$10 Pack");
+	AddMenuItem(storemenu[2], 0, "$50 Pack");
+	AddMenuItem(storemenu[2], 0, "$200 Pack");
+	AddMenuItem(storemenu[2], 0, "Back");
+	return print("loaded menus");
 }

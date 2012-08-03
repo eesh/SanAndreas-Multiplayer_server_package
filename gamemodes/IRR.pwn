@@ -540,6 +540,66 @@ public OnVehicleRespray(playerid, vehicleid, color1, color2)
 
 public OnPlayerSelectedMenuRow(playerid, row)
 {
+	new Menu:smenu;
+	if(smenu == storemenu[0])
+	{
+	    if(row == 0)
+	    {
+	        if(GetPlayerCash(playerid) < 100) return ShowMessage(playerid, "Insufficient cash", "You cannot afford to buy a sim card at the moment.");
+	        if(phno[playerid] != 0) return ShowMessage(playerid, "Mobile Phone", "You already have a mobile phone.\nPlease use /mynumber if you forgot your number.");
+			new number=random(899999)+100000;
+			phno[playerid] = number;
+			format(String,128,"Your new number is %d.\nUse /phonehelp for a list of commands.",phno[playerid]);
+			ShowMessage(playerid,"Mobile information:", String);
+			setpintdata(playerid, "users", "phno", number);
+			GivePlayerCash(playerid, -100);
+	    }
+	    if(row == 1)
+	    {
+            if(GetPlayerCash(playerid) < 1200) return ShowMessage(playerid, "Insufficient cash", "You cannot afford to buy a mobile phone at the moment.");
+            ShowMenuForPlayer(storemenu[1], playerid);
+	    }
+	    if(row == 2)
+	    {
+			ShowMenuForPlayer(storemenu[2], playerid);
+	    }
+	}
+	if(smenu == storemenu[1])
+	{
+	    if(row == 9) return ShowMenuForPlayer(storemenu[0], playerid);
+	    if(getintdata(playerid,"users","mobileid") == 18865+row) return ShowMessage(playerid,"Mobile Phone","You are using that model.");
+		setpintdata(playerid,"users","mobileid", 18865+row);
+		GivePlayerCash(playerid, -1200);
+		ShowMessage(playerid,"Mobile Phone","You have bought a new mobile.");
+	}
+	if(smenu == storemenu[2])
+	{
+	    if(row == 3) return ShowMenuForPlayer(storemenu[0], playerid);
+		if(row == 0)
+		{
+		    if(GetPlayerCash(playerid) < 10) return ShowMessage(playerid, "Insufficient cash", "You cannot afford this pack");
+		    setpintdata(playerid, "users", "mcredit", getintdata(playerid, "users", "mcredit")+10);
+		    format(String,128,"You just purchased a $10 credit pack.\nYour current mobile credit is $%d.",getintdata(playerid, "users", "mcredit"));
+		    ShowMessage(playerid, "Mobile credit", String);
+		    GivePlayerCash(playerid, -10);
+		}
+		if(row == 1)
+		{
+		    if(GetPlayerCash(playerid) < 50) return ShowMessage(playerid, "Insufficient cash", "You cannot afford this pack");
+		    setpintdata(playerid, "users", "mcredit", getintdata(playerid, "users", "mcredit")+50);
+		    format(String,128,"You just purchased a $50 credit pack.\nYour current mobile credit is $%d.",getintdata(playerid, "users", "mcredit"));
+		    ShowMessage(playerid, "Mobile credit", String);
+		    GivePlayerCash(playerid, -50);
+		}
+		if(row == 2)
+		{
+		    if(GetPlayerCash(playerid) < 200) return ShowMessage(playerid, "Insufficient cash", "You cannot afford this pack");
+		    setpintdata(playerid, "users", "mcredit", getintdata(playerid, "users", "mcredit")+200);
+		    format(String,128,"You just purchased a $200 credit pack.\nYour current mobile credit is $%d.",getintdata(playerid, "users", "mcredit"));
+		    ShowMessage(playerid, "Mobile credit", String);
+		    GivePlayerCash(playerid, -200);
+		}
+	}
 	return 1;
 }
 
@@ -692,29 +752,38 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		case 9:
 		{
 		    if(!response) return 1;
+		    if(phno[playerid] == 0) return ShowMessage(playerid, "Phone Number Required", "Please purchase a mobile before applying for an account\nso we can contact you via mobile.");
 		    ShowPlayerDialog(playerid, 10, DIALOG_STYLE_INPUT, "Please fill in your details (1/5):", "Please enter your complete name:\nExample: John Wimbleton","Next", "Quit");
 		}
 		case 10:
 		{
 		    if(!response) return ShowPlayerDialog(playerid, 10, DIALOG_STYLE_INPUT, "Please fill in your details (1/5):", "Please enter your complete name:\nExample: John Wimbleton","Next", "Quit");
-		    ShowPlayerDialog(playerid, 11, DIALOG_STYLE_MSGBOX, "Please fill in your details (2/5)", "Pick your Gender:", "Male", "Female");
+			if(strlen(inputtext) > 32 && strlen(inputtext) < 8) return ShowMessage(playerid, "Name required", "Please enter your complete name (8 - 32 characters):");
+			ShowPlayerDialog(playerid, 11, DIALOG_STYLE_MSGBOX, "Please fill in your details (2/5)", "Pick your Gender:", "Male", "Female");
 		}
 		case 11:
 		{
-		    if(!response) return ShowPlayerDialog(playerid, 11, DIALOG_STYLE_MSGBOX, "Please fill in your details (2/5)", "Pick your Gender:", "Male", "Female");
+		    if(!response) SetPVarInt(playerid,"bgender", 2);
+		    else SetPVarInt(playerid,"bgender", 1);
 		    ShowPlayerDialog(playerid, 12, DIALOG_STYLE_INPUT, "Please fill in your details (3/5)", "How much do you earn per day?", "Next", "Back");
 		}
 		case 12:
 		{
 		    if(!response) return ShowPlayerDialog(playerid, 12, DIALOG_STYLE_INPUT, "Please fill in your details (3/5)", "How much do you earn per day?", "Next", "Back");
-		    ShowPlayerDialog(playerid, 13, DIALOG_STYLE_INPUT, "Please fill in your details (4/5)", "Enter your Mobile Number:", "Next", "Back");
+			if(strval(inputtext) > 500000) return ShowMessage(playerid, "Salary","Please enter your salary.");
+			ShowPlayerDialog(playerid, 13, DIALOG_STYLE_INPUT, "Please fill in your details (4/5)", "Enter your Mobile Number:", "Next", "Back");
 		}
 		case 13:
 		{
 		    if(!response) return ShowPlayerDialog(playerid, 13, DIALOG_STYLE_INPUT, "Please fill in your details (4/5)", "Enter your Mobile Number:", "Next", "Back");
-		    ShowPlayerDialog(playerid, 14, DIALOG_STYLE_INPUT, "Please fill in your details (5/5)", "Enter your desired ATM pin number(4 digit):", "Next", "Back");
+			if(phno[playerid] != strval(inputtext)) return ShowMessage(playerid,"Phone Number:","You entered an invalid phone number.");
+			ShowPlayerDialog(playerid, 14, DIALOG_STYLE_INPUT, "Please fill in your details (5/5)", "Enter your desired ATM pin number(4 digit):", "Next", "Back");
 		}
-		
+		case 14:
+		{
+		    if(!response) return ShowPlayerDialog(playerid, 14, DIALOG_STYLE_INPUT, "Please fill in your details (5/5)", "Enter your desired ATM pin number(4 digit):", "Next", "Back");
+			if(strval(inputtext) <= 999 && strval(inputtext) > 9999) return ShowMessage(playerid, "Invalid number", "Please enter a valid pin code number");
+		}
 	}
 	return 1;
 }
@@ -841,6 +910,10 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid)
 	if(checkpointid == bform)
 	{
 	    ShowPlayerDialog(playerid, 9, DIALOG_STYLE_MSGBOX, "Bank Application Form:", "In order to create an account here you need to fill out an\napplication form first. Would you like to fill it out?","Fill Form","Leave");
+	}
+	if(checkpointid == store[0] || checkpointid == store[1] || checkpointid == store[2])
+	{
+	    ShowMenuForPlayer(storemenu[0], playerid);
 	}
 	return 1;
 }

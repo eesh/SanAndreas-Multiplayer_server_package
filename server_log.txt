@@ -697,3 +697,105 @@ v0.3e, (C)2005-2012 SA-MP Team
 [19:53:15] [chat] [eesh]:  /q
 [19:53:16] [part] eesh has left the server (0:1)
 [19:53:37] [part] lego has left the server (1:1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[15:40:56] 
+[15:40:56] Server Plugins
+[15:40:56] --------------
+[15:40:56]  Loading plugin: streamer
+[15:40:56] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[15:40:56]   Loaded.
+[15:40:56]  Loading plugin: mysql
+[15:40:57] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[15:40:57]   Loaded.
+[15:40:57]  Loaded 2 plugins.
+
+[15:40:57] 
+[15:40:57] Filterscripts
+[15:40:57] ---------------
+[15:40:57]   Loading filterscript 'attachments.amx'...
+[15:40:57]   Loaded 1 filterscripts.
+
+[15:40:57] Connected to MYSQL Database.
+[15:40:57] 
+--------------------------------------
+[15:40:57]  Camera Position setup v1.0 by Ikey07
+[15:40:57] --------------------------------------
+
+[15:40:57]   Filterscript 'camera.amx' loaded.
+[15:40:57] loaded checkpoints.
+[15:40:57] loaded faction checkpoints
+[15:40:57] loaded faction vehicles
+[15:40:57] loaded gas stations
+[15:40:57] loaded map icons
+[15:40:57] 
+----------------------------------
+[15:40:57]  Ideal Roleplay
+		-The Resurrection
+[15:40:57] ----------------------------------
+
+[15:40:57] Number of vehicle models: 147
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[15:55:15] 
+[15:55:15] Server Plugins
+[15:55:15] --------------
+[15:55:15]  Loading plugin: streamer
+[15:55:15] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[15:55:15]   Loaded.
+[15:55:15]  Loading plugin: mysql
+[15:55:15] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[15:55:15]   Loaded.
+[15:55:15]  Loaded 2 plugins.
+
+[15:55:15] 
+[15:55:15] Filterscripts
+[15:55:15] ---------------
+[15:55:15]   Loading filterscript 'attachments.amx'...
+[15:55:15]   Loaded 1 filterscripts.
+
+[15:55:15] Connected to MYSQL Database.
+[15:55:15] 
+--------------------------------------
+[15:55:15]  Camera Position setup v1.0 by Ikey07
+[15:55:15] --------------------------------------
+
+[15:55:15]   Filterscript 'camera.amx' loaded.
+[15:55:15] loaded checkpoints.
+[15:55:15] loaded faction checkpoints
+[15:55:15] loaded faction vehicles
+[15:55:15] loaded gas stations
+[15:55:15] loaded map icons
+[15:55:15] 
+----------------------------------
+[15:55:15]  Ideal Roleplay
+		-The Resurrection
+[15:55:15] ----------------------------------
+
+[15:55:15] Number of vehicle models: 147
