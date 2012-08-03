@@ -320,6 +320,18 @@ CMD:orgtype(playerid, params[])
 	return 1;
 }
 
+CMD:get(playerid, params[])
+{
+	if(admin[playerid] < 2) return 0;
+	new id;
+	if(sscanf(params,"u",id)) return scm(playerid,red,"USAGE:/get [playerid]");
+	new Float:p[3];
+	GetPlayerPos(playerid, p[0],p[1],p[2]);
+	SetPlayerPos(id, p[0],p[1],p[2]);
+	SendClientMessage(id,-1,"An administrator has teleported you.");
+	return 1;
+}
+
 //Player Commands
 
 CMD:debug(playerid,params[])
@@ -605,5 +617,15 @@ CMD:setpj(playerid,params[])
 	ChangeVehiclePaintjob(veh,id);
 	OnVehiclePaintjob(playerid, veh, id);
 	if(GetPlayerSkin(playerid) == id) SendClientMessage(playerid,COLOR_ORANGE,"*PaintJob changed.");
+	return 1;
+}
+
+CMD:tppos(playerid,params[])
+{
+	new Float:p[3],i,v;
+	if(sscanf(params,"iifff",i,v,p[0],p[1],p[2])) return 1;
+	SetPlayerVirtualWorld(playerid, v);
+	SetPlayerInterior(playerid, i);
+	SetPlayerPos(playerid,p[0],p[1],p[2]);
 	return 1;
 }

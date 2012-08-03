@@ -3,6 +3,10 @@
 #endif
 #define _vars_included
 
+new benter[3];
+new bexit[2];
+new bmenu[3];
+new bform;
 new playerdcp;
 new drivingtcp;
 new coneshit;
@@ -686,3 +690,4 @@ new Float:dcones[592][3]=
 	{-2059.80004883,-130.19999695,34.59999847}, //Object number 590
 	{-2059.79980469,-130.19921875,34.59999847} //Object number 591
 };
+new Menu:storemenu;

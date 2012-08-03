@@ -1,0 +1,699 @@
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[18:40:13] 
+[18:40:13] Server Plugins
+[18:40:13] --------------
+[18:40:13]  Loading plugin: streamer
+[18:40:14] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[18:40:14]   Loaded.
+[18:40:14]  Loading plugin: mysql
+[18:40:14] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[18:40:14]   Loaded.
+[18:40:14]  Loaded 2 plugins.
+
+[18:40:14] 
+[18:40:14] Filterscripts
+[18:40:14] ---------------
+[18:40:14]   Loading filterscript 'attachments.amx'...
+[18:40:14]   Loaded 1 filterscripts.
+
+[18:40:15] Connected to MYSQL Database.
+[18:40:15] 
+--------------------------------------
+[18:40:15]  Camera Position setup v1.0 by Ikey07
+[18:40:15] --------------------------------------
+
+[18:40:15]   Filterscript 'camera.amx' loaded.
+[18:40:15] loaded faction checkpoints
+[18:40:15] loaded faction vehicles
+[18:40:15] loaded gas stations
+[18:40:15] loaded map icons
+[18:40:15] 
+----------------------------------
+[18:40:15]  Ideal Roleplay
+		-The Resurrection
+[18:40:15] ----------------------------------
+
+[18:40:15] Number of vehicle models: 147
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[18:42:23] 
+[18:42:23] Server Plugins
+[18:42:23] --------------
+[18:42:23]  Loading plugin: streamer
+[18:42:23] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[18:42:23]   Loaded.
+[18:42:23]  Loading plugin: mysql
+[18:42:23] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[18:42:23]   Loaded.
+[18:42:23]  Loaded 2 plugins.
+
+[18:42:23] 
+[18:42:23] Filterscripts
+[18:42:23] ---------------
+[18:42:23]   Loading filterscript 'attachments.amx'...
+[18:42:23]   Loaded 1 filterscripts.
+
+[18:42:23] Connected to MYSQL Database.
+[18:42:23] 
+--------------------------------------
+[18:42:23]  Camera Position setup v1.0 by Ikey07
+[18:42:23] --------------------------------------
+
+[18:42:23]   Filterscript 'camera.amx' loaded.
+[18:42:23] loaded faction checkpoints
+[18:42:23] loaded faction vehicles
+[18:42:23] loaded gas stations
+[18:42:23] loaded map icons
+[18:42:23] 
+----------------------------------
+[18:42:23]  Ideal Roleplay
+		-The Resurrection
+[18:42:23] ----------------------------------
+
+[18:42:23] Number of vehicle models: 147
+[18:43:00] Incoming connection: 127.0.0.1:62075
+[18:43:00] [join] eesh has joined the server (0:127.0.0.1)
+[18:43:56] [part] eesh has left the server (0:1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[11:23:15] 
+[11:23:15] Server Plugins
+[11:23:15] --------------
+[11:23:15]  Loading plugin: streamer
+[11:23:15] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[11:23:15]   Loaded.
+[11:23:15]  Loading plugin: mysql
+[11:23:16] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[11:23:16]   Loaded.
+[11:23:16]  Loaded 2 plugins.
+
+[11:23:16] 
+[11:23:16] Filterscripts
+[11:23:16] ---------------
+[11:23:16]   Loading filterscript 'attachments.amx'...
+[11:23:16]   Loaded 1 filterscripts.
+
+[11:23:16] Connected to MYSQL Database.
+[11:23:16] 
+--------------------------------------
+[11:23:16]  Camera Position setup v1.0 by Ikey07
+[11:23:16] --------------------------------------
+
+[11:23:16]   Filterscript 'camera.amx' loaded.
+[11:23:16] loaded faction checkpoints
+[11:23:16] loaded faction vehicles
+[11:23:16] loaded gas stations
+[11:23:16] loaded map icons
+[11:23:16] 
+----------------------------------
+[11:23:16]  Ideal Roleplay
+		-The Resurrection
+[11:23:16] ----------------------------------
+
+[11:23:16] Number of vehicle models: 147
+[11:23:43] Incoming connection: 127.0.0.1:61106
+[11:23:43] [join] eesh has joined the server (0:127.0.0.1)
+[11:34:22] [part] eesh has left the server (0:1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:21:05] 
+[12:21:05] Server Plugins
+[12:21:05] --------------
+[12:21:05]  Loading plugin: streamer
+[12:21:05] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:21:05]   Loaded.
+[12:21:05]  Loading plugin: mysql
+[12:21:05] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:21:05]   Loaded.
+[12:21:05]  Loaded 2 plugins.
+
+[12:21:05] 
+[12:21:05] Filterscripts
+[12:21:05] ---------------
+[12:21:05]   Loading filterscript 'attachments.amx'...
+[12:21:05]   Loaded 1 filterscripts.
+
+[12:21:06] Connected to MYSQL Database.
+[12:21:06] 
+--------------------------------------
+[12:21:06]  Camera Position setup v1.0 by Ikey07
+[12:21:06] --------------------------------------
+
+[12:21:06]   Filterscript 'camera.amx' loaded.
+[12:21:06] loaded faction checkpoints
+[12:21:06] loaded faction vehicles
+[12:21:06] loaded gas stations
+[12:21:06] loaded map icons
+[12:21:06] 
+----------------------------------
+[12:21:06]  Ideal Roleplay
+		-The Resurrection
+[12:21:06] ----------------------------------
+
+[12:21:06] Number of vehicle models: 147
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:30:36] 
+[12:30:36] Server Plugins
+[12:30:36] --------------
+[12:30:36]  Loading plugin: streamer
+[12:30:36] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:30:36]   Loaded.
+[12:30:36]  Loading plugin: mysql
+[12:30:36] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:30:36]   Loaded.
+[12:30:36]  Loaded 2 plugins.
+
+[12:30:36] I couldn't load any gamemode scripts. Please verify your server.cfg
+[12:30:36] It needs a gamemode0 line at the very least.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:30:37] 
+[12:30:37] Server Plugins
+[12:30:37] --------------
+[12:30:37]  Loading plugin: streamer
+[12:30:37] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:30:37]   Loaded.
+[12:30:37]  Loading plugin: mysql
+[12:30:37] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:30:37]   Loaded.
+[12:30:37]  Loaded 2 plugins.
+
+[12:30:37] I couldn't load any gamemode scripts. Please verify your server.cfg
+[12:30:37] It needs a gamemode0 line at the very least.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:32:14] 
+[12:32:14] Server Plugins
+[12:32:14] --------------
+[12:32:14]  Loading plugin: streamer
+[12:32:14] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:32:14]   Loaded.
+[12:32:14]  Loading plugin: mysql
+[12:32:14] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:32:14]   Loaded.
+[12:32:14]  Loaded 2 plugins.
+
+[12:32:14] I couldn't load any gamemode scripts. Please verify your server.cfg
+[12:32:14] It needs a gamemode0 line at the very least.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:33:24] 
+[12:33:24] Server Plugins
+[12:33:24] --------------
+[12:33:24]  Loading plugin: streamer
+[12:33:24] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:33:24]   Loaded.
+[12:33:24]  Loading plugin: mysql
+[12:33:24] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:33:24]   Loaded.
+[12:33:24]  Loaded 2 plugins.
+
+[12:33:24] 
+[12:33:24] Filterscripts
+[12:33:24] ---------------
+[12:33:24]   Loading filterscript 'attachments.amx'...
+[12:33:24]   Loaded 1 filterscripts.
+
+[12:33:24] Connected to MYSQL Database.
+[12:33:24] 
+--------------------------------------
+[12:33:24]  Camera Position setup v1.0 by Ikey07
+[12:33:24] --------------------------------------
+
+[12:33:24]   Filterscript 'camera.amx' loaded.
+[12:33:24] loaded faction checkpoints
+[12:33:24] loaded faction vehicles
+[12:33:24] loaded gas stations
+[12:33:24] loaded map icons
+[12:33:24] 
+----------------------------------
+[12:33:24]  Ideal Roleplay
+		-The Resurrection
+[12:33:24] ----------------------------------
+
+[12:33:24] Number of vehicle models: 147
+[12:41:56] Incoming connection: 127.0.0.1:49534
+[12:41:57] [join] eesh has joined the server (0:127.0.0.1)
+[12:44:08] [death] eesh died 255
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:54:28] 
+[12:54:28] Server Plugins
+[12:54:28] --------------
+[12:54:28]  Loading plugin: streamer
+[12:54:28] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:54:28]   Loaded.
+[12:54:28]  Loading plugin: mysql
+[12:54:28] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:54:28]   Loaded.
+[12:54:28]  Loaded 2 plugins.
+
+[12:54:28] 
+[12:54:28] Filterscripts
+[12:54:28] ---------------
+[12:54:28]   Loading filterscript 'attachments.amx'...
+[12:54:28]   Loaded 1 filterscripts.
+
+[12:54:28] Connected to MYSQL Database.
+[12:54:28] 
+--------------------------------------
+[12:54:28]  Camera Position setup v1.0 by Ikey07
+[12:54:28] --------------------------------------
+
+[12:54:28]   Filterscript 'camera.amx' loaded.
+[12:54:28] loaded faction checkpoints
+[12:54:28] loaded faction vehicles
+[12:54:28] loaded gas stations
+[12:54:28] loaded map icons
+[12:54:28] 
+----------------------------------
+[12:54:28]  Ideal Roleplay
+		-The Resurrection
+[12:54:28] ----------------------------------
+
+[12:54:28] Number of vehicle models: 147
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[12:54:55] 
+[12:54:55] Server Plugins
+[12:54:55] --------------
+[12:54:55]  Loading plugin: streamer
+[12:54:55] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[12:54:55]   Loaded.
+[12:54:55]  Loading plugin: mysql
+[12:54:55] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[12:54:55]   Loaded.
+[12:54:55]  Loaded 2 plugins.
+
+[12:54:55] 
+[12:54:55] Filterscripts
+[12:54:55] ---------------
+[12:54:55]   Loading filterscript 'attachments.amx'...
+[12:54:55]   Loaded 1 filterscripts.
+
+[12:54:55] Connected to MYSQL Database.
+[12:54:55] 
+--------------------------------------
+[12:54:55]  Camera Position setup v1.0 by Ikey07
+[12:54:55] --------------------------------------
+
+[12:54:55]   Filterscript 'camera.amx' loaded.
+[12:54:55] loaded faction checkpoints
+[12:54:55] loaded faction vehicles
+[12:54:55] loaded gas stations
+[12:54:55] loaded map icons
+[12:54:55] 
+----------------------------------
+[12:54:55]  Ideal Roleplay
+		-The Resurrection
+[12:54:55] ----------------------------------
+
+[12:54:55] Number of vehicle models: 147
+[12:55:01] Incoming connection: 127.0.0.1:65108
+[12:55:02] [join] eesh has joined the server (0:127.0.0.1)
+[13:02:45] [part] eesh has left the server (0:1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[13:45:38] 
+[13:45:38] Server Plugins
+[13:45:38] --------------
+[13:45:38]  Loading plugin: streamer
+[13:45:38] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[13:45:38]   Loaded.
+[13:45:38]  Loading plugin: mysql
+[13:45:38] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[13:45:38]   Loaded.
+[13:45:38]  Loaded 2 plugins.
+
+[13:45:38] 
+[13:45:38] Filterscripts
+[13:45:38] ---------------
+[13:45:38]   Loading filterscript 'attachments.amx'...
+[13:45:38]   Loaded 1 filterscripts.
+
+[13:45:38] Connected to MYSQL Database.
+[13:45:38] 
+--------------------------------------
+[13:45:38]  Camera Position setup v1.0 by Ikey07
+[13:45:38] --------------------------------------
+
+[13:45:38]   Filterscript 'camera.amx' loaded.
+[13:45:38] loaded faction checkpoints
+[13:45:38] loaded faction vehicles
+[13:45:38] loaded gas stations
+[13:45:38] loaded map icons
+[13:45:38] 
+----------------------------------
+[13:45:38]  Ideal Roleplay
+		-The Resurrection
+[13:45:38] ----------------------------------
+
+[13:45:38] Number of vehicle models: 147
+[13:46:05] Incoming connection: 127.0.0.1:56968
+[13:46:05] [join] raymanisback has joined the server (0:127.0.0.1)
+[13:46:11] [part] raymanisback has left the server (0:2)
+[13:46:40] Incoming connection: 127.0.0.1:63431
+[13:46:41] [join] eesh has joined the server (0:127.0.0.1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[13:47:57] 
+[13:47:57] Server Plugins
+[13:47:57] --------------
+[13:47:57]  Loading plugin: streamer
+[13:47:57] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[13:47:57]   Loaded.
+[13:47:57]  Loading plugin: mysql
+[13:47:57] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[13:47:57]   Loaded.
+[13:47:57]  Loaded 2 plugins.
+
+[13:47:57] 
+[13:47:57] Filterscripts
+[13:47:57] ---------------
+[13:47:57]   Loading filterscript 'attachments.amx'...
+[13:47:57]   Loaded 1 filterscripts.
+
+[13:47:57] Connected to MYSQL Database.
+[13:47:57] 
+--------------------------------------
+[13:47:57]  Camera Position setup v1.0 by Ikey07
+[13:47:57] --------------------------------------
+
+[13:47:57]   Filterscript 'camera.amx' loaded.
+[13:47:57] loaded faction checkpoints
+[13:47:57] loaded faction vehicles
+[13:47:57] loaded gas stations
+[13:47:57] loaded map icons
+[13:47:57] 
+----------------------------------
+[13:47:57]  Ideal Roleplay
+		-The Resurrection
+[13:47:57] ----------------------------------
+
+[13:47:57] Number of vehicle models: 147
+[13:48:09] Incoming connection: 127.0.0.1:59750
+[13:48:09] [join] eesh has joined the server (0:127.0.0.1)
+[13:49:50] [part] eesh has left the server (0:1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3e, (C)2005-2012 SA-MP Team
+
+[19:41:24] 
+[19:41:24] Server Plugins
+[19:41:24] --------------
+[19:41:24]  Loading plugin: streamer
+[19:41:24] 
+
+*** Streamer Plugin v2.6 by Incognito loaded ***
+
+[19:41:24]   Loaded.
+[19:41:24]  Loading plugin: mysql
+[19:41:24] 
+
+  > MySQL plugin R5 successfully loaded.
+
+[19:41:24]   Loaded.
+[19:41:24]  Loaded 2 plugins.
+
+[19:41:24] 
+[19:41:24] Filterscripts
+[19:41:24] ---------------
+[19:41:24]   Loading filterscript 'attachments.amx'...
+[19:41:24]   Loaded 1 filterscripts.
+
+[19:41:24] Connected to MYSQL Database.
+[19:41:24] 
+--------------------------------------
+[19:41:24]  Camera Position setup v1.0 by Ikey07
+[19:41:24] --------------------------------------
+
+[19:41:24]   Filterscript 'camera.amx' loaded.
+[19:41:25] loaded faction checkpoints
+[19:41:25] loaded faction vehicles
+[19:41:25] loaded gas stations
+[19:41:25] loaded map icons
+[19:41:25] 
+----------------------------------
+[19:41:25]  Ideal Roleplay
+		-The Resurrection
+[19:41:25] ----------------------------------
+
+[19:41:25] Number of vehicle models: 147
+[19:42:09] Incoming connection: 127.0.0.1:54768
+[19:42:09] [join] eesh has joined the server (0:127.0.0.1)
+[19:42:42] Incoming connection: 83.109.251.211:64252
+[19:42:42] [join] lego has joined the server (1:83.109.251.211)
+[19:43:33] [chat] [lego]: Spawn is bugged
+[19:43:36] [chat] [eesh]: ?
+[19:43:42] [chat] [eesh]: havent tested anything >.<
+[19:43:44] [chat] [lego]: i spawned in bluberry
+[19:43:47] [chat] [eesh]: lol ok
+[19:44:01] [chat] [lego]: The start was really AWSOME!
+[19:44:19] [chat] [eesh]: where are you?
+[19:44:20] [chat] [lego]: Did you spawn in blueberry?
+[19:44:23] [chat] [lego]: bb
+[19:44:26] [chat] [eesh]: no i tped to BB
+[19:44:55] [chat] [eesh]: where are you?
+[19:44:56] [chat] [lego]: Any cmds added yet?
+[19:45:04] [chat] [lego]: the shop
+[19:45:17] [chat] [eesh]: not much 
+[19:45:20] [chat] [lego]: fsdebug not loaded xD
+[19:45:22] [chat] [lego]: okay
+[19:45:24] [chat] [eesh]: barely any useful CMDS
+[19:45:32] [chat] [eesh]: only /me /o /shout etc
+[19:45:36] [chat] [eesh]: and vip cmds
+[19:45:38] [chat] [lego]: not /
+[19:45:39] [chat] [lego]: not /w
+[19:45:43] [chat] [eesh]: org cmds
+[19:45:46] [chat] [lego]: Set me VIP and admin, i wanna see xD
+[19:45:55] [chat] [eesh]: its the old thing lol
+[19:45:59] [chat] [lego]: ohh :(
+[19:46:04] [chat] [eesh]: wtf hold on
+[19:46:07] [chat] [lego]: Ors the old system tooh?
+[19:46:11] [chat] [eesh]: yea
+[19:46:14] [chat] [lego]: Orgs*
+[19:46:16] [chat] [lego]: Okay
+[19:46:24] [chat] [eesh]: im not able to setadmin o.0
+[19:46:27] [chat] [eesh]: brb
+[19:46:31] [chat] [lego]: Add the location under the minimap :x
+[19:46:42] [chat] [eesh]: it looks good on top :P
+[19:46:51] [chat] [lego]: okay, you right
+[19:47:05] [chat] [eesh]: maybe ill add something in the bottom
+[19:47:08] [chat] [eesh]: who knows xD
+[19:47:12] [chat] [lego]: Like?
+[19:47:17] [chat] [eesh]: umm
+[19:47:21] [chat] [eesh]: maybe taxi 
+[19:47:29] [chat] [lego]: what you mean?
+[19:47:36] [chat] [eesh]: taxi drivers can see the passengers target location there?
+[19:47:51] [chat] [lego]: Yea!
+[19:48:13] [chat] [lego]: Same biz system?
+[19:48:22] [chat] [eesh]: didnt add any yet
+[19:48:27] [chat] [lego]: Okay
+[19:48:35] [chat] [eesh]: this script basically doesnt have anything o.o
+[19:48:45] [chat] [lego]: Bank?
+[19:48:53] [chat] [eesh]: started scripting it :P
+[19:48:57] [chat] [lego]: What int?
+[19:49:01] [chat] [eesh]: the one in skr
+[19:49:06] [chat] [lego]: okay, good xD
+[19:49:36] [chat] [lego]: JObs done?
+[19:49:38] [chat] [eesh]: found a bug there :X
+[19:49:41] [chat] [eesh]: added 4
+[19:49:47] [chat] [lego]: okay
+[19:49:49] [chat] [eesh]: need to add skilled jobs
+[19:49:53] [chat] [lego]: kay
+[19:49:57] [chat] [lego]: But
+[19:50:03] [chat] [lego]: when youre done with bank
+[19:50:08] [chat] [lego]: fix bugs first :x
+[19:50:15] [chat] [eesh]: yea
+[19:50:18] [chat] [lego]: (:
+[19:50:20] [chat] [eesh]: this is going to be college
+[19:50:28] [chat] [lego]: HOw?
+[19:50:33] [chat] [eesh]: nothing much
+[19:50:35] [chat] [eesh]: just a CP
+[19:50:39] [chat] [eesh]: and an english test
+[19:50:58] [chat] [eesh]: it will test your basic knowledge of english 
+[19:51:04] [chat] [eesh]: and give you a score out of 20
+[19:51:06] [chat] [lego]: You hould add driving school, english test and RP test here
+[19:51:16] [chat] [eesh]: driving school is in SF
+[19:51:19] [chat] [eesh]: the same old one
+[19:51:24] [chat] [eesh]: the cones 
+[19:51:25] [chat] [lego]: Well and RP test :p
+[19:51:28] [chat] [eesh]: ok
+[19:51:39] [chat] [eesh]: and skilled jobs will have a requirement
+[19:51:48] [chat] [lego]: yes :)
+[19:51:48] [chat] [eesh]: of having good english knowlege n all
+[19:52:14] [chat] [eesh]: just like how refuelling needed driving license (to drive those trucks duh)
+[19:52:15] [chat] [lego]: can i make forums now? plz
+[19:52:21] [chat] [lego]: ye
+[19:52:25] [chat] [eesh]: okay
+[19:52:28] [chat] [lego]: thx
+[19:52:33] [chat] [lego]: smf? plox
+[19:52:34] [chat] [eesh]: idealroleplay.in/forums
+[19:52:50] [chat] [eesh]: i think its already smf
+[19:53:00] [chat] [eesh]: we also have a blog
+[19:53:15] [chat] [eesh]:  /q
+[19:53:16] [part] eesh has left the server (0:1)
+[19:53:37] [part] lego has left the server (1:1)

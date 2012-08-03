@@ -627,7 +627,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	    }
 	    case 3:
 	    {
-	        if(response) return 1;
+	        if(!response) return 1;
 	        if(!dlic[playerid]) return scm(playerid,red,"Sorry you don't meet the requirements for the job.");
 	        job[playerid] = 1;
 	        setpintdata(playerid,"users","job",1);
@@ -635,7 +635,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	    }
 	    case 4:
 	    {
-	        if(response) return 1;
+	        if(!response) return 1;
             if(!dlic[playerid]) return scm(playerid,red,"Sorry you don't meet the requirements for the job.");
             job[playerid] = 2;
             setpintdata(playerid,"users","job",2);
@@ -643,7 +643,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	    }
 		case 5:
 	    {
-	        if(response) return 1;
+	        if(!response) return 1;
             if(!dlic[playerid]) return scm(playerid,red,"Sorry you don't meet the requirements for the job.");
             job[playerid] = 3;
             setpintdata(playerid,"users","job",3);
@@ -651,7 +651,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	    }
 	    case 6:
 	    {
-	        if(response) return 1;
+	        if(!response) return 1;
             if(!dlic[playerid]) return scm(playerid,red,"Sorry you don't meet the requirements for the job.");
             job[playerid] = 4;
             setpintdata(playerid,"users","job",4);
@@ -685,6 +685,36 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 			}
 		}
+		case 8:
+		{
+		    if(!response) return 1;
+		}
+		case 9:
+		{
+		    if(!response) return 1;
+		    ShowPlayerDialog(playerid, 10, DIALOG_STYLE_INPUT, "Please fill in your details (1/5):", "Please enter your complete name:\nExample: John Wimbleton","Next", "Quit");
+		}
+		case 10:
+		{
+		    if(!response) return ShowPlayerDialog(playerid, 10, DIALOG_STYLE_INPUT, "Please fill in your details (1/5):", "Please enter your complete name:\nExample: John Wimbleton","Next", "Quit");
+		    ShowPlayerDialog(playerid, 11, DIALOG_STYLE_MSGBOX, "Please fill in your details (2/5)", "Pick your Gender:", "Male", "Female");
+		}
+		case 11:
+		{
+		    if(!response) return ShowPlayerDialog(playerid, 11, DIALOG_STYLE_MSGBOX, "Please fill in your details (2/5)", "Pick your Gender:", "Male", "Female");
+		    ShowPlayerDialog(playerid, 12, DIALOG_STYLE_INPUT, "Please fill in your details (3/5)", "How much do you earn per day?", "Next", "Back");
+		}
+		case 12:
+		{
+		    if(!response) return ShowPlayerDialog(playerid, 12, DIALOG_STYLE_INPUT, "Please fill in your details (3/5)", "How much do you earn per day?", "Next", "Back");
+		    ShowPlayerDialog(playerid, 13, DIALOG_STYLE_INPUT, "Please fill in your details (4/5)", "Enter your Mobile Number:", "Next", "Back");
+		}
+		case 13:
+		{
+		    if(!response) return ShowPlayerDialog(playerid, 13, DIALOG_STYLE_INPUT, "Please fill in your details (4/5)", "Enter your Mobile Number:", "Next", "Back");
+		    ShowPlayerDialog(playerid, 14, DIALOG_STYLE_INPUT, "Please fill in your details (5/5)", "Enter your desired ATM pin number(4 digit):", "Next", "Back");
+		}
+		
 	}
 	return 1;
 }
@@ -779,6 +809,39 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid)
   	        }
   	    }
  	}
+ 	if(checkpointid==benter[0])
+	{
+	    SetPlayerPos(playerid, 2307.3640,-15.9177,26.7496);
+		scm(playerid,red,"Welcome to the bank. Please walk into the checkpoints to proceed.");
+		SetPVarInt(playerid,"bank",1);
+	}
+	if(checkpointid==benter[1])
+	{
+	    SetPlayerPos(playerid, 2307.3640,-15.9177,26.7496);
+		scm(playerid,red,"Welcome to the bank. Please walk into the checkpoints to proceed.");
+		SetPVarInt(playerid,"bank",2);
+	}
+	if(checkpointid==benter[2])
+	{
+	    SetPlayerPos(playerid, 2307.3640,-15.9177,26.7496);
+		scm(playerid,red,"Welcome to the bank. Please walk into the checkpoints to proceed.");
+		SetPVarInt(playerid,"bank",3);
+	}
+	if(checkpointid==bexit[0] || checkpointid == bexit[1])
+	{
+	    new bank=GetPVarInt(playerid,"bank");
+	    if(bank == 1) return SetPlayerPos(playerid,1774.9896,-1666.3738,14.4282);
+		if(bank == 2) return SetPlayerPos(playerid,2474.5425,1021.1511,10.8203);
+        if(bank == 3) return SetPlayerPos(playerid,-2237.2200,251.7929,35.3262);
+	}
+	if(checkpointid == bmenu[0] || checkpointid == bmenu[1] || checkpointid == bmenu[2])
+	{
+	    ShowPlayerDialog(playerid, 8, DIALOG_STYLE_LIST, "Hello! What can we do for you?", "Bank Information\nGeneral Banking", "Select", "Leave");
+	}
+	if(checkpointid == bform)
+	{
+	    ShowPlayerDialog(playerid, 9, DIALOG_STYLE_MSGBOX, "Bank Application Form:", "In order to create an account here you need to fill out an\napplication form first. Would you like to fill it out?","Fill Form","Leave");
+	}
 	return 1;
 }
 

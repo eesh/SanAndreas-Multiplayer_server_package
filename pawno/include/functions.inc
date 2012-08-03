@@ -5,6 +5,8 @@
 	
 /*
 	native getname(playerid);
+	native loadcheckpoints();
+	native addmenuitem(Float:menuid, column1[], column2[]);
 	native scm(playerid, color, text[]);
 	native rscm(playerid, color, text[], Float:range=-1);
 	native setpintdata(playerid, table, field, data);
@@ -71,6 +73,11 @@
 	native CreateDCones(playerid);
 	native DestroyDCones(playerid);
 	native ColouredText(string[]);
+	native SetAreaWeather(playerid);
+	native GetDCPCoords(id, &Float:x, &Float:y, &Float:z);
+	native CheckVIP(playerid);
+	native LoadOvehs();
+	native dtesttimer(playerid);
 */
 
 new VehicleNames[212][] = {
@@ -499,6 +506,8 @@ stock LoginPlayer(playerid, pass[])
 	leader[playerid]=getintdata(playerid,"users","lead");
 	dlic[playerid]=getintdata(playerid,"users","dlic");
 	vip[playerid]=getintdata(playerid,"users","vip");
+	SetPlayerVirtualWorld(playerid,getintdata(playerid,"users","virtual"));
+	SetPlayerInterior(playerid, getintdata(playerid,"users","interior"));
 	Logged[playerid] = 2;
 	if(GetPVarInt(playerid,"justreg") == 1) return 1,SetPVarInt(playerid,"justreg",0);
 	scm(playerid,COLOR_GREEN,"Welcome back! You have successfully logged in.");
@@ -535,6 +544,8 @@ stock SavePlayer(playerid)
 	setpfltdata(playerid, "camera","px", p[0]);
 	setpfltdata(playerid, "camera","py", p[1]);
 	setpfltdata(playerid, "camera","pz", p[2]);
+	setpintdata(playerid, "users", "interior", GetPlayerInterior(playerid));
+	setpintdata(playerid,"users", "virtual",GetPlayerVirtualWorld(playerid));
 	return 1;
 }
 
@@ -542,11 +553,14 @@ stock ServerInit()
 {
 	chour=random(23);
 	cmins=random(59);
+	storemenu=CreateMenu("Buy item:",1,20,140,100,50);
+	AddMenuItem(storemenu, 0, "Mobile Phone $1200");
+	AddMenuItem(storemenu, 0, "Recharge Cards $3 - $20");
 	dscar=AddStaticVehicle(410,-2060.2190,-108.4071,34.9753,177.1565,9,1); // dcar
 	LVarea=CreateDynamicArea(2989.536, -572.2159, 2966.18, 490.4708);
 	LSarea=CreateDynamicArea(2977.858, -537.1823, 443.7593, -2954.502);
 	SFarea=CreateDynamicArea( -595.5717, -2977.858, 2977.858, -2942.825);
-	dcp = CreateDynamicCP(-2033.0657,-117.2213,1035.1719, 1.0, 0,3, -1,30);
+	loadcheckpoints();
 	LoadJobs();
 	LoadOcps();
 	LoadOvehs();
@@ -1679,17 +1693,6 @@ stock fuelvehicles()
 	return 1;
 }
 
-forward startengine(playerid);
-public startengine(playerid)
-{
-    new chance=random(5);
-	if(chance == 3) return scm(playerid,0xFF0000FF,"The engine failed to {FFFFFF}start{FF0000}. Please try again.");
-	vid = GetPlayerVehicleID(playerid);
-	SetVehicleParamsEx(vid,1,lights,alarm,doors,bonnet,boot,objective);
-	SetVehicleParamsEx(vid,1,lights,alarm,doors,bonnet,boot,objective);
-	return 1;
-}
-
 stock LoadMap()
 {
 	new query[128],tmp;
@@ -2171,4 +2174,26 @@ stock SetAreaWeather(playerid)
 	if(IsPlayerInDynamicArea(playerid, SFarea)) SetPlayerWeather(playerid, 2);
 	if(IsPlayerInDynamicArea(playerid, LVarea)) SetPlayerWeather(playerid, 5);
 	return 1;
+}
+
+stock addmenuitem(Menu:menuid, column1[], column2[])
+{
+	AddMenuItem(menuid, 0, column1);
+	AddMenuItem(menuid, 1, column2);
+	return 1;
+}
+
+stock loadcheckpoints()
+{
+	dcp = CreateDynamicCP(-2033.0657,-117.2213,1035.1719, 1.0, 0,3, -1,30);
+	benter[0] = CreateDynamicCP(1776.9594,-1664.2931,14.4331,1.0,-1,-1,-1,100);
+	benter[1] = CreateDynamicCP(2474.5486,1023.9073,10.8203,1.0,-1,-1,-1,100);
+	benter[2] = CreateDynamicCP(-2227.1814,251.8326,35.3203,1.0,-1,-1,-1,100);
+	bexit[0]=CreateDynamicCP(2304.6958,-16.1959,26.7422,1.0,-1,-1,-1,5);
+	bexit[1]=CreateDynamicCP(2315.3835,-0.6218,26.7422,1.0,-1,-1,-1,5);
+	bmenu[0]=CreateDynamicCP(2316.1245,-7.2817,26.7422,1.0,-1,-1,-1,5);
+	bmenu[1]=CreateDynamicCP(2316.6194,-10.0373,26.7422,1.0,-1,-1,-1,5);
+	bmenu[2]=CreateDynamicCP(2316.2925,-15.4816,26.7422,1.0,-1,-1,-1,5);
+	bform=CreateDynamicCP(2308.8755,-2.2297,26.7422,1.0,-1,-1,-1,5);
+	return print("loaded checkpoints.");
 }

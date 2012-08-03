@@ -66,6 +66,20 @@ public deathconn()
 	return 1;
 }
 
+
+forward startengine(playerid);
+public startengine(playerid)
+{
+    new chance=random(5);
+	if(chance == 3) return scm(playerid,0xFF0000FF,"The engine failed to {FFFFFF}start{FF0000}. Please try again.");
+	vid = GetPlayerVehicleID(playerid);
+	SetVehicleParamsEx(vid,1,lights,alarm,doors,bonnet,boot,objective);
+	SetVehicleParamsEx(vid,1,lights,alarm,doors,bonnet,boot,objective);
+	scm(playerid,0xA9C4E4FF,"You have started the vehicle.");
+	return 1;
+}
+
+
 forward fuellower();
 public fuellower()
 {
