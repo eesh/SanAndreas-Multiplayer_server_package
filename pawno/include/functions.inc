@@ -1690,7 +1690,7 @@ stock fuelvehicles()
 			SetVehicleParamsEx(i,1,-1,-1,-1,-1,-1,-1);
 		}
 	}
-	return 1;
+	return print("vehicles fueled.");
 }
 
 stock LoadMap()

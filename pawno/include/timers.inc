@@ -46,7 +46,7 @@ public clock()
 	{
 	    if(IsPlayerConnected(i))
 		{
-			if(Logged[i] == 1 && GetPlayerState(i) != PLAYER_STATE_WASTED)
+			if(Logged[i] == 1 && spawned[i] == 1)
 			{
 				SetAreaWeather(i);
 				SetPlayerTime(i, chour, cmins);

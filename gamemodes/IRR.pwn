@@ -61,8 +61,8 @@ public OnGameModeExit()
 
 public OnPlayerRequestClass(playerid, classid)
 {
+	spawned[playerid] = 0;
 	if(newbie[playerid] != 1) return 1;
-	classid++;
 	if(classid == LSclass)
 	{
 	    SetPlayerTime(playerid,5,30);
@@ -72,6 +72,7 @@ public OnPlayerRequestClass(playerid, classid)
 		SetPlayerCameraLookAt(playerid,1961.049,-1161.452,180.622, CAMERA_MOVE);
 		TextDrawSetString(deathcon, "Los Santos");
 		TextDrawShowForPlayer(playerid, deathcon);
+		SetPVarInt(playerid, "class", LSclass);
 	}
 	if(classid == SFclass)
 	{
@@ -81,6 +82,7 @@ public OnPlayerRequestClass(playerid, classid)
 		SetPlayerCameraLookAt(playerid,-2172.755,646.338,214.668, CAMERA_MOVE);
 		TextDrawSetString(deathcon, "San Fierro");
 		TextDrawShowForPlayer(playerid, deathcon);
+		SetPVarInt(playerid, "class", SFclass);
 	}
 	if(classid == LVclass)
 	{
@@ -90,6 +92,7 @@ public OnPlayerRequestClass(playerid, classid)
 		SetPlayerCameraLookAt(playerid,2055.086,1680.421,57.650, CAMERA_MOVE);
 		TextDrawSetString(deathcon, "Las Venturas");
 		TextDrawShowForPlayer(playerid, deathcon);
+		SetPVarInt(playerid, "class", LVclass);
 	}
 	return 1;
 }
@@ -109,6 +112,7 @@ public OnPlayerConnect(playerid)
 	TextDrawShowForAll(deathcon);
 	SetTimer("deathconn",3000,false);
 	SetPlayerColor(playerid,0xFFFFFF00);
+	spawned[playerid] =1;
 	return 1;
 }
 
@@ -130,10 +134,31 @@ public OnPlayerDisconnect(playerid, reason)
 
 public OnPlayerSpawn(playerid)
 {
+	spawned[playerid] = 1;
 	TextDrawHideForPlayer(playerid, deathcon);
     showtextdraws(playerid);
     if(vip[playerid]) CheckVIP(playerid);
     SetPlayerSkin(playerid, pSkin[playerid]);
+    if(newbie[playerid])
+    {
+        new classid=GetPVarInt(playerid,"class");
+    	new r=random(1);
+	    if(classid == LSclass)
+	    {
+	        SetPlayerPos(playerid,lspos[r][0],lspos[r][1],lspos[r][2]);
+	        SetPlayerFacingAngle(playerid, lspos[r][3]);
+	    }
+	    if(classid == SFclass)
+	    {
+	        SetPlayerPos(playerid,sfpos[r][0],sfpos[r][1],sfpos[r][2]);
+	        SetPlayerFacingAngle(playerid, sfpos[r][3]);
+	    }
+	    if(classid == LVclass)
+	    {
+	        SetPlayerPos(playerid,lvpos[r][0],lvpos[r][1],lvpos[r][2]);
+	        SetPlayerFacingAngle(playerid, lvpos[r][3]);
+	    }
+    }
 	if(hspawn[playerid] == 0)
 	{
 	    SetPlayerPos(playerid, pX[playerid], pY[playerid], pZ[playerid]);
@@ -155,6 +180,7 @@ public OnPlayerSpawn(playerid)
 
 public OnPlayerDeath(playerid, killerid, reason)
 {
+	spawned[playerid] = 0;
 	hidetextdraws(playerid);
     if(IsPlayerInDynamicArea(playerid, LSarea)) hspawn[playerid] = 1;
    	if(IsPlayerInDynamicArea(playerid, LVarea)) hspawn[playerid] = 2;

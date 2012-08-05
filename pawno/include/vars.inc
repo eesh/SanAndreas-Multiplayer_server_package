@@ -3,6 +3,8 @@
 #endif
 #define _vars_included
 
+new Menu:storemenu[4];
+new corg[MAX_CPS];
 new benter[3];
 new bexit[2];
 new bmenu[3];
@@ -18,6 +20,7 @@ new fjcp;
 new mjcp;
 new tjcp;
 new trshcp;
+new spawned[MAX_PLAYERS];
 new jsal[MAX_PLAYERS];
 new mobon[MAX_PLAYERS];
 new calling[MAX_PLAYERS];
@@ -49,14 +52,7 @@ new vip[MAX_PLAYERS];
 new vipcar[MAX_PLAYERS];
 new Float:refuelcp[20][3];
 new Text3D:fuelcp[20];
-new cpfuel[20][2];
-new String[128];
-new LSarea;
-new LVarea;
-new SFarea;
-new LVclass;
-new SFclass;
-new LSclass;
+new Text:deathcon;
 new PlayerText:loctd;
 new PlayerText:mphtd;
 new PlayerText:fueltd;
@@ -65,15 +61,21 @@ new PlayerText:sl2;
 new PlayerText:sl3;
 new PlayerText:sl4;
 new PlayerText:sl5;
+new cpfuel[20][2];
+new String[128];
+new LSarea;
+new LVarea;
+new SFarea;
+new LVclass;
+new SFclass;
+new LSclass;
 new chour;
 new cmins;
-new Text:deathcon;
 new vid,engine,lights,alarm,doors,bonnet,boot,objective;
 new fjvehs[4];
 new mjvehs[4];
 new tjvehs[6];
 new trshvehs[5];
-new corg[MAX_CPS];
 
 enum eorgdata
 {
@@ -696,4 +698,15 @@ new Float:dcones[592][3]=
 	{-2059.80004883,-130.19999695,34.59999847}, //Object number 590
 	{-2059.79980469,-130.19921875,34.59999847} //Object number 591
 };
-new Menu:storemenu[4];
+new Float:lspos[2][4]={
+	{1734.0723,-1948.9078,14.1172,185.4745},
+	{1309.8112,-1374.8690,13.6334,179.0950}
+};
+new Float:sfpos[2][4]={
+	{-1958.2871,127.0374,27.6875,268.3251},
+	{-2418.8662,334.0690,35.1787,239.0080}
+};
+new Float:lvpos[2][4]={
+	{2026.3790,1008.2905,10.8203,272.3668},
+	{2325.2908,2344.8865,10.8203,236.6698}
+};
